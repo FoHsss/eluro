@@ -33,10 +33,28 @@ const ProductPage = () => {
       return variants.find(v => v.node.availableForSale)?.node || variants[0]?.node;
     }
 
-    // Find variant matching selected options
-    return variants.find(v => {
+    // Find variant matching ALL selected options (partial match for when only some options are selected)
+    const selectedKeys = Object.keys(selectedOptions);
+    
+    // First try exact match
+    const exactMatch = variants.find(v => {
       return v.node.selectedOptions.every(opt => 
         selectedOptions[opt.name] === opt.value
+      );
+    })?.node;
+    
+    if (exactMatch) return exactMatch;
+    
+    // If no exact match, find best partial match (prioritize matching selected options)
+    const partialMatch = variants.find(v => {
+      return selectedKeys.every(key => 
+        v.node.selectedOptions.find(opt => opt.name === key)?.value === selectedOptions[key]
+      ) && v.node.availableForSale;
+    })?.node;
+    
+    return partialMatch || variants.find(v => {
+      return selectedKeys.every(key => 
+        v.node.selectedOptions.find(opt => opt.name === key)?.value === selectedOptions[key]
       );
     })?.node;
   };
@@ -111,8 +129,11 @@ const ProductPage = () => {
             )}
           </motion.div>
 
-          {/* Title Overlay — center at bottom edge of image */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 px-6 translate-y-1/2">
+          {/* Gradient fade at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background via-background/60 to-transparent z-[5]" />
+
+          {/* Title Overlay — positioned at bottom with gradient behind */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-6 translate-y-2/3">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -133,7 +154,7 @@ const ProductPage = () => {
         </div>
 
         {/* Product Options & Actions */}
-        <div className="container max-w-lg mx-auto px-6 pt-6">
+        <div className="container max-w-lg mx-auto px-6 pt-16 mt-8">
           {/* Variant Options */}
           {sortedOptions.length > 0 && sortedOptions[0].values.length > 1 && (
             <div className="mb-4 space-y-4">
