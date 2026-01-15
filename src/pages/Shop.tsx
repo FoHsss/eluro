@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import Layout from "@/components/Layout";
-import ProductCard from "@/components/ProductCard";
-import { products } from "@/lib/products";
+import ShopifyProductCard from "@/components/ShopifyProductCard";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
 const Shop = () => {
+  const { products, isLoading, error } = useShopifyProducts(20);
+
   return (
     <Layout>
       <div className="py-12 md:py-20">
@@ -23,12 +26,38 @@ const Shop = () => {
             </h1>
           </motion.div>
 
-          {/* Product Grid - Mobile First: 1 column */}
-          <div className="grid gap-8 max-w-lg mx-auto">
-            {products.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
-            ))}
-          </div>
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground">{error}</p>
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!isLoading && !error && products.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground text-lg mb-4">No products found</p>
+              <p className="text-sm text-muted-foreground">
+                Tell me what product you'd like to create and I'll add it to your store.
+              </p>
+            </div>
+          )}
+
+          {/* Product Grid */}
+          {!isLoading && !error && products.length > 0 && (
+            <div className="grid gap-8 max-w-lg mx-auto">
+              {products.map((product, index) => (
+                <ShopifyProductCard key={product.node.id} product={product} index={index} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </Layout>
