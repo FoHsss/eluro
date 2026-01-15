@@ -111,18 +111,19 @@ const ProductPage = () => {
           className="relative h-[65vh] md:h-[75vh] bg-secondary"
         >
           <motion.div
-            style={{ y }}
+            style={{ y, perspective: 1000 }}
             className="absolute inset-0 flex items-center justify-center p-8 pb-24 md:pb-32"
           >
             {image ? (
               <motion.img
                 key={image.url}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, rotateY: 15, scale: 0.95 }}
+                animate={{ opacity: 1, rotateY: 0, scale: 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 src={image.url}
                 alt={image.altText || product.title}
                 className="max-w-full max-h-full object-contain"
+                style={{ transformStyle: "preserve-3d" }}
               />
             ) : (
               <div className="text-muted-foreground">No image available</div>
