@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import Layout from "@/components/Layout";
-import { products } from "@/lib/products";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
 const Index = () => {
+  const { products, isLoading } = useShopifyProducts(4);
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -66,39 +69,63 @@ const Index = () => {
             </h2>
           </motion.div>
 
-          <div className="grid gap-8 max-w-lg mx-auto">
-            {products.slice(0, 2).map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-              >
-                <Link
-                  to={`/product/${product.slug}`}
-                  className="block product-card bg-secondary rounded-2xl overflow-hidden group"
-                >
-                  <div className="aspect-square bg-secondary p-12 flex items-center justify-center">
-                    <img
-                      src={product.image}
-                      alt={`${product.name} - ${product.tagline}`}
-                      className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-8 text-center">
-                    <p className="text-xs text-muted-foreground mb-2 uppercase tracking-widest">
-                      {product.tagline}
-                    </p>
-                    <h3 className="font-display text-xl font-medium text-foreground mb-2">
-                      {product.name}
-                    </h3>
-                    <p className="text-muted-foreground">${product.price}</p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No products yet</p>
+            </div>
+          ) : (
+            <div className="grid gap-8 max-w-lg mx-auto">
+              {products.slice(0, 2).map((product, index) => {
+                const { node } = product;
+                const image = node.images.edges[0]?.node;
+                const price = node.priceRange.minVariantPrice;
+
+                return (
+                  <motion.div
+                    key={node.id}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                  >
+                    <Link
+                      to={`/product/${node.handle}`}
+                      className="block product-card bg-secondary rounded-2xl overflow-hidden group"
+                    >
+                      <div className="aspect-square bg-secondary p-12 flex items-center justify-center">
+                        {image ? (
+                          <img
+                            src={image.url}
+                            alt={image.altText || node.title}
+                            className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                            No image
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-8 text-center">
+                        <p className="text-xs text-muted-foreground mb-2 uppercase tracking-widest">
+                          {node.options?.[0]?.values?.[0] || 'Premium'}
+                        </p>
+                        <h3 className="font-display text-xl font-medium text-foreground mb-2">
+                          {node.title}
+                        </h3>
+                        <p className="text-muted-foreground">
+                          {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
+                        </p>
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
 
           <motion.div
             initial={{ opacity: 0 }}

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import CartDrawer from "./CartDrawer";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -81,12 +82,7 @@ const Header = () => {
           </nav>
 
           {/* Cart */}
-          <button
-            className="p-2 -mr-2 text-foreground transition-opacity duration-300 hover:opacity-70"
-            aria-label="Shopping cart"
-          >
-            <ShoppingBag className="w-5 h-5" />
-          </button>
+          <CartDrawer />
         </div>
       </header>
 
