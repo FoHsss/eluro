@@ -90,7 +90,7 @@ const ProductPage = () => {
         {/* Hero Image with Parallax + Title Overlay */}
         <div
           ref={imageRef}
-          className="relative h-[65vh] md:h-[75vh] bg-secondary overflow-hidden"
+          className="relative h-[65vh] md:h-[75vh] bg-secondary"
         >
           <motion.div
             style={{ y }}
@@ -111,8 +111,8 @@ const ProductPage = () => {
             )}
           </motion.div>
 
-          {/* Title Overlay at bottom of image */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 px-6 pb-6">
+          {/* Title Overlay — center at bottom edge of image */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-6 translate-y-1/2">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
