@@ -74,7 +74,7 @@ const ProductPage = () => {
     return <Navigate to="/shop" replace />;
   }
 
-  const image = product.images.edges[0]?.node;
+  const image = selectedVariant?.image || product.images.edges[0]?.node;
   const price = selectedVariant?.price || product.priceRange.minVariantPrice;
 
   return (
@@ -91,9 +91,10 @@ const ProductPage = () => {
           >
             {image ? (
               <motion.img
-                initial={{ opacity: 0, scale: 1.05 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
+                key={image.url}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
                 src={image.url}
                 alt={image.altText || product.title}
                 className="max-w-full max-h-full object-contain"

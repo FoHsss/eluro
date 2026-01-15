@@ -41,6 +41,10 @@ export interface ShopifyProduct {
             name: string;
             value: string;
           }>;
+          image?: {
+            url: string;
+            altText: string | null;
+          };
         };
       }>;
     };
@@ -170,6 +174,10 @@ export const PRODUCT_BY_HANDLE_QUERY = `
             selectedOptions {
               name
               value
+            }
+            image {
+              url
+              altText
             }
           }
         }
