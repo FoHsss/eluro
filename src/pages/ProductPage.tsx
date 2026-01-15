@@ -1,7 +1,7 @@
 import { useParams, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import Layout from "@/components/Layout";
 import { useShopifyProduct } from "@/hooks/useShopifyProducts";
@@ -15,6 +15,7 @@ const ProductPage = () => {
   
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: imageRef,
@@ -177,10 +178,10 @@ const ProductPage = () => {
                         <button
                           key={value}
                           onClick={() => setSelectedOptions(prev => ({ ...prev, [option.name]: value }))}
-                          className={`px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
+                          className={`px-5 py-2.5 text-sm font-medium rounded-xl transition-all duration-150 ${
                             isSelected 
-                              ? 'bg-foreground/90 text-background backdrop-blur-md shadow-lg border border-foreground/20' 
-                              : 'bg-background/40 backdrop-blur-md border border-white/20 shadow-sm hover:bg-background/60 hover:shadow-md hover:scale-105'
+                              ? 'bg-foreground text-background shadow-[0_2px_0_0_rgba(0,0,0,0.3)] translate-y-[2px]' 
+                              : 'bg-background border border-border shadow-[0_4px_0_0_hsl(var(--border))] hover:shadow-[0_3px_0_0_hsl(var(--border))] hover:translate-y-[1px] active:shadow-[0_1px_0_0_hsl(var(--border))] active:translate-y-[3px]'
                           }`}
                         >
                           {value}
@@ -219,7 +220,10 @@ const ProductPage = () => {
               {product.images.edges.map((img, index) => (
                 <button
                   key={img.node.url}
-                  onClick={() => setSelectedImageIndex(index)}
+                  onClick={() => {
+                    setSelectedImageIndex(index);
+                    setLightboxOpen(true);
+                  }}
                   className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 flex-shrink-0 ${
                     selectedImageIndex === index 
                       ? 'border-foreground scale-110 shadow-lg' 
@@ -252,6 +256,89 @@ const ProductPage = () => {
           )}
         </div>
       </div>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+            onClick={() => setLightboxOpen(false)}
+          >
+            {/* Close button */}
+            <button 
+              className="absolute top-6 right-6 text-white/80 hover:text-white z-10 p-2"
+              onClick={() => setLightboxOpen(false)}
+            >
+              <X className="w-8 h-8" />
+            </button>
+            
+            {/* Navigation arrows */}
+            {product.images.edges.length > 1 && (
+              <>
+                <button 
+                  className="absolute left-4 text-white/60 hover:text-white p-2 z-10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImageIndex(prev => 
+                      prev === 0 ? product.images.edges.length - 1 : prev - 1
+                    );
+                  }}
+                >
+                  <ChevronLeft className="w-10 h-10" />
+                </button>
+                <button 
+                  className="absolute right-4 text-white/60 hover:text-white p-2 z-10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImageIndex(prev => 
+                      prev === product.images.edges.length - 1 ? 0 : prev + 1
+                    );
+                  }}
+                >
+                  <ChevronRight className="w-10 h-10" />
+                </button>
+              </>
+            )}
+            
+            {/* Image */}
+            <motion.img
+              key={selectedImageIndex}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.2 }}
+              src={product.images.edges[selectedImageIndex]?.node.url}
+              alt={product.images.edges[selectedImageIndex]?.node.altText || product.title}
+              className="max-w-[90vw] max-h-[85vh] object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+            
+            {/* Dot indicators */}
+            {product.images.edges.length > 1 && (
+              <div className="absolute bottom-6 flex gap-2">
+                {product.images.edges.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      index === selectedImageIndex 
+                        ? 'bg-white w-6' 
+                        : 'bg-white/40 w-2 hover:bg-white/60'
+                    }`}
+                    onClick={(e) => { 
+                      e.stopPropagation(); 
+                      setSelectedImageIndex(index); 
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Layout>
   );
 };
