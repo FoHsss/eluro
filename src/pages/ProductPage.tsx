@@ -14,6 +14,7 @@ const ProductPage = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: imageRef,
@@ -92,7 +93,10 @@ const ProductPage = () => {
     return <Navigate to="/shop" replace />;
   }
 
-  const image = selectedVariant?.image || product.images.edges[0]?.node;
+  // Use gallery selection, fallback to variant image or first image
+  const image = product.images.edges[selectedImageIndex]?.node || 
+                selectedVariant?.image || 
+                product.images.edges[0]?.node;
   const price = selectedVariant?.price || product.priceRange.minVariantPrice;
 
   // Sort options: Color first, then Size
@@ -173,10 +177,10 @@ const ProductPage = () => {
                         <button
                           key={value}
                           onClick={() => setSelectedOptions(prev => ({ ...prev, [option.name]: value }))}
-                          className={`px-4 py-2 text-sm border rounded-lg transition-all duration-200 ${
+                          className={`px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                             isSelected 
-                              ? 'border-foreground bg-foreground text-background' 
-                              : 'border-border hover:border-foreground'
+                              ? 'bg-foreground/90 text-background backdrop-blur-md shadow-lg border border-foreground/20' 
+                              : 'bg-background/40 backdrop-blur-md border border-white/20 shadow-sm hover:bg-background/60 hover:shadow-md hover:scale-105'
                           }`}
                         >
                           {value}
@@ -205,9 +209,32 @@ const ProductPage = () => {
           </button>
 
           {/* Micro-copy */}
-          <p className="text-xs text-center text-muted-foreground mb-8">
+          <p className="text-xs text-center text-muted-foreground mb-6">
             Thoughtfully chosen for everyday use
           </p>
+
+          {/* Thumbnail Gallery */}
+          {product.images.edges.length > 1 && (
+            <div className="flex gap-3 justify-center mb-8 overflow-x-auto py-2 px-4 -mx-4">
+              {product.images.edges.map((img, index) => (
+                <button
+                  key={img.node.url}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 flex-shrink-0 ${
+                    selectedImageIndex === index 
+                      ? 'border-foreground scale-110 shadow-lg' 
+                      : 'border-transparent opacity-60 hover:opacity-100 hover:scale-105'
+                  }`}
+                >
+                  <img 
+                    src={img.node.url} 
+                    alt={img.node.altText || `${product.title} - ${index + 1}`}
+                    className="w-full h-full object-cover" 
+                  />
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Description */}
           {product.description && (
