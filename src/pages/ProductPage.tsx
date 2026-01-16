@@ -7,19 +7,38 @@ import Layout from "@/components/Layout";
 import { useShopifyProduct } from "@/hooks/useShopifyProducts";
 import { useCartStore } from "@/stores/cartStore";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { useIsMobile } from "@/hooks/use-mobile";
 import sizeChartImage from "@/assets/size-chart.jpg";
+
+// Mobile scroll config - tweak these values to adjust the "slide" effect
+const MOBILE_SCROLL_START = 0;
+const MOBILE_SCROLL_END = 120;
+const MOBILE_CONTENT_LIFT = -100; // how much content "lifts" onto the hero (negative = up)
 
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { product, isLoading, error } = useShopifyProduct(slug);
   const { addItem, isLoading: isAddingToCart } = useCartStore();
   const imageRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [sizeChartOpen, setSizeChartOpen] = useState(false);
 
+  // Global scroll for mobile slide effect
+  const { scrollY } = useScroll();
+  
+  // Mobile: content lifts up onto the hero image as you scroll
+  const contentLiftY = useTransform(
+    scrollY, 
+    [MOBILE_SCROLL_START, MOBILE_SCROLL_END], 
+    [0, MOBILE_CONTENT_LIFT],
+    { clamp: true }
+  );
+
+  // Desktop parallax effect (original behavior)
   const { scrollYProgress } = useScroll({
     target: imageRef,
     offset: ["start start", "end start"],
@@ -138,14 +157,18 @@ const ProductPage = () => {
   return (
     <Layout>
       <div className="pb-20">
-        {/* Hero Image with Parallax + Title Overlay */}
+        {/* Hero Image - Sticky on mobile */}
         <div
           ref={imageRef}
-          className="relative h-[65vh] md:h-[75vh] bg-secondary"
+          className={`relative bg-secondary ${
+            isMobile 
+              ? 'sticky top-16 z-0 h-[55vh]' 
+              : 'h-[75vh]'
+          }`}
         >
           <motion.div
-            style={{ y, perspective: 1000 }}
-            className="absolute inset-0 flex items-center justify-center p-8 pb-24 md:pb-32"
+            style={isMobile ? { perspective: 1000 } : { y, perspective: 1000 }}
+            className="absolute inset-0 flex items-center justify-center p-6 pb-8"
           >
             {heroImage ? (
               <motion.img
@@ -158,7 +181,6 @@ const ProductPage = () => {
                 className="max-w-full max-h-full object-contain cursor-pointer"
                 style={{ transformStyle: "preserve-3d" }}
                 onClick={() => {
-                  // Find hero image index in gallery for lightbox
                   const heroIdx = product.images.edges.findIndex(img => img.node.url === heroImage.url);
                   setLightboxIndex(heroIdx >= 0 ? heroIdx : 0);
                   setLightboxOpen(true);
@@ -168,22 +190,29 @@ const ProductPage = () => {
               <div className="text-muted-foreground">No image available</div>
             )}
           </motion.div>
+        </div>
 
-          {/* Gradient fade at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background/30 to-transparent z-[5]" />
-
-          {/* Title Overlay — compact: only title + price */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 px-4 translate-y-1/3">
+        {/* Content - slides over hero on mobile */}
+        <motion.div 
+          style={isMobile ? { y: contentLiftY } : undefined}
+          className={`relative z-10 ${isMobile ? 'min-h-screen' : ''}`}
+        >
+          {/* Glass overlay with title/price - now part of content flow */}
+          <div className="container max-w-lg mx-auto px-4">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="container max-w-lg mx-auto bg-background/20 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-foreground/10"
+              className={`rounded-2xl p-4 shadow-xl border mb-4 ${
+                isMobile 
+                  ? 'bg-white/60 dark:bg-black/50 backdrop-blur-xl border-white/40 dark:border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.12)]' 
+                  : 'bg-background/80 backdrop-blur-md border-border'
+              }`}
             >
               <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
                 Thoughtfully chosen
               </p>
-              <h1 className="font-display text-xl md:text-2xl font-medium text-foreground drop-shadow-sm">
+              <h1 className="font-display text-xl md:text-2xl font-medium text-foreground">
                 {product.title}
               </h1>
               <p className="text-base text-muted-foreground">
@@ -191,11 +220,10 @@ const ProductPage = () => {
               </p>
             </motion.div>
           </div>
-        </div>
 
-        {/* Content below overlay */}
-        <div className="container max-w-lg mx-auto px-4 pt-16">
-          {/* Variant Options */}
+          {/* Rest of content */}
+          <div className={`container max-w-lg mx-auto px-4 ${isMobile ? 'bg-background pt-2' : 'pt-4'}`}>
+            {/* Variant Options */}
           {sortedOptions.length > 0 && sortedOptions[0].values.length > 1 && (
             <div className="mb-3 space-y-2">
               {sortedOptions.map((option) => (
@@ -304,7 +332,8 @@ const ProductPage = () => {
 
           {/* Reviews Section */}
           <ReviewsSection productHandle={product.handle} />
-        </div>
+          </div>
+        </motion.div>
       </div>
 
       {/* Lightbox */}
