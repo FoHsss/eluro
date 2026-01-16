@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import Layout from "@/components/Layout";
 import { useShopifyProduct } from "@/hooks/useShopifyProducts";
 import { useCartStore } from "@/stores/cartStore";
+import sizeChartImage from "@/assets/size-chart.jpg";
 
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -16,6 +17,7 @@ const ProductPage = () => {
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [sizeChartOpen, setSizeChartOpen] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: imageRef,
@@ -240,10 +242,13 @@ const ProductPage = () => {
             )}
           </button>
 
-          {/* Micro-copy */}
-          <p className="text-xs text-center text-muted-foreground mb-6">
-            Thoughtfully chosen for everyday use
-          </p>
+          {/* Size Chart Link */}
+          <button 
+            onClick={() => setSizeChartOpen(true)}
+            className="text-xs text-center text-primary hover:text-primary/80 underline underline-offset-2 mb-6 w-full transition-colors"
+          >
+            Please measure your pet's neck circumference before purchasing!
+          </button>
 
           {/* Description */}
           {product.description && (
@@ -377,6 +382,36 @@ const ProductPage = () => {
                 ))}
               </div>
             )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Size Chart Lightbox */}
+      <AnimatePresence>
+        {sizeChartOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+            onClick={() => setSizeChartOpen(false)}
+          >
+            <button 
+              className="absolute top-6 right-6 text-white/80 hover:text-white z-10 p-2"
+              onClick={() => setSizeChartOpen(false)}
+            >
+              <X className="w-8 h-8" />
+            </button>
+            
+            <motion.img
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              src={sizeChartImage}
+              alt="Size Chart"
+              className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            />
           </motion.div>
         )}
       </AnimatePresence>
