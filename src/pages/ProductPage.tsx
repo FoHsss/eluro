@@ -14,7 +14,7 @@ const ProductPage = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const { scrollYProgress } = useScroll({
@@ -94,10 +94,30 @@ const ProductPage = () => {
     return <Navigate to="/shop" replace />;
   }
 
-  // Use gallery selection, fallback to variant image or first image
-  const image = product.images.edges[selectedImageIndex]?.node || 
-                selectedVariant?.image || 
-                product.images.edges[0]?.node;
+  // Hero image is driven by variant, not gallery selection
+  const getHeroImage = () => {
+    // Priority 1: Variant image
+    if (selectedVariant?.image) return selectedVariant.image;
+    
+    // Priority 2: Find image by selected color (match altText or URL)
+    const selectedColor = selectedOptions['Color'] || 
+      selectedVariant?.selectedOptions.find(o => o.name === 'Color')?.value;
+    
+    if (selectedColor) {
+      const colorMatch = product.images.edges.find(img => {
+        const alt = img.node.altText?.toLowerCase() || '';
+        const url = img.node.url.toLowerCase();
+        const color = selectedColor.toLowerCase();
+        return alt.includes(color) || url.includes(color);
+      });
+      if (colorMatch) return colorMatch.node;
+    }
+    
+    // Priority 3: First image
+    return product.images.edges[0]?.node;
+  };
+  
+  const heroImage = getHeroImage();
   const price = selectedVariant?.price || product.priceRange.minVariantPrice;
 
   // Sort options: Color first, then Size
@@ -119,16 +139,22 @@ const ProductPage = () => {
             style={{ y, perspective: 1000 }}
             className="absolute inset-0 flex items-center justify-center p-8 pb-24 md:pb-32"
           >
-            {image ? (
+            {heroImage ? (
               <motion.img
-                key={image.url}
+                key={heroImage.url}
                 initial={{ opacity: 0, rotateY: 15, scale: 0.95 }}
                 animate={{ opacity: 1, rotateY: 0, scale: 1 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                src={image.url}
-                alt={image.altText || product.title}
-                className="max-w-full max-h-full object-contain"
+                src={heroImage.url}
+                alt={heroImage.altText || product.title}
+                className="max-w-full max-h-full object-contain cursor-pointer"
                 style={{ transformStyle: "preserve-3d" }}
+                onClick={() => {
+                  // Find hero image index in gallery for lightbox
+                  const heroIdx = product.images.edges.findIndex(img => img.node.url === heroImage.url);
+                  setLightboxIndex(heroIdx >= 0 ? heroIdx : 0);
+                  setLightboxOpen(true);
+                }}
               />
             ) : (
               <div className="text-muted-foreground">No image available</div>
@@ -177,10 +203,7 @@ const ProductPage = () => {
                       return (
                         <button
                           key={value}
-                      onClick={() => {
-                        setSelectedOptions(prev => ({ ...prev, [option.name]: value }));
-                        setSelectedImageIndex(0);
-                      }}
+                          onClick={() => setSelectedOptions(prev => ({ ...prev, [option.name]: value }))}
                           className={`px-5 py-2.5 text-sm font-medium rounded-xl transition-all duration-150 ${
                             isSelected 
                               ? 'bg-foreground text-background shadow-[0_2px_0_0_rgba(0,0,0,0.3)] translate-y-[2px]' 
@@ -224,14 +247,10 @@ const ProductPage = () => {
                 <button
                   key={img.node.url}
                   onClick={() => {
-                    setSelectedImageIndex(index);
+                    setLightboxIndex(index);
                     setLightboxOpen(true);
                   }}
-                  className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 flex-shrink-0 ${
-                    selectedImageIndex === index 
-                      ? 'border-foreground scale-110 shadow-lg' 
-                      : 'border-transparent opacity-60 hover:opacity-100 hover:scale-105'
-                  }`}
+                  className="w-16 h-16 rounded-xl overflow-hidden border-2 border-transparent opacity-70 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0"
                 >
                   <img 
                     src={img.node.url} 
@@ -286,7 +305,7 @@ const ProductPage = () => {
                   className="absolute left-4 text-white/60 hover:text-white p-2 z-10"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedImageIndex(prev => 
+                    setLightboxIndex(prev => 
                       prev === 0 ? product.images.edges.length - 1 : prev - 1
                     );
                   }}
@@ -297,7 +316,7 @@ const ProductPage = () => {
                   className="absolute right-4 text-white/60 hover:text-white p-2 z-10"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedImageIndex(prev => 
+                    setLightboxIndex(prev => 
                       prev === product.images.edges.length - 1 ? 0 : prev + 1
                     );
                   }}
@@ -309,13 +328,13 @@ const ProductPage = () => {
             
             {/* Image */}
             <motion.img
-              key={selectedImageIndex}
+              key={lightboxIndex}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.2 }}
-              src={product.images.edges[selectedImageIndex]?.node.url}
-              alt={product.images.edges[selectedImageIndex]?.node.altText || product.title}
+              src={product.images.edges[lightboxIndex]?.node.url}
+              alt={product.images.edges[lightboxIndex]?.node.altText || product.title}
               className="max-w-[90vw] max-h-[85vh] object-contain"
               onClick={(e) => e.stopPropagation()}
             />
@@ -327,13 +346,13 @@ const ProductPage = () => {
                   <button
                     key={index}
                     className={`h-2 rounded-full transition-all duration-300 ${
-                      index === selectedImageIndex 
+                      index === lightboxIndex 
                         ? 'bg-white w-6' 
                         : 'bg-white/40 w-2 hover:bg-white/60'
                     }`}
                     onClick={(e) => { 
                       e.stopPropagation(); 
-                      setSelectedImageIndex(index); 
+                      setLightboxIndex(index); 
                     }}
                   />
                 ))}
