@@ -119,6 +119,11 @@ const ProductPage = () => {
   
   const heroImage = getHeroImage();
   const price = selectedVariant?.price || product.priceRange.minVariantPrice;
+  
+  // Filtered gallery images (only those with 'gallery' in altText)
+  const galleryImages = product.images.edges.filter(
+    img => img.node.altText?.toLowerCase().includes('gallery')
+  );
 
   // Sort options: Color first, then Size
   const sortedOptions = product.options ? [...product.options].sort((a, b) => {
@@ -256,7 +261,7 @@ const ProductPage = () => {
           )}
 
           {/* Thumbnail Gallery - Horizontal Carousel with 3D Perspective */}
-          {product.images.edges.filter(img => img.node.altText?.toLowerCase().includes('gallery')).length > 0 && (
+          {galleryImages.length > 0 && (
             <div className="mb-10">
               <h3 className="text-sm uppercase tracking-widest text-muted-foreground mb-6 text-center">
                 Gallery
@@ -265,9 +270,7 @@ const ProductPage = () => {
                 className="flex gap-6 overflow-x-auto snap-x snap-mandatory py-6 px-4 scrollbar-hide"
                 style={{ perspective: '1000px' }}
               >
-                {product.images.edges
-                  .filter(img => img.node.altText?.toLowerCase().includes('gallery'))
-                  .map((img, index) => (
+                {galleryImages.map((img, index) => (
                   <motion.button
                     key={img.node.url}
                     onClick={() => {
@@ -315,14 +318,14 @@ const ProductPage = () => {
             </button>
             
             {/* Navigation arrows */}
-            {product.images.edges.length > 1 && (
+            {galleryImages.length > 1 && (
               <>
                 <button 
                   className="absolute left-4 text-white/60 hover:text-white p-2 z-10"
                   onClick={(e) => {
                     e.stopPropagation();
                     setLightboxIndex(prev => 
-                      prev === 0 ? product.images.edges.length - 1 : prev - 1
+                      prev === 0 ? galleryImages.length - 1 : prev - 1
                     );
                   }}
                 >
@@ -333,7 +336,7 @@ const ProductPage = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setLightboxIndex(prev => 
-                      prev === product.images.edges.length - 1 ? 0 : prev + 1
+                      prev === galleryImages.length - 1 ? 0 : prev + 1
                     );
                   }}
                 >
@@ -349,16 +352,16 @@ const ProductPage = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.2 }}
-              src={product.images.edges[lightboxIndex]?.node.url}
-              alt={product.images.edges[lightboxIndex]?.node.altText || product.title}
+              src={galleryImages[lightboxIndex]?.node.url}
+              alt={galleryImages[lightboxIndex]?.node.altText || product.title}
               className="max-w-[90vw] max-h-[85vh] object-contain"
               onClick={(e) => e.stopPropagation()}
             />
             
             {/* Dot indicators */}
-            {product.images.edges.length > 1 && (
+            {galleryImages.length > 1 && (
               <div className="absolute bottom-6 flex gap-2">
-                {product.images.edges.map((_, index) => (
+                {galleryImages.map((_, index) => (
                   <button
                     key={index}
                     className={`h-2 rounded-full transition-all duration-300 ${
