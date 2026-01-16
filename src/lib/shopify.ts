@@ -153,7 +153,7 @@ export const PRODUCT_BY_HANDLE_QUERY = `
           currencyCode
         }
       }
-      images(first: 10) {
+      images(first: 25) {
         edges {
           node {
             url
