@@ -178,12 +178,12 @@ const ProductPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="container max-w-lg mx-auto bg-gradient-to-b from-background/30 via-background/70 to-background/95 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-border/30"
+              className="container max-w-lg mx-auto bg-white/10 dark:bg-black/20 backdrop-blur-xl rounded-2xl p-4 shadow-xl border border-white/20"
             >
               <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
                 Thoughtfully chosen
               </p>
-              <h1 className="font-display text-xl md:text-2xl font-medium text-foreground">
+              <h1 className="font-display text-xl md:text-2xl font-medium text-foreground drop-shadow-sm">
                 {product.title}
               </h1>
               <p className="text-base text-muted-foreground">
