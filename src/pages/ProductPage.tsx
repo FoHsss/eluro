@@ -1,5 +1,5 @@
 import { useParams, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
@@ -20,7 +20,10 @@ const ProductPage = () => {
   const { product, isLoading, error } = useShopifyProduct(slug);
   const { addItem, isLoading: isAddingToCart } = useCartStore();
   const imageRef = useRef<HTMLDivElement>(null);
+  const reviewsAnchorRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const reviewsInView = useInView(reviewsAnchorRef, { margin: "-20% 0px 0px 0px", amount: 0.01 });
+  const isHeroSticky = isMobile && !reviewsInView;
   
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -157,12 +160,12 @@ const ProductPage = () => {
   return (
     <Layout>
       <div className="pb-20">
-        {/* Hero Image - Sticky on mobile */}
+        {/* Hero Image - Sticky on mobile (only until reviews) */}
         <div
           ref={imageRef}
           className={`relative bg-secondary ${
             isMobile 
-              ? 'sticky top-16 z-0 h-[55vh]' 
+              ? (isHeroSticky ? 'sticky top-16 z-0 h-[55vh]' : 'h-[55vh]') 
               : 'h-[75vh]'
           }`}
         >
@@ -195,7 +198,7 @@ const ProductPage = () => {
         {/* Content - slides over hero on mobile */}
         <motion.div 
           style={isMobile ? { y: contentLiftY } : undefined}
-          className={`relative z-10 ${isMobile ? 'min-h-screen' : ''}`}
+          className={`relative z-10 ${isMobile ? 'min-h-screen pb-28' : ''}`}
         >
           {/* Solid background layer to cover sticky hero on mobile */}
           {isMobile && (
@@ -335,6 +338,7 @@ const ProductPage = () => {
           )}
 
           {/* Reviews Section */}
+          <div ref={reviewsAnchorRef} className="h-px" />
           <ReviewsSection productHandle={product.handle} />
           </div>
         </motion.div>
