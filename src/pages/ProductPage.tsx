@@ -177,7 +177,10 @@ const ProductPage = () => {
                       return (
                         <button
                           key={value}
-                          onClick={() => setSelectedOptions(prev => ({ ...prev, [option.name]: value }))}
+                      onClick={() => {
+                        setSelectedOptions(prev => ({ ...prev, [option.name]: value }));
+                        setSelectedImageIndex(0);
+                      }}
                           className={`px-5 py-2.5 text-sm font-medium rounded-xl transition-all duration-150 ${
                             isSelected 
                               ? 'bg-foreground text-background shadow-[0_2px_0_0_rgba(0,0,0,0.3)] translate-y-[2px]' 
