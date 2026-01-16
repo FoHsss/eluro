@@ -173,12 +173,12 @@ const ProductPage = () => {
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background via-background/60 to-transparent z-[5]" />
 
           {/* Title Overlay — compact: only title + price */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 px-4 translate-y-1/3">
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-4 translate-y-1/2">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="container max-w-lg mx-auto bg-background/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-border/50"
+              className="container max-w-lg mx-auto bg-gradient-to-b from-background/30 via-background/70 to-background/95 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-border/30"
             >
               <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
                 Thoughtfully chosen
@@ -194,7 +194,7 @@ const ProductPage = () => {
         </div>
 
         {/* Content below overlay */}
-        <div className="container max-w-lg mx-auto px-4 pt-20">
+        <div className="container max-w-lg mx-auto px-4 pt-24">
           {/* Variant Options */}
           {sortedOptions.length > 0 && sortedOptions[0].values.length > 1 && (
             <div className="mb-4 space-y-3">
