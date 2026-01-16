@@ -172,85 +172,84 @@ const ProductPage = () => {
           {/* Gradient fade at bottom */}
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background via-background/60 to-transparent z-[5]" />
 
-          {/* Title Overlay — positioned at bottom with gradient behind */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 px-6 translate-y-1/2">
+          {/* Title Overlay — compact: only title + price */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-4 translate-y-1/3">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="container max-w-lg mx-auto bg-background/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-border/50"
+              className="container max-w-lg mx-auto bg-background/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-border/50"
             >
-              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
                 Thoughtfully chosen
               </p>
-              <h1 className="font-display text-2xl md:text-3xl font-medium text-foreground mb-1">
+              <h1 className="font-display text-xl md:text-2xl font-medium text-foreground">
                 {product.title}
               </h1>
-              <p className="text-lg text-muted-foreground mb-4">
+              <p className="text-base text-muted-foreground">
                 {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
               </p>
-
-              {/* Variant Options */}
-              {sortedOptions.length > 0 && sortedOptions[0].values.length > 1 && (
-                <div className="mb-4 space-y-3">
-                  {sortedOptions.map((option) => (
-                    <div key={option.name}>
-                      <label className="text-sm font-medium text-foreground mb-2 block">
-                        {option.name}
-                      </label>
-                      <div className="flex flex-wrap gap-2">
-                        {option.values.map((value) => {
-                          const isSelected = selectedOptions[option.name] === value || 
-                            (!selectedOptions[option.name] && selectedVariant?.selectedOptions.find(o => o.name === option.name)?.value === value);
-                          
-                          return (
-                            <button
-                              key={value}
-                              onClick={() => setSelectedOptions(prev => ({ ...prev, [option.name]: value }))}
-                              className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-150 ${
-                                isSelected 
-                                  ? 'bg-foreground text-background shadow-[0_2px_0_0_rgba(0,0,0,0.3)] translate-y-[2px]' 
-                                  : 'bg-background border border-border shadow-[0_3px_0_0_hsl(var(--border))] hover:shadow-[0_2px_0_0_hsl(var(--border))] hover:translate-y-[1px] active:shadow-[0_1px_0_0_hsl(var(--border))] active:translate-y-[2px]'
-                              }`}
-                            >
-                              {value}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* CTA Button */}
-              <button 
-                onClick={handleAddToCart}
-                disabled={isAddingToCart || !selectedVariant?.availableForSale}
-                className="btn-cta btn-cta-pulse mb-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {isAddingToCart ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : selectedVariant?.availableForSale ? (
-                  'Add to Cart'
-                ) : (
-                  'Sold Out'
-                )}
-              </button>
-
-              {/* Size Chart Link */}
-              <button 
-                onClick={() => setSizeChartOpen(true)}
-                className="text-xs text-center text-primary hover:text-primary/80 underline underline-offset-2 w-full transition-colors"
-              >
-                Please measure your pet's neck circumference before purchasing!
-              </button>
             </motion.div>
           </div>
         </div>
 
         {/* Content below overlay */}
-        <div className="container max-w-lg mx-auto px-6 pt-6">
+        <div className="container max-w-lg mx-auto px-4 pt-20">
+          {/* Variant Options */}
+          {sortedOptions.length > 0 && sortedOptions[0].values.length > 1 && (
+            <div className="mb-4 space-y-3">
+              {sortedOptions.map((option) => (
+                <div key={option.name}>
+                  <label className="text-sm font-medium text-foreground mb-2 block">
+                    {option.name}
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {option.values.map((value) => {
+                      const isSelected = selectedOptions[option.name] === value || 
+                        (!selectedOptions[option.name] && selectedVariant?.selectedOptions.find(o => o.name === option.name)?.value === value);
+                      
+                      return (
+                        <button
+                          key={value}
+                          onClick={() => setSelectedOptions(prev => ({ ...prev, [option.name]: value }))}
+                          className={`px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-150 ${
+                            isSelected 
+                              ? 'bg-foreground text-background shadow-[0_2px_0_0_rgba(0,0,0,0.3)] translate-y-[2px]' 
+                              : 'bg-background border border-border shadow-[0_3px_0_0_hsl(var(--border))] hover:shadow-[0_2px_0_0_hsl(var(--border))] hover:translate-y-[1px] active:shadow-[0_1px_0_0_hsl(var(--border))] active:translate-y-[2px]'
+                          }`}
+                        >
+                          {value}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* CTA Button */}
+          <button 
+            onClick={handleAddToCart}
+            disabled={isAddingToCart || !selectedVariant?.availableForSale}
+            className="btn-cta btn-cta-pulse mb-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {isAddingToCart ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : selectedVariant?.availableForSale ? (
+              'Add to Cart'
+            ) : (
+              'Sold Out'
+            )}
+          </button>
+
+          {/* Size Chart Link */}
+          <button 
+            onClick={() => setSizeChartOpen(true)}
+            className="text-xs text-center text-primary hover:text-primary/80 underline underline-offset-2 w-full transition-colors mb-6"
+          >
+            Please measure your pet's neck circumference before purchasing!
+          </button>
 
           {/* Description */}
           {product.description && (
