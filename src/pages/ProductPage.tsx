@@ -138,15 +138,14 @@ const ProductPage = () => {
   return (
     <Layout>
       <div className="pb-20">
-        {/* Hero Image with Parallax + Overlay */}
+        {/* Hero Image with Parallax + Title Overlay */}
         <div
           ref={imageRef}
-          className="relative min-h-screen bg-secondary"
+          className="relative h-[65vh] md:h-[75vh] bg-secondary"
         >
-          {/* Product Image - takes most of the screen */}
           <motion.div
             style={{ y, perspective: 1000 }}
-            className="absolute inset-0 flex items-center justify-center p-6 pb-[45vh] md:pb-[40vh]"
+            className="absolute inset-0 flex items-center justify-center p-8 pb-24 md:pb-32"
           >
             {heroImage ? (
               <motion.img
@@ -159,6 +158,7 @@ const ProductPage = () => {
                 className="max-w-full max-h-full object-contain cursor-pointer"
                 style={{ transformStyle: "preserve-3d" }}
                 onClick={() => {
+                  // Find hero image index in gallery for lightbox
                   const heroIdx = product.images.edges.findIndex(img => img.node.url === heroImage.url);
                   setLightboxIndex(heroIdx >= 0 ? heroIdx : 0);
                   setLightboxOpen(true);
@@ -169,104 +169,88 @@ const ProductPage = () => {
             )}
           </motion.div>
 
-          {/* Bottom overlay with gradient background - все на одном экране */}
-          <div className="absolute bottom-0 left-0 right-0 z-10">
-            {/* Gradient fade into overlay */}
-            <div className="h-16 bg-gradient-to-t from-background/95 to-transparent" />
-            
-            {/* Content panel */}
-            <div className="bg-gradient-to-t from-background via-background/95 to-background/90 backdrop-blur-sm px-4 pb-6 pt-2">
-              <div className="container max-w-lg mx-auto">
-                {/* Title + Price */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="mb-3"
-                >
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
-                    Thoughtfully chosen
-                  </p>
-                  <div className="flex items-baseline justify-between gap-4">
-                    <h1 className="font-display text-lg md:text-xl font-medium text-foreground leading-tight">
-                      {product.title}
-                    </h1>
-                    <p className="text-base font-medium text-foreground whitespace-nowrap">
-                      {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
-                    </p>
-                  </div>
-                </motion.div>
+          {/* Gradient fade at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background via-background/60 to-transparent z-[5]" />
 
-                {/* Variant Options - compact horizontal layout */}
-                {sortedOptions.length > 0 && sortedOptions[0].values.length > 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.2 }}
-                    className="mb-3 space-y-2"
-                  >
-                    {sortedOptions.map((option) => (
-                      <div key={option.name} className="flex items-center gap-2">
-                        <label className="text-xs font-medium text-muted-foreground min-w-[40px]">
-                          {option.name}
-                        </label>
-                        <div className="flex flex-wrap gap-1.5">
-                          {option.values.map((value) => {
-                            const isSelected = selectedOptions[option.name] === value || 
-                              (!selectedOptions[option.name] && selectedVariant?.selectedOptions.find(o => o.name === option.name)?.value === value);
-                            
-                            return (
-                              <button
-                                key={value}
-                                onClick={() => setSelectedOptions(prev => ({ ...prev, [option.name]: value }))}
-                                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-150 ${
-                                  isSelected 
-                                    ? 'bg-foreground text-background' 
-                                    : 'bg-background/80 border border-border/50 hover:border-border'
-                                }`}
-                              >
-                                {value}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-
-                {/* CTA Button */}
-                <motion.button 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.3 }}
-                  onClick={handleAddToCart}
-                  disabled={isAddingToCart || !selectedVariant?.availableForSale}
-                  className="btn-cta btn-cta-pulse mb-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {isAddingToCart ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : selectedVariant?.availableForSale ? (
-                    'Add to Cart'
-                  ) : (
-                    'Sold Out'
-                  )}
-                </motion.button>
-
-                {/* Size Chart Link */}
-                <button 
-                  onClick={() => setSizeChartOpen(true)}
-                  className="text-xs text-center text-primary/70 hover:text-primary underline underline-offset-2 w-full transition-colors"
-                >
-                  Measure your pet's neck before purchasing
-                </button>
-              </div>
-            </div>
+          {/* Title Overlay — compact: only title + price */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-4 translate-y-1/3">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="container max-w-lg mx-auto bg-background/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-border/50"
+            >
+              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                Thoughtfully chosen
+              </p>
+              <h1 className="font-display text-xl md:text-2xl font-medium text-foreground">
+                {product.title}
+              </h1>
+              <p className="text-base text-muted-foreground">
+                {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
+              </p>
+            </motion.div>
           </div>
         </div>
 
-        {/* Content below hero */}
-        <div className="container max-w-lg mx-auto px-4 pt-8">
+        {/* Content below overlay */}
+        <div className="container max-w-lg mx-auto px-4 pt-20">
+          {/* Variant Options */}
+          {sortedOptions.length > 0 && sortedOptions[0].values.length > 1 && (
+            <div className="mb-4 space-y-3">
+              {sortedOptions.map((option) => (
+                <div key={option.name}>
+                  <label className="text-sm font-medium text-foreground mb-2 block">
+                    {option.name}
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {option.values.map((value) => {
+                      const isSelected = selectedOptions[option.name] === value || 
+                        (!selectedOptions[option.name] && selectedVariant?.selectedOptions.find(o => o.name === option.name)?.value === value);
+                      
+                      return (
+                        <button
+                          key={value}
+                          onClick={() => setSelectedOptions(prev => ({ ...prev, [option.name]: value }))}
+                          className={`px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-150 ${
+                            isSelected 
+                              ? 'bg-foreground text-background shadow-[0_2px_0_0_rgba(0,0,0,0.3)] translate-y-[2px]' 
+                              : 'bg-background border border-border shadow-[0_3px_0_0_hsl(var(--border))] hover:shadow-[0_2px_0_0_hsl(var(--border))] hover:translate-y-[1px] active:shadow-[0_1px_0_0_hsl(var(--border))] active:translate-y-[2px]'
+                          }`}
+                        >
+                          {value}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* CTA Button */}
+          <button 
+            onClick={handleAddToCart}
+            disabled={isAddingToCart || !selectedVariant?.availableForSale}
+            className="btn-cta btn-cta-pulse mb-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {isAddingToCart ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : selectedVariant?.availableForSale ? (
+              'Add to Cart'
+            ) : (
+              'Sold Out'
+            )}
+          </button>
+
+          {/* Size Chart Link */}
+          <button 
+            onClick={() => setSizeChartOpen(true)}
+            className="text-xs text-center text-primary hover:text-primary/80 underline underline-offset-2 w-full transition-colors mb-6"
+          >
+            Please measure your pet's neck circumference before purchasing!
+          </button>
+
           {/* Description */}
           {product.description && (
             <motion.div
@@ -322,6 +306,7 @@ const ProductPage = () => {
           <ReviewsSection productHandle={product.handle} />
         </div>
       </div>
+
       {/* Lightbox */}
       <AnimatePresence>
         {lightboxOpen && (
