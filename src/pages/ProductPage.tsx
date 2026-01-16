@@ -240,28 +240,6 @@ const ProductPage = () => {
             Thoughtfully chosen for everyday use
           </p>
 
-          {/* Thumbnail Gallery */}
-          {product.images.edges.length > 1 && (
-            <div className="flex gap-3 justify-center mb-8 overflow-x-auto py-2 px-4 -mx-4">
-              {product.images.edges.map((img, index) => (
-                <button
-                  key={img.node.url}
-                  onClick={() => {
-                    setLightboxIndex(index);
-                    setLightboxOpen(true);
-                  }}
-                  className="w-16 h-16 rounded-xl overflow-hidden border-2 border-transparent opacity-70 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0"
-                >
-                  <img 
-                    src={img.node.url} 
-                    alt={img.node.altText || `${product.title} - ${index + 1}`}
-                    className="w-full h-full object-cover" 
-                  />
-                </button>
-              ))}
-            </div>
-          )}
-
           {/* Description */}
           {product.description && (
             <motion.div
@@ -269,12 +247,39 @@ const ProductPage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5 }}
-              className="mb-10"
+              className="mb-8"
             >
               <p className="text-muted-foreground leading-relaxed">
                 {product.description}
               </p>
             </motion.div>
+          )}
+
+          {/* Thumbnail Gallery */}
+          {product.images.edges.length > 1 && (
+            <div className="mb-10">
+              <h3 className="text-sm uppercase tracking-widest text-muted-foreground mb-4 text-center">
+                Gallery
+              </h3>
+              <div className="flex gap-4 justify-center flex-wrap py-2">
+                {product.images.edges.map((img, index) => (
+                  <button
+                    key={img.node.url}
+                    onClick={() => {
+                      setLightboxIndex(index);
+                      setLightboxOpen(true);
+                    }}
+                    className="w-[150px] h-[150px] md:w-40 md:h-40 rounded-xl overflow-hidden border-2 border-transparent opacity-70 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0"
+                  >
+                    <img 
+                      src={img.node.url} 
+                      alt={img.node.altText || `${product.title} - ${index + 1}`}
+                      className="w-full h-full object-cover" 
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>
