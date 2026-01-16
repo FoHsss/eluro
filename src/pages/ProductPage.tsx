@@ -256,7 +256,7 @@ const ProductPage = () => {
           )}
 
           {/* Thumbnail Gallery - Horizontal Carousel with 3D Perspective */}
-          {product.images.edges.length > 1 && (
+          {product.images.edges.filter(img => img.node.altText?.toLowerCase().includes('gallery')).length > 0 && (
             <div className="mb-10">
               <h3 className="text-sm uppercase tracking-widest text-muted-foreground mb-6 text-center">
                 Gallery
@@ -265,7 +265,9 @@ const ProductPage = () => {
                 className="flex gap-6 overflow-x-auto snap-x snap-mandatory py-6 px-4 scrollbar-hide"
                 style={{ perspective: '1000px' }}
               >
-                {product.images.edges.map((img, index) => (
+                {product.images.edges
+                  .filter(img => img.node.altText?.toLowerCase().includes('gallery'))
+                  .map((img, index) => (
                   <motion.button
                     key={img.node.url}
                     onClick={() => {
