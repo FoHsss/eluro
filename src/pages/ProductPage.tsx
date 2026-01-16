@@ -255,13 +255,16 @@ const ProductPage = () => {
             </motion.div>
           )}
 
-          {/* Thumbnail Gallery - Vertical Carousel with Scale + Opacity */}
+          {/* Thumbnail Gallery - Horizontal Carousel with 3D Perspective */}
           {product.images.edges.length > 1 && (
             <div className="mb-10">
               <h3 className="text-sm uppercase tracking-widest text-muted-foreground mb-6 text-center">
                 Gallery
               </h3>
-              <div className="flex flex-col items-center gap-6 max-h-[500px] overflow-y-auto snap-y snap-mandatory py-4 scrollbar-hide">
+              <div 
+                className="flex gap-6 overflow-x-auto snap-x snap-mandatory py-6 px-4 scrollbar-hide"
+                style={{ perspective: '1000px' }}
+              >
                 {product.images.edges.map((img, index) => (
                   <motion.button
                     key={img.node.url}
@@ -269,16 +272,18 @@ const ProductPage = () => {
                       setLightboxIndex(index);
                       setLightboxOpen(true);
                     }}
-                    initial={{ scale: 0.85, opacity: 0.5 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: false, amount: 0.6 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="w-[360px] h-[360px] rounded-2xl overflow-hidden border-2 border-transparent hover:border-primary/20 transition-colors duration-300 flex-shrink-0 snap-center"
+                    initial={{ rotateY: 25, opacity: 0.5, scale: 0.9 }}
+                    whileInView={{ rotateY: 0, opacity: 1, scale: 1 }}
+                    viewport={{ once: false, amount: 0.7 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    whileHover={{ scale: 1.05 }}
+                    style={{ transformStyle: 'preserve-3d' }}
+                    className="w-[250px] h-[250px] rounded-xl overflow-hidden bg-muted/20 border-2 border-transparent hover:border-primary/20 transition-colors duration-300 flex-shrink-0 snap-center"
                   >
                     <img 
                       src={img.node.url} 
                       alt={img.node.altText || `${product.title} - ${index + 1}`}
-                      className="w-full h-full object-cover" 
+                      className="w-full h-full object-contain" 
                     />
                   </motion.button>
                 ))}
