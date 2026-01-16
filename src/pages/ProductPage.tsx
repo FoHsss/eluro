@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import Layout from "@/components/Layout";
 import { useShopifyProduct } from "@/hooks/useShopifyProducts";
 import { useCartStore } from "@/stores/cartStore";
+import { ReviewsSection } from "@/components/ReviewsSection";
 import sizeChartImage from "@/assets/size-chart.jpg";
 
 const ProductPage = () => {
@@ -300,6 +301,9 @@ const ProductPage = () => {
               </div>
             </div>
           )}
+
+          {/* Reviews Section */}
+          <ReviewsSection productHandle={product.handle} />
         </div>
       </div>
 
