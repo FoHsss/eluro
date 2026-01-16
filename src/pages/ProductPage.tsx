@@ -260,9 +260,9 @@ const ProductPage = () => {
             </motion.div>
           )}
 
-          {/* Thumbnail Gallery - Horizontal Carousel with 3D Perspective */}
+          {/* Thumbnail Gallery - Horizontal Carousel with Glassmorphism */}
           {galleryImages.length > 0 && (
-            <div className="mb-10">
+            <div className="mb-10 py-8 px-4 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 rounded-3xl">
               <h3 className="text-sm uppercase tracking-widest text-muted-foreground mb-6 text-center">
                 Gallery
               </h3>
@@ -281,9 +281,9 @@ const ProductPage = () => {
                     whileInView={{ rotateY: 0, opacity: 1, scale: 1 }}
                     viewport={{ once: false, amount: 0.7 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, y: -4 }}
                     style={{ transformStyle: 'preserve-3d' }}
-                    className="w-[250px] h-[250px] rounded-xl overflow-hidden bg-muted/20 border-2 border-transparent hover:border-primary/20 transition-colors duration-300 flex-shrink-0 snap-center"
+                    className="w-[250px] h-[250px] rounded-2xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 shadow-xl shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:border-white/40 transition-all duration-300 flex-shrink-0 snap-center"
                   >
                     <img 
                       src={img.node.url} 
