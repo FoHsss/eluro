@@ -255,28 +255,32 @@ const ProductPage = () => {
             </motion.div>
           )}
 
-          {/* Thumbnail Gallery */}
+          {/* Thumbnail Gallery - Vertical Carousel with Scale + Opacity */}
           {product.images.edges.length > 1 && (
             <div className="mb-10">
-              <h3 className="text-sm uppercase tracking-widest text-muted-foreground mb-4 text-center">
+              <h3 className="text-sm uppercase tracking-widest text-muted-foreground mb-6 text-center">
                 Gallery
               </h3>
-              <div className="flex gap-4 justify-center flex-wrap py-2">
+              <div className="flex flex-col items-center gap-6 max-h-[500px] overflow-y-auto snap-y snap-mandatory py-4 scrollbar-hide">
                 {product.images.edges.map((img, index) => (
-                  <button
+                  <motion.button
                     key={img.node.url}
                     onClick={() => {
                       setLightboxIndex(index);
                       setLightboxOpen(true);
                     }}
-                    className="w-[150px] h-[150px] md:w-40 md:h-40 rounded-xl overflow-hidden border-2 border-transparent opacity-70 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0"
+                    initial={{ scale: 0.85, opacity: 0.5 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: false, amount: 0.6 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="w-[360px] h-[360px] rounded-2xl overflow-hidden border-2 border-transparent hover:border-primary/20 transition-colors duration-300 flex-shrink-0 snap-center"
                   >
                     <img 
                       src={img.node.url} 
                       alt={img.node.altText || `${product.title} - ${index + 1}`}
                       className="w-full h-full object-cover" 
                     />
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>
