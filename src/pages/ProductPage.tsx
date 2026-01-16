@@ -197,6 +197,10 @@ const ProductPage = () => {
           style={isMobile ? { y: contentLiftY } : undefined}
           className={`relative z-10 ${isMobile ? 'min-h-screen' : ''}`}
         >
+          {/* Solid background layer to cover sticky hero on mobile */}
+          {isMobile && (
+            <div className="absolute inset-x-0 top-32 bottom-0 bg-background -z-10" />
+          )}
           {/* Glass overlay with title/price - now part of content flow */}
           <div className="container max-w-lg mx-auto px-4">
             <motion.div 
