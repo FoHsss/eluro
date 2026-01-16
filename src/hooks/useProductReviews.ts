@@ -55,9 +55,10 @@ export const useAddReview = () => {
 
   return useMutation({
     mutationFn: async (newReview: NewReview) => {
+      // is_approved defaults to false via RLS policy - reviews require moderation
       const { data, error } = await supabase
         .from("reviews")
-        .insert([newReview])
+        .insert([{ ...newReview, is_approved: false }])
         .select()
         .single();
 
@@ -69,7 +70,7 @@ export const useAddReview = () => {
         queryKey: ["reviews", variables.product_handle],
       });
       toast.success("Спасибо за отзыв!", {
-        description: "Ваш отзыв успешно добавлен.",
+        description: "Ваш отзыв отправлен на модерацию и скоро появится.",
       });
     },
     onError: (error) => {
