@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "shop": "Boutique",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "hero": {
+    "tagline": "Choisi avec soin",
+    "title": "Fabriqué avec attention,",
+    "titleLine2": "conçu pour durer",
+    "subtitle": "Articles en cuir haut de gamme conçus pour les moments qui comptent. Simple, beau, durable.",
+    "cta": "Découvrir la collection"
+  },
+  "featured": {
+    "title": "En vedette",
+    "viewAll": "Voir tous les produits",
+    "noProducts": "Aucun produit pour le moment",
+    "premium": "Premium"
+  },
+  "brandQuote": "\"Nous croyons que les meilleures choses sont choisies avec soin et gardées pour la vie.\"",
+  "shop": {
+    "collection": "Collection",
+    "title": "Tous les produits",
+    "noProducts": "Aucun produit trouvé",
+    "noProductsHint": "Dites-moi quel produit vous souhaitez créer et je l'ajouterai à votre boutique."
+  },
+  "product": {
+    "tagline": "Choisi avec soin",
+    "addToCart": "Ajouter au panier",
+    "addToOrder": "Ajouter à la commande",
+    "addToBag": "Ajouter au sac",
+    "soldOut": "Épuisé",
+    "readyToShip": "Prêt à expédier · Préparé sous 24–48 heures",
+    "sizeChartLink": "Veuillez mesurer le tour de cou de votre animal avant d'acheter !",
+    "gallery": "Galerie",
+    "problemTitle": "Une tranquillité d'esprit simple",
+    "problemText1": "Les animaux peuvent parfois s'égarer. Un médaillon perdu ou une identification effacée peut rendre un moment stressant encore plus difficile.",
+    "problemText2": "Notre collier en cuir maintient un AirTag en sécurité, vous permettant de localiser votre compagnon quand vous en avez besoin. Pas d'alarmes, juste une confiance sereine."
+  },
+  "cart": {
+    "title": "Panier",
+    "empty": "Votre panier est vide",
+    "itemCount": "{{count}} article dans votre panier",
+    "itemCount_plural": "{{count}} articles dans votre panier",
+    "total": "Total",
+    "checkout": "Commander avec Shopify"
+  },
+  "about": {
+    "tagline": "Notre histoire",
+    "title": "À propos d'Eluro",
+    "p1": "Eluro est né d'une conviction simple : les choses que nous choisissons de garder doivent mériter d'être gardées. Dans un monde d'options infinies, nous sélectionnons ce qui compte — des produits faits avec intention, construits pour durer.",
+    "p2": "Chaque pièce de notre collection est choisie avec soin. Nous travaillons avec des artisans qui partagent notre dévouement à la qualité, sélectionnant des matériaux qui vieillissent magnifiquement et des designs qui transcendent les tendances.",
+    "p3": "Nous ne croyons pas aux tactiques d'urgence ou aux ventes éphémères. Notre approche est calme, réfléchie et centrée sur la confiance. Quand vous choisissez Eluro, vous choisissez quelque chose destiné à faire partie de votre vie pour les années à venir.",
+    "motto": "Choisi avec soin."
+  },
+  "contact": {
+    "title": "Nous contacter",
+    "subtitle": "Des questions sur une commande ou simplement envie de dire bonjour ? Nous serions ravis de vous entendre.",
+    "name": "Nom",
+    "namePlaceholder": "Votre nom",
+    "email": "E-mail",
+    "emailPlaceholder": "votre@email.com",
+    "message": "Message",
+    "messagePlaceholder": "Comment pouvons-nous vous aider ?",
+    "submit": "Envoyer le message",
+    "sending": "Envoi en cours...",
+    "success": "Message envoyé. Nous vous contacterons bientôt."
+  },
+  "footer": {
+    "tagline": "Choisi avec soin",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+    "copyright": "© {{year}} Eluro. Tous droits réservés."
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : janvier 2025",
+    "section1Title": "Informations que nous collectons",
+    "section1Text": "Nous collectons les informations que vous fournissez directement, telles que votre nom, adresse e-mail et détails de livraison lors d'un achat ou en nous contactant.",
+    "section2Title": "Comment nous utilisons vos informations",
+    "section2Text": "Vos informations sont utilisées uniquement pour traiter les commandes, communiquer sur vos achats et améliorer notre service. Nous ne vendons jamais vos données personnelles à des tiers.",
+    "section3Title": "Sécurité des données",
+    "section3Text": "Nous mettons en œuvre des mesures de sécurité conformes aux normes de l'industrie pour protéger vos informations personnelles. Toutes les transactions sont cryptées et traitées de manière sécurisée.",
+    "section4Title": "Nous contacter",
+    "section4Text": "Si vous avez des questions sur cette politique, veuillez nous contacter à"
+  },
+  "terms": {
+    "title": "Conditions d'utilisation",
+    "lastUpdated": "Dernière mise à jour : janvier 2025",
+    "section1Title": "Commandes et paiements",
+    "section1Text": "Toutes les commandes sont soumises à disponibilité. Les prix sont indiqués en USD et incluent les taxes applicables. Le paiement est traité de manière sécurisée à la caisse.",
+    "section2Title": "Livraison",
+    "section2Text": "Nous offrons la livraison gratuite sur toutes les commandes. Les articles sont fabriqués à la main sous 2-3 jours ouvrables et livrés sous 5-7 jours ouvrables vers la plupart des destinations.",
+    "section3Title": "Retours et échanges",
+    "section3Text": "Nous acceptons les retours dans les 30 jours suivant la livraison. Les articles doivent être non portés et dans leur état d'origine. Contactez-nous pour initier un retour et recevoir votre étiquette d'expédition prépayée.",
+    "section4Title": "Contact",
+    "section4Text": "Pour toute question concernant ces conditions, veuillez nous contacter à"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "shop": "商店",
+    "about": "关于我们",
+    "contact": "联系我们"
+  },
+  "hero": {
+    "tagline": "精心挑选",
+    "title": "匠心打造，",
+    "titleLine2": "经久耐用",
+    "subtitle": "为重要时刻设计的优质皮具。简约、优雅、持久。",
+    "cta": "探索系列"
+  },
+  "featured": {
+    "title": "精选推荐",
+    "viewAll": "查看所有产品",
+    "noProducts": "暂无产品",
+    "premium": "精品"
+  },
+  "brandQuote": "\"我们相信，最好的东西值得精心挑选，珍藏一生。\"",
+  "shop": {
+    "collection": "系列",
+    "title": "全部产品",
+    "noProducts": "未找到产品",
+    "noProductsHint": "告诉我您想创建什么产品，我会将其添加到您的商店。"
+  },
+  "product": {
+    "tagline": "精心挑选",
+    "addToCart": "加入购物车",
+    "addToOrder": "添加到订单",
+    "addToBag": "加入购物袋",
+    "soldOut": "已售罄",
+    "readyToShip": "准备发货 · 24-48小时内备货",
+    "sizeChartLink": "购买前请测量您宠物的颈围！",
+    "gallery": "图库",
+    "problemTitle": "简单的安心",
+    "problemText1": "宠物有时会走失。丢失的铭牌或褪色的标识会让紧张的时刻变得更加困难。",
+    "problemText2": "我们的皮革项圈可以安全地固定AirTag，让您随时可以找到您的伙伴。没有警报，只有平静的安心。"
+  },
+  "cart": {
+    "title": "购物车",
+    "empty": "您的购物车是空的",
+    "itemCount": "购物车中有 {{count}} 件商品",
+    "itemCount_plural": "购物车中有 {{count}} 件商品",
+    "total": "总计",
+    "checkout": "通过 Shopify 结账"
+  },
+  "about": {
+    "tagline": "我们的故事",
+    "title": "关于 Eluro",
+    "p1": "Eluro 诞生于一个简单的信念：我们选择保留的东西应该值得保留。在无限选择的世界里，我们精选真正重要的——用心制作、经久耐用的产品。",
+    "p2": "我们系列中的每一件作品都经过精心挑选。我们与分享我们对品质执着的工匠合作，选择随时间越发美丽的材料和超越潮流的设计。",
+    "p3": "我们不相信紧迫策略或短暂的促销。我们的方式是平和的、深思熟虑的、以信任为中心的。当您选择 Eluro，您选择的是将陪伴您多年的东西。",
+    "motto": "精心挑选。"
+  },
+  "contact": {
+    "title": "联系我们",
+    "subtitle": "关于订单有疑问，或只是想打个招呼？我们很乐意收到您的来信。",
+    "name": "姓名",
+    "namePlaceholder": "您的姓名",
+    "email": "电子邮件",
+    "emailPlaceholder": "your@email.com",
+    "message": "留言",
+    "messagePlaceholder": "我们能帮您什么？",
+    "submit": "发送消息",
+    "sending": "发送中...",
+    "success": "消息已发送。我们会尽快与您联系。"
+  },
+  "footer": {
+    "tagline": "精心挑选",
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "copyright": "© {{year}} Eluro. 保留所有权利。"
+  },
+  "privacy": {
+    "title": "隐私政策",
+    "lastUpdated": "最后更新：2025年1月",
+    "section1Title": "我们收集的信息",
+    "section1Text": "我们收集您直接提供的信息，如您在购买或联系我们时提供的姓名、电子邮件地址和配送详情。",
+    "section2Title": "我们如何使用您的信息",
+    "section2Text": "您的信息仅用于处理订单、就您的购买进行沟通以及改善我们的服务。我们绝不会将您的个人数据出售给第三方。",
+    "section3Title": "数据安全",
+    "section3Text": "我们实施行业标准的安全措施来保护您的个人信息。所有交易都经过加密并安全处理。",
+    "section4Title": "联系我们",
+    "section4Text": "如果您对本政策有疑问，请通过以下方式联系我们"
+  },
+  "terms": {
+    "title": "服务条款",
+    "lastUpdated": "最后更新：2025年1月",
+    "section1Title": "订单与付款",
+    "section1Text": "所有订单视库存情况而定。价格以美元计价，包含适用税费。付款在结账时安全处理。",
+    "section2Title": "配送",
+    "section2Text": "我们为所有订单提供免费配送。商品在2-3个工作日内手工制作，5-7个工作日内送达大多数目的地。",
+    "section3Title": "退货与换货",
+    "section3Text": "我们接受收货后30天内的退货。商品必须未使用且保持原始状态。联系我们发起退货并获取预付运费标签。",
+    "section4Title": "联系方式",
+    "section4Text": "如对这些条款有任何疑问，请通过以下方式联系我们"
+  }
+}

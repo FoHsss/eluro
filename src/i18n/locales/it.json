@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "shop": "Negozio",
+    "about": "Chi siamo",
+    "contact": "Contatti"
+  },
+  "hero": {
+    "tagline": "Scelto con cura",
+    "title": "Realizzato con cura,",
+    "titleLine2": "fatto per durare",
+    "subtitle": "Articoli in pelle premium progettati per i momenti che contano. Semplice, bello, duraturo.",
+    "cta": "Esplora la collezione"
+  },
+  "featured": {
+    "title": "In evidenza",
+    "viewAll": "Vedi tutti i prodotti",
+    "noProducts": "Nessun prodotto ancora",
+    "premium": "Premium"
+  },
+  "brandQuote": "\"Crediamo che le cose migliori siano scelte con cura e conservate per sempre.\"",
+  "shop": {
+    "collection": "Collezione",
+    "title": "Tutti i prodotti",
+    "noProducts": "Nessun prodotto trovato",
+    "noProductsHint": "Dimmi quale prodotto vorresti creare e lo aggiungerò al tuo negozio."
+  },
+  "product": {
+    "tagline": "Scelto con cura",
+    "addToCart": "Aggiungi al carrello",
+    "addToOrder": "Aggiungi all'ordine",
+    "addToBag": "Aggiungi alla borsa",
+    "soldOut": "Esaurito",
+    "readyToShip": "Pronto per la spedizione · Preparato in 24–48 ore",
+    "sizeChartLink": "Per favore misura la circonferenza del collo del tuo animale prima dell'acquisto!",
+    "gallery": "Galleria",
+    "problemTitle": "Semplicità e tranquillità",
+    "problemText1": "Gli animali domestici a volte possono vagare. Una medaglietta persa o un'identificazione sbiadita può rendere un momento stressante ancora più difficile.",
+    "problemText2": "Il nostro collare in pelle tiene un AirTag in sicurezza, così puoi localizzare il tuo compagno quando ne hai bisogno. Nessun allarme, solo tranquilla fiducia."
+  },
+  "cart": {
+    "title": "Carrello",
+    "empty": "Il tuo carrello è vuoto",
+    "itemCount": "{{count}} articolo nel carrello",
+    "itemCount_plural": "{{count}} articoli nel carrello",
+    "total": "Totale",
+    "checkout": "Checkout con Shopify"
+  },
+  "about": {
+    "tagline": "La nostra storia",
+    "title": "Chi è Eluro",
+    "p1": "Eluro è nato da una semplice convinzione: le cose che scegliamo di tenere dovrebbero meritare di essere tenute. In un mondo di infinite opzioni, selezioniamo ciò che conta — prodotti fatti con intenzione, costruiti per durare.",
+    "p2": "Ogni pezzo della nostra collezione è scelto con cura. Lavoriamo con artigiani che condividono la nostra dedizione alla qualità, selezionando materiali che invecchiano magnificamente e design che trascendono le tendenze.",
+    "p3": "Non crediamo nelle tattiche d'urgenza o nelle vendite fugaci. Il nostro approccio è calmo, ponderato e centrato sulla fiducia. Quando scegli Eluro, scegli qualcosa destinato a far parte della tua vita per anni.",
+    "motto": "Scelto con cura."
+  },
+  "contact": {
+    "title": "Contattaci",
+    "subtitle": "Domande su un ordine o semplicemente vuoi salutare? Ci farebbe piacere sentirti.",
+    "name": "Nome",
+    "namePlaceholder": "Il tuo nome",
+    "email": "E-mail",
+    "emailPlaceholder": "tua@email.com",
+    "message": "Messaggio",
+    "messagePlaceholder": "Come possiamo aiutarti?",
+    "submit": "Invia messaggio",
+    "sending": "Invio in corso...",
+    "success": "Messaggio inviato. Ti contatteremo presto."
+  },
+  "footer": {
+    "tagline": "Scelto con cura",
+    "privacy": "Privacy Policy",
+    "terms": "Termini di servizio",
+    "copyright": "© {{year}} Eluro. Tutti i diritti riservati."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Ultimo aggiornamento: gennaio 2025",
+    "section1Title": "Informazioni che raccogliamo",
+    "section1Text": "Raccogliamo le informazioni che fornisci direttamente, come nome, indirizzo e-mail e dettagli di spedizione quando effettui un acquisto o ci contatti.",
+    "section2Title": "Come utilizziamo le tue informazioni",
+    "section2Text": "Le tue informazioni vengono utilizzate esclusivamente per evadere ordini, comunicare sui tuoi acquisti e migliorare il nostro servizio. Non vendiamo mai i tuoi dati personali a terzi.",
+    "section3Title": "Sicurezza dei dati",
+    "section3Text": "Implementiamo misure di sicurezza standard del settore per proteggere le tue informazioni personali. Tutte le transazioni sono crittografate ed elaborate in modo sicuro.",
+    "section4Title": "Contattaci",
+    "section4Text": "Se hai domande su questa policy, contattaci a"
+  },
+  "terms": {
+    "title": "Termini di servizio",
+    "lastUpdated": "Ultimo aggiornamento: gennaio 2025",
+    "section1Title": "Ordini e pagamenti",
+    "section1Text": "Tutti gli ordini sono soggetti a disponibilità. I prezzi sono in USD e includono le tasse applicabili. Il pagamento viene elaborato in modo sicuro al checkout.",
+    "section2Title": "Spedizione",
+    "section2Text": "Offriamo spedizione gratuita su tutti gli ordini. Gli articoli sono realizzati a mano entro 2-3 giorni lavorativi e consegnati entro 5-7 giorni lavorativi nella maggior parte delle destinazioni.",
+    "section3Title": "Resi e cambi",
+    "section3Text": "Accettiamo resi entro 30 giorni dalla consegna. Gli articoli devono essere non indossati e in condizioni originali. Contattaci per avviare un reso e ricevere l'etichetta di spedizione prepagata.",
+    "section4Title": "Contatti",
+    "section4Text": "Per qualsiasi domanda su questi termini, contattaci a"
+  }
+}

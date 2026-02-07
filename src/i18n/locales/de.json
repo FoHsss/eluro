@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "shop": "Shop",
+    "about": "Über uns",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "tagline": "Mit Bedacht gewählt",
+    "title": "Mit Sorgfalt gefertigt,",
+    "titleLine2": "für die Ewigkeit gemacht",
+    "subtitle": "Premium-Lederwaren für die Momente, die zählen. Schlicht, schön, beständig.",
+    "cta": "Kollektion entdecken"
+  },
+  "featured": {
+    "title": "Highlights",
+    "viewAll": "Alle Produkte",
+    "noProducts": "Noch keine Produkte",
+    "premium": "Premium"
+  },
+  "brandQuote": "\"Wir glauben, dass die besten Dinge sorgfältig gewählt und ein Leben lang behalten werden.\"",
+  "shop": {
+    "collection": "Kollektion",
+    "title": "Alle Produkte",
+    "noProducts": "Keine Produkte gefunden",
+    "noProductsHint": "Teilen Sie mir mit, welches Produkt Sie erstellen möchten, und ich füge es Ihrem Shop hinzu."
+  },
+  "product": {
+    "tagline": "Mit Bedacht gewählt",
+    "addToCart": "In den Warenkorb",
+    "addToOrder": "Zur Bestellung hinzufügen",
+    "addToBag": "In die Tasche",
+    "soldOut": "Ausverkauft",
+    "readyToShip": "Versandbereit · Vorbereitung in 24–48 Stunden",
+    "sizeChartLink": "Bitte messen Sie vor dem Kauf den Halsumfang Ihres Haustieres!",
+    "gallery": "Galerie",
+    "problemTitle": "Einfache Sicherheit",
+    "problemText1": "Haustiere können manchmal davonlaufen. Eine verlorene Marke oder verblasste ID kann eine stressige Situation noch schwieriger machen.",
+    "problemText2": "Unser Lederhalsband hält einen AirTag sicher, so dass Sie Ihren Begleiter jederzeit orten können. Keine Alarme, nur ruhige Gewissheit."
+  },
+  "cart": {
+    "title": "Warenkorb",
+    "empty": "Ihr Warenkorb ist leer",
+    "itemCount": "{{count}} Artikel im Warenkorb",
+    "itemCount_plural": "{{count}} Artikel im Warenkorb",
+    "total": "Gesamt",
+    "checkout": "Zur Kasse mit Shopify"
+  },
+  "about": {
+    "tagline": "Unsere Geschichte",
+    "title": "Über Eluro",
+    "p1": "Eluro entstand aus einer einfachen Überzeugung: Die Dinge, die wir behalten möchten, sollten es wert sein, behalten zu werden. In einer Welt endloser Optionen kuratieren wir das Wesentliche – Produkte mit Absicht gefertigt, gebaut für die Ewigkeit.",
+    "p2": "Jedes Stück in unserer Kollektion ist mit Bedacht gewählt. Wir arbeiten mit Handwerkern, die unsere Hingabe zur Qualität teilen, und wählen Materialien, die schön altern, und Designs, die Trends überdauern.",
+    "p3": "Wir glauben nicht an Dringlichkeitstaktiken oder flüchtige Verkäufe. Unser Ansatz ist ruhig, überlegt und auf Vertrauen ausgerichtet. Wenn Sie sich für Eluro entscheiden, wählen Sie etwas, das Teil Ihres Lebens für Jahre sein soll.",
+    "motto": "Mit Bedacht gewählt."
+  },
+  "contact": {
+    "title": "Kontaktieren Sie uns",
+    "subtitle": "Fragen zu einer Bestellung oder möchten Sie einfach Hallo sagen? Wir freuen uns von Ihnen zu hören.",
+    "name": "Name",
+    "namePlaceholder": "Ihr Name",
+    "email": "E-Mail",
+    "emailPlaceholder": "ihre@email.de",
+    "message": "Nachricht",
+    "messagePlaceholder": "Wie können wir helfen?",
+    "submit": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "success": "Nachricht gesendet. Wir melden uns bald."
+  },
+  "footer": {
+    "tagline": "Mit Bedacht gewählt",
+    "privacy": "Datenschutz",
+    "terms": "AGB",
+    "copyright": "© {{year}} Eluro. Alle Rechte vorbehalten."
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "lastUpdated": "Zuletzt aktualisiert: Januar 2025",
+    "section1Title": "Welche Informationen wir sammeln",
+    "section1Text": "Wir sammeln Informationen, die Sie direkt angeben, wie Ihren Namen, E-Mail-Adresse und Lieferdetails bei einem Kauf oder wenn Sie uns kontaktieren.",
+    "section2Title": "Wie wir Ihre Informationen verwenden",
+    "section2Text": "Ihre Informationen werden ausschließlich zur Auftragsabwicklung, zur Kommunikation über Ihre Einkäufe und zur Verbesserung unseres Services verwendet. Wir verkaufen Ihre persönlichen Daten niemals an Dritte.",
+    "section3Title": "Datensicherheit",
+    "section3Text": "Wir implementieren branchenübliche Sicherheitsmaßnahmen zum Schutz Ihrer persönlichen Daten. Alle Transaktionen werden verschlüsselt und sicher verarbeitet.",
+    "section4Title": "Kontaktieren Sie uns",
+    "section4Text": "Bei Fragen zu dieser Richtlinie kontaktieren Sie uns bitte unter"
+  },
+  "terms": {
+    "title": "Allgemeine Geschäftsbedingungen",
+    "lastUpdated": "Zuletzt aktualisiert: Januar 2025",
+    "section1Title": "Bestellungen & Zahlungen",
+    "section1Text": "Alle Bestellungen unterliegen der Verfügbarkeit. Preise sind in USD angegeben und enthalten anfallende Steuern. Die Zahlung wird an der Kasse sicher verarbeitet.",
+    "section2Title": "Versand",
+    "section2Text": "Wir bieten kostenlosen Versand für alle Bestellungen. Artikel werden innerhalb von 2-3 Werktagen handgefertigt und innerhalb von 5-7 Werktagen an die meisten Ziele geliefert.",
+    "section3Title": "Rückgaben & Umtausch",
+    "section3Text": "Wir akzeptieren Rückgaben innerhalb von 30 Tagen nach Lieferung. Artikel müssen ungetragen und im Originalzustand sein. Kontaktieren Sie uns, um eine Rückgabe einzuleiten und Ihr vorfrankiertes Versandetikett zu erhalten.",
+    "section4Title": "Kontakt",
+    "section4Text": "Bei Fragen zu diesen Bedingungen kontaktieren Sie uns bitte unter"
+  }
+}
