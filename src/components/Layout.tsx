@@ -12,8 +12,10 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <PremiumInfoBar />
-      <main className="flex-1 pt-[100px]">{children}</main>
+      <main className="flex-1 pt-16">
+        <PremiumInfoBar />
+        {children}
+      </main>
       <Footer />
       <LanguageSwitcher />
     </div>
