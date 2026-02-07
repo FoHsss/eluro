@@ -302,8 +302,13 @@ const ProductPage = () => {
               <h1 className="font-display text-xl md:text-2xl font-medium text-foreground">
                 {product.title}
               </h1>
-              <p className="text-base text-muted-foreground">
-                {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
+              <p className="text-base text-muted-foreground flex items-center gap-2">
+                <span className="line-through text-muted-foreground/60">
+                  {price.currencyCode} {(parseFloat(price.amount) * 1.3).toFixed(2)}
+                </span>
+                <span className="text-foreground font-medium">
+                  {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
+                </span>
               </p>
             </motion.div>
           </div>
