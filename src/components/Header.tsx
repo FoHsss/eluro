@@ -44,9 +44,7 @@ const Header = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 h-16 bg-background/95 backdrop-blur-sm transition-all duration-350 ${
-          isScrolled ? "header-scrolled" : ""
-        }`}
+        className="relative z-40 h-16 mt-9 bg-background/95 backdrop-blur-sm"
       >
         <div className="container h-full flex items-center justify-between">
           {/* Mobile Menu Button */}
