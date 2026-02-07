@@ -279,7 +279,7 @@ const ProductPage = () => {
             {isAddingToCart ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : selectedVariant?.availableForSale ? (
-              'Add to Cart'
+              'Add to Order'
             ) : (
               'Sold Out'
             )}
@@ -337,7 +337,7 @@ const ProductPage = () => {
               {isAddingToCart ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : selectedVariant?.availableForSale ? (
-                'Add to Cart'
+                'Add to Order'
               ) : (
                 'Sold Out'
               )}
@@ -403,7 +403,7 @@ const ProductPage = () => {
               {isAddingToCart ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : selectedVariant?.availableForSale ? (
-                'Add to Cart'
+                'Add to Order'
               ) : (
                 'Sold Out'
               )}
