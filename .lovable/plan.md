@@ -1,254 +1,207 @@
 
 
-# Plan: Multilingual Site with Auto-Translation
+# План: Расширенная мультиязычность с автоопределением региона
 
-## Overview
-Add internationalization (i18n) support to the website with:
-- English as the default language
-- Automatic detection of browser/device language
-- Fixed language switcher button on screen (accessible from any page)
-- Automatic AI translation of product descriptions
-- Reviews remain untranslated (as requested)
+## Обзор
+Расширить систему локализации для поддержки нескольких языков с автоматическим определением языка/региона устройства клиента.
 
 ---
 
-## Architecture
+## Поддерживаемые языки
 
-```text
-+------------------+     +-------------------+
-|   Browser opens  | --> | i18next detects   |
-|   website        |     | navigator.language|
-+------------------+     +-------------------+
-                                  |
-                    +-------------+-------------+
-                    |                           |
-              en-US / en                   ru-RU / ru
-                    |                           |
-                    v                           v
-          +------------------+       +------------------+
-          | Show English UI  |       | Show Russian UI  |
-          +------------------+       +------------------+
-                                            |
-                                            v
-                               +------------------------+
-                               | Product descriptions   |
-                               | translated via AI      |
-                               | (cached in database)   |
-                               +------------------------+
-```
+| Код | Язык | Регионы |
+|-----|------|---------|
+| en | English | US, UK, AU, CA, и т.д. |
+| ru | Русский | RU, BY, KZ, UA |
+| de | Deutsch | DE, AT, CH |
+| fr | Français | FR, BE, CA, CH |
+| es | Español | ES, MX, AR, CO |
+| it | Italiano | IT, CH |
+| pt | Português | PT, BR |
+| zh | 中文 | CN, TW, HK |
+| ja | 日本語 | JP |
+| ko | 한국어 | KR |
 
 ---
 
-## File Structure
+## Что нужно изменить
 
-```text
-src/
-├── i18n/
-│   ├── index.ts                    # i18next configuration
-│   └── locales/
-│       ├── en.json                 # English translations
-│       └── ru.json                 # Russian translations
-├── components/
-│   ├── LanguageSwitcher.tsx        # Fixed language toggle button
-│   └── Layout.tsx                  # Add LanguageSwitcher
-├── hooks/
-│   └── useTranslatedDescription.ts # AI translation hook
-└── ... (updated components)
-
-supabase/
-└── functions/
-    └── translate/
-        └── index.ts                # AI translation edge function
-```
-
----
-
-## Implementation Steps
-
-### 1. Install Dependencies
-
-```bash
-npm install i18next react-i18next i18next-browser-languagedetector
-```
-
-### 2. Create i18n Configuration
+### 1. Обновить конфигурацию i18n
 
 **src/i18n/index.ts:**
-- Initialize i18next with language detector
-- Load English and Russian translations
-- Auto-detect language from browser (navigator)
-- Save user preference to localStorage
-- Fallback to English if language not supported
+- Добавить все новые языки в `supportedLngs`
+- Настроить маппинг регионов на языки
 
-### 3. Create Translation Files
-
-**English (en.json)** - Original text:
-- Navigation: Shop, About, Contact
-- Hero section: taglines, titles, CTAs
-- Product page: Add to Cart, Sold Out, Ready to ship, Gallery, Size chart
-- Cart: Shopping Cart, empty state, Checkout
-- Contact form: labels and placeholders
-- Footer: links, copyright
-- About page: full content
-- Privacy/Terms pages: full content
-
-**Russian (ru.json)** - Translations:
-- All static UI text translated to Russian
-- Maintaining the same structure as English
-
-### 4. Create Language Switcher Component
-
-**src/components/LanguageSwitcher.tsx:**
-- Fixed position button in bottom-right corner
-- Shows globe icon with current language code
-- Click toggles between EN and RU
-- Smooth animation on hover/click
-- Uses backdrop blur for modern appearance
-- Always visible on all pages (rendered in Layout)
-
-Visual design:
 ```text
-                    ┌────────────────┐
-                    │ Page content   │
-                    │                │
-                    │                │
-                    │        ┌─────┐ │
-                    │        │🌐 RU│ │  <- Fixed button
-                    └────────┴─────┴─┘
+Логика определения:
+de-DE, de-AT, de-CH → немецкий
+fr-FR, fr-CA, fr-BE → французский
+es-ES, es-MX, es-AR → испанский
+zh-CN, zh-TW → китайский
+и т.д.
 ```
 
-### 5. Create AI Translation Edge Function
+### 2. Создать файлы переводов
+
+Новые файлы в `src/i18n/locales/`:
+- `de.json` - немецкий
+- `fr.json` - французский
+- `es.json` - испанский
+- `it.json` - итальянский
+- `pt.json` - португальский
+- `zh.json` - китайский
+- `ja.json` - японский
+- `ko.json` - корейский
+
+Каждый файл содержит перевод всех UI-строк (навигация, кнопки, тексты страниц).
+
+### 3. Обновить Language Switcher
+
+Вместо простого переключателя EN/RU — выпадающее меню со всеми языками:
+
+```text
+┌─────────────┐
+│ 🌐 EN  ▼    │  <- Кнопка
+└─────────────┘
+      │
+      ▼
+┌─────────────┐
+│ 🇺🇸 English  │
+│ 🇷🇺 Русский  │
+│ 🇩🇪 Deutsch  │
+│ 🇫🇷 Français │
+│ 🇪🇸 Español  │
+│ 🇮🇹 Italiano │
+│ 🇵🇹 Português│
+│ 🇨🇳 中文     │
+│ 🇯🇵 日本語   │
+│ 🇰🇷 한국어   │
+└─────────────┘
+```
+
+### 4. Обновить Edge Function для перевода
 
 **supabase/functions/translate/index.ts:**
-- Uses Lovable AI (gemini-2.5-flash) - no API key needed
-- Receives HTML text and target language
-- Preserves HTML structure (strong, br, p tags)
-- Returns translated text
+- Добавить маппинг названий языков для AI
+- Поддержка всех новых языков
 
-### 6. Create Translation Cache Table
-
-New database table `translations_cache`:
-```sql
-CREATE TABLE translations_cache (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  source_hash TEXT NOT NULL,        -- MD5 hash of original text
-  source_lang TEXT DEFAULT 'en',
-  target_lang TEXT NOT NULL,
-  translated_text TEXT NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE UNIQUE INDEX ON translations_cache (source_hash, target_lang);
-```
-
-Benefits:
-- First translation: 1-2 seconds (AI processing)
-- Subsequent views: instant (from cache)
-- Cache shared across all users
-
-### 7. Create Translation Hook
-
-**src/hooks/useTranslatedDescription.ts:**
-- Takes original descriptionHtml
-- If language is English - returns original
-- If language is Russian:
-  - Check cache first
-  - If not cached - call translate edge function
-  - Save to cache
-  - Return translated text
-- Shows loading state during translation
-
-### 8. Update Components
-
-Components to update with `useTranslation` hook:
-
-| Component | What to translate |
-|-----------|-------------------|
-| Header.tsx | Navigation links |
-| Footer.tsx | Tagline, legal links, copyright |
-| Index.tsx | Hero: tagline, title, subtitle, CTA, Featured, View All, Brand quote |
-| Shop.tsx | Collection, Shop All, No products |
-| ProductPage.tsx | Add to Cart, Sold Out, Ready to ship, Gallery, Size chart link |
-| CartDrawer.tsx | Shopping Cart, empty state, Total, Checkout |
-| About.tsx | Full page content |
-| Contact.tsx | Form labels, placeholders, button |
-| Privacy.tsx | Full page content |
-| Terms.tsx | Full page content |
-| ProblemSolutionSection.tsx | Title and description |
-| DescriptionAccordion.tsx | Loading skeleton (no static text) |
-
-**NOT translated (as requested):**
-- StaticReviewsSection.tsx - reviews stay in original language
-
----
-
-## Technical Details
-
-### i18n Configuration
 ```typescript
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources: { en, ru },
-    fallbackLng: 'en',
-    detection: {
-      order: ['localStorage', 'navigator'],
-      caches: ['localStorage']
-    }
-  });
-```
-
-### Translation Hook Usage
-```typescript
-// In ProductPage.tsx
-const { translatedHtml, isTranslating } = useTranslatedDescription(
-  product.descriptionHtml
-);
-
-<DescriptionAccordion 
-  descriptionHtml={translatedHtml}
-  isTranslating={isTranslating}
-/>
-```
-
-### Component Translation Pattern
-```typescript
-import { useTranslation } from 'react-i18next';
-
-const Header = () => {
-  const { t } = useTranslation();
-  
-  const navLinks = [
-    { name: t('nav.shop'), path: "/shop" },
-    { name: t('nav.about'), path: "/about" },
-    { name: t('nav.contact'), path: "/contact" },
-  ];
-  // ...
+const languageNames = {
+  ru: "Russian",
+  de: "German", 
+  fr: "French",
+  es: "Spanish",
+  it: "Italian",
+  pt: "Portuguese",
+  zh: "Chinese",
+  ja: "Japanese",
+  ko: "Korean"
 };
 ```
 
 ---
 
-## User Experience
+## Автоопределение языка
 
-1. **First visit**: Site detects browser language (ru-RU shows Russian, anything else shows English)
-2. **Manual switch**: Click floating button to toggle language
-3. **Preference saved**: Next visit remembers chosen language
-4. **Product descriptions**: Translated on-the-fly when viewing in Russian
-5. **Translation loading**: Shows skeleton while translating, then smooth fade-in
-6. **Reviews**: Always shown in original language (English)
+i18next-browser-languagedetector уже настроен и будет:
+
+1. **Проверять localStorage** — если пользователь ранее выбрал язык
+2. **Читать navigator.language** — язык браузера/устройства
+3. **Маппить регион на язык** — de-AT → de, fr-CA → fr
+
+```text
+Пользователь из Германии:
+navigator.language = "de-DE"
+        ↓
+i18next определяет → de
+        ↓
+Сайт открывается на немецком
+```
 
 ---
 
-## Notes
+## Структура файлов
 
-- Product **titles** from Shopify remain in original language (would require Shopify multi-language setup)
-- Only **descriptions** are translated via AI
-- Translation is **cached** so same description isn't translated twice
-- Edge function uses **Lovable AI** - no external API keys needed
+```text
+src/i18n/
+├── index.ts                # Обновить: добавить языки
+└── locales/
+    ├── en.json             # ✅ Существует
+    ├── ru.json             # ✅ Существует
+    ├── de.json             # Новый
+    ├── fr.json             # Новый
+    ├── es.json             # Новый
+    ├── it.json             # Новый
+    ├── pt.json             # Новый
+    ├── zh.json             # Новый
+    ├── ja.json             # Новый
+    └── ko.json             # Новый
+
+src/components/
+└── LanguageSwitcher.tsx    # Обновить: выпадающее меню
+```
+
+---
+
+## Технические детали
+
+### Конфигурация языков
+
+```typescript
+// src/i18n/index.ts
+const supportedLngs = ['en', 'ru', 'de', 'fr', 'es', 'it', 'pt', 'zh', 'ja', 'ko'];
+
+i18n.init({
+  supportedLngs,
+  fallbackLng: 'en',
+  detection: {
+    order: ['localStorage', 'navigator'],
+    caches: ['localStorage'],
+  },
+});
+```
+
+### Компонент переключателя
+
+```typescript
+const languages = [
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'it', name: 'Italiano', flag: '🇮🇹' },
+  { code: 'pt', name: 'Português', flag: '🇵🇹' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  { code: 'ko', name: '한국어', flag: '🇰🇷' },
+];
+```
+
+---
+
+## Перевод описаний товаров
+
+Существующая система AI-перевода уже поддерживает любые языки:
+
+1. **useTranslatedDescription** определяет язык из `i18n.language`
+2. **Edge Function** получает `targetLang` и передаёт в AI
+3. **AI** переводит на нужный язык
+4. **Кэш** сохраняет перевод для каждой пары (hash + язык)
+
+Никаких изменений в логике перевода не требуется — только добавить маппинг названий языков для промпта AI.
+
+---
+
+## UX
+
+1. **Первый визит**: Сайт определяет язык устройства
+   - Браузер на немецком → сайт на немецком
+   - Браузер на японском → сайт на японском
+   
+2. **Ручное переключение**: Клик на кнопку языка → выбор из списка
+
+3. **Сохранение выбора**: Язык сохраняется в localStorage
+
+4. **Описания товаров**: Автоматически переводятся AI на выбранный язык
 
