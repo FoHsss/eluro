@@ -187,6 +187,50 @@ export const PRODUCT_BY_HANDLE_QUERY = `
         name
         values
       }
+      upsellProducts: metafield(namespace: "custom", key: "upsell_products") {
+        references(first: 4) {
+          edges {
+            node {
+              ... on Product {
+                id
+                title
+                handle
+                priceRange {
+                  minVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+                images(first: 1) {
+                  edges {
+                    node {
+                      url
+                      altText
+                    }
+                  }
+                }
+                variants(first: 10) {
+                  edges {
+                    node {
+                      id
+                      title
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      availableForSale
+                      selectedOptions {
+                        name
+                        value
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;

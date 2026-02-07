@@ -109,7 +109,8 @@
   },
   "upsell": {
     "title": "ご注文を完了する",
-    "addButton": "+ 追加",
+    "addToOrder": "ご注文に追加",
+    "addButton": "追加",
     "added": "カートに追加しました"
   }
 }

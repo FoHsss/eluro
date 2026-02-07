@@ -109,7 +109,8 @@
   },
   "upsell": {
     "title": "주문을 완료하세요",
-    "addButton": "+ 추가",
+    "addToOrder": "주문에 추가",
+    "addButton": "추가",
     "added": "장바구니에 추가됨"
   }
 }

@@ -109,7 +109,8 @@
   },
   "upsell": {
     "title": "Vervollständige deine Bestellung",
-    "addButton": "+ Hinzufügen",
+    "addToOrder": "Zu deiner Bestellung hinzufügen",
+    "addButton": "Hinzufügen",
     "added": "Zum Warenkorb hinzugefügt"
   }
 }
