@@ -321,6 +321,29 @@ const ProductPage = () => {
           {/* Product Video/GIF */}
           <ProductVideo />
 
+          {/* Mid-page CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
+            className="py-6"
+          >
+            <button 
+              onClick={handleAddToCart}
+              disabled={isAddingToCart || !selectedVariant?.availableForSale}
+              className="btn-cta btn-cta-pulse disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isAddingToCart ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : selectedVariant?.availableForSale ? (
+                'Add to Cart'
+              ) : (
+                'Sold Out'
+              )}
+            </button>
+          </motion.div>
+
           {/* Thumbnail Gallery - Horizontal Carousel with Glassmorphism */}
           {galleryImages.length > 0 && (
             <div className="mb-10 py-8 px-4 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 rounded-3xl">
