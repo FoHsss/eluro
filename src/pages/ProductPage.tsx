@@ -1,6 +1,6 @@
 import { useParams, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
@@ -35,7 +35,35 @@ const ProductPage = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   const reviewsAnchorRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  const hasReachedReviews = useInView(reviewsAnchorRef, { margin: "-20% 0px 0px 0px", amount: 0.01, once: true });
+  
+  // Scroll-based latch: once reviews are reached, hero is hidden forever
+  const [hasReachedReviews, setHasReachedReviews] = useState(false);
+  
+  useEffect(() => {
+    if (!isMobile) return;
+    
+    const handleScroll = () => {
+      // Once latched, never unlatch
+      if (hasReachedReviews) return;
+      
+      const anchor = reviewsAnchorRef.current;
+      if (!anchor) return;
+      
+      // Trigger when reviews are ~35% from bottom of viewport
+      const triggerY = anchor.offsetTop - window.innerHeight * 0.35;
+      
+      if (window.scrollY >= triggerY) {
+        setHasReachedReviews(true);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Check immediately in case we're already past the trigger point
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isMobile, hasReachedReviews]);
+  
   const isHeroSticky = isMobile && !hasReachedReviews;
   
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
@@ -213,7 +241,9 @@ const ProductPage = () => {
         {/* Hero Image - Sticky on mobile (only until reviews) */}
         <div
           ref={imageRef}
-          className={`relative bg-secondary ${
+          className={`relative transition-colors duration-500 ${
+            isMobile && hasReachedReviews ? 'bg-background' : 'bg-secondary'
+          } ${
             isMobile 
               ? (isHeroSticky ? 'sticky top-9 z-0 h-[55vh]' : 'h-[55vh]') 
               : 'h-[75vh]'
