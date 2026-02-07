@@ -100,8 +100,16 @@
     "preferredPrice": "Actuellement disponible à un prix préférentiel",
     "limitedQuantity": "Quantité limitée disponible",
     "curatedSelection": "Cet article fait partie d'une sélection soignée",
+    "curatedEluro": "Cet article fait partie d'une sélection Eluro",
     "availabilityUpdate": "Mise à jour de disponibilité dans {{time}}",
+    "availabilityDays": "Mise à jour de disponibilité dans {{days}} jours",
+    "readyToShip": "Choisi avec soin, prêt à expédier",
     "daysHours": "{{days}}j {{hours}}h",
     "hoursOnly": "{{hours}} heures"
+  },
+  "upsell": {
+    "title": "Complétez votre commande",
+    "addButton": "+ Ajouter",
+    "added": "Ajouté au panier"
   }
 }

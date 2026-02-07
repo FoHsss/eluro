@@ -100,8 +100,16 @@
     "preferredPrice": "Сейчас доступно по выгодной цене",
     "limitedQuantity": "Ограниченное количество",
     "curatedSelection": "Этот товар входит в подборку",
+    "curatedEluro": "Этот товар — часть подборки Eluro",
     "availabilityUpdate": "Обновление наличия через {{time}}",
+    "availabilityDays": "Обновление наличия через {{days}} дней",
+    "readyToShip": "Продуманный выбор, готов к отправке",
     "daysHours": "{{days}}д {{hours}}ч",
     "hoursOnly": "{{hours}} часов"
+  },
+  "upsell": {
+    "title": "Дополни заказ",
+    "addButton": "+ Добавить",
+    "added": "Добавлено в корзину"
   }
 }

@@ -100,8 +100,16 @@
     "preferredPrice": "現在、お得な価格でご提供中",
     "limitedQuantity": "数量限定",
     "curatedSelection": "こちらは厳選コレクションの一品です",
+    "curatedEluro": "こちらはEluro厳選コレクションの一品です",
     "availabilityUpdate": "在庫更新まで{{time}}",
+    "availabilityDays": "在庫更新まで{{days}}日",
+    "readyToShip": "こだわりの逸品、発送準備完了",
     "daysHours": "{{days}}日{{hours}}時間",
     "hoursOnly": "{{hours}}時間"
+  },
+  "upsell": {
+    "title": "ご注文を完了する",
+    "addButton": "+ 追加",
+    "added": "カートに追加しました"
   }
 }

@@ -15,7 +15,7 @@ import {
   ProblemSolutionSection,
   ProductVideo,
   StaticReviewsSection,
-  PairedWithSection,
+  UpsellSection,
   DescriptionAccordion,
 } from "@/components/product";
 
@@ -416,8 +416,8 @@ const ProductPage = () => {
             </button>
           </motion.div>
 
-          {/* Often Paired With Section */}
-          <PairedWithSection 
+          {/* Upsell Section */}
+          <UpsellSection 
             products={allProducts} 
             currentHandle={product.handle} 
           />
