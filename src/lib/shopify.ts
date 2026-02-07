@@ -197,13 +197,14 @@ export const PRODUCT_BY_HANDLE_QUERY = `
                 id
                 title
                 handle
+                description
                 priceRange {
                   minVariantPrice {
                     amount
                     currencyCode
                   }
                 }
-                images(first: 1) {
+                images(first: 10) {
                   edges {
                     node {
                       url
@@ -224,6 +225,10 @@ export const PRODUCT_BY_HANDLE_QUERY = `
                       selectedOptions {
                         name
                         value
+                      }
+                      image {
+                        url
+                        altText
                       }
                     }
                   }

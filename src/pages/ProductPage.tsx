@@ -19,6 +19,7 @@ import {
   MetafieldUpsellSection,
   DescriptionAccordion,
 } from "@/components/product";
+import type { UpsellSelection } from "@/components/product/MetafieldUpsellSection";
 
 // Mobile scroll config - tweak these values to adjust the "slide" effect
 const MOBILE_SCROLL_START = 0;
@@ -41,6 +42,7 @@ const ProductPage = () => {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [sizeChartOpen, setSizeChartOpen] = useState(false);
+  const [selectedUpsells, setSelectedUpsells] = useState<UpsellSelection[]>([]);
   
   // AI translation for product descriptions
   const { translatedHtml, isTranslating } = useTranslatedDescription(
@@ -117,6 +119,7 @@ const ProductPage = () => {
       return;
     }
 
+    // Add main product
     await addItem({
       product: { node: product },
       variantId: selectedVariant.id,
@@ -126,8 +129,24 @@ const ProductPage = () => {
       selectedOptions: selectedVariant.selectedOptions,
     });
 
+    // Add selected upsells together with main product
+    for (const upsell of selectedUpsells) {
+      await addItem({
+        product: { node: upsell.product as any },
+        variantId: upsell.variantId,
+        variantTitle: upsell.variantTitle,
+        price: upsell.price,
+        quantity: 1,
+        selectedOptions: upsell.selectedOptions,
+      });
+    }
+
+    const description = selectedUpsells.length > 0
+      ? `${product.title} + ${selectedUpsells.length} ${selectedUpsells.length === 1 ? 'item' : 'items'}`
+      : product.title;
+
     toast.success("Added to cart", {
-      description: product.title,
+      description,
     });
   };
 
@@ -297,6 +316,7 @@ const ProductPage = () => {
           {/* Metafield Upsell Section - Individual upsells from Shopify */}
           <MetafieldUpsellSection 
             upsellProducts={(product as any).upsellProducts?.references?.edges?.map((e: any) => e.node) || null}
+            onUpsellChange={setSelectedUpsells}
           />
 
           {/* CTA Button */}
