@@ -1,105 +1,115 @@
 
-## Что я вижу сейчас в коде (почему “не сработало”)
+# План: Динамическое скрытие/показ hero-фото при скролле
 
-В `src/pages/ProductPage.tsx` уже стоит логика “защёлки”:
+## Проблема
 
-- `hasReachedReviews = useInView(reviewsAnchorRef, { ..., once: true })`
-- hero-картинка должна уходить в `opacity: 0`, а sticky выключаться после отзывов.
+Текущая реализация использует "защёлку" (latch):
+- Как только `hasReachedReviews` становится `true`, оно **никогда** не возвращается в `false`
+- Поэтому при скролле обратно вверх hero-фото остаётся скрытым навсегда
 
-Но якорь отзывов сейчас — это:
+## Решение
 
+Заменить "защёлку" на **динамическую проверку** позиции скролла:
+- Если пользователь **выше** отзывов → hero виден
+- Если пользователь **ниже** отзывов → hero скрыт
+
+Это даст правильное поведение:
+1. Скролл вниз до отзывов → hero плавно исчезает
+2. Скролл дальше к футеру → hero остаётся скрытым (не просвечивает)
+3. Скролл обратно вверх → hero снова появляется
+
+## Изменения в коде
+
+Файл: `src/pages/ProductPage.tsx`
+
+### Было (строки 39-65):
 ```tsx
-<div ref={reviewsAnchorRef} className="h-px" />
+// Scroll-based latch: once reviews are reached, hero is hidden forever
+const [hasReachedReviews, setHasReachedReviews] = useState(false);
+
+useEffect(() => {
+  if (!isMobile) return;
+  
+  const handleScroll = () => {
+    // Once latched, never unlatch  ← ЭТО ПРОБЛЕМА
+    if (hasReachedReviews) return;
+    // ...
+  };
+  // ...
+}, [isMobile, hasReachedReviews]);
 ```
 
-То есть “цель” для `useInView` — элемент высотой 1px внутри контейнера, который на мобильном ещё и визуально двигается `transform: translateY(...)` (через `motion.div style={{ y: contentLiftY }}`).
+### Станет:
+```tsx
+// Dynamic scroll check: hero visible above reviews, hidden below
+const [isAboveReviews, setIsAboveReviews] = useState(true);
 
-Практически это даёт два класса проблем, из‑за которых триггер может не наступать стабильно (особенно на мобильных браузерах):
+useEffect(() => {
+  if (!isMobile) return;
+  
+  const handleScroll = () => {
+    const anchor = reviewsAnchorRef.current;
+    if (!anchor) return;
+    
+    // Trigger point: when reviews are ~35% from bottom of viewport
+    const triggerY = anchor.offsetTop - window.innerHeight * 0.35;
+    
+    // Dynamically update based on current scroll position
+    setIsAboveReviews(window.scrollY < triggerY);
+  };
+  
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll(); // Check immediately
+  
+  return () => window.removeEventListener('scroll', handleScroll);
+}, [isMobile]); // Removed hasReachedReviews from deps
+```
 
-1) **Слишком маленький sentinel (1px)**: IntersectionObserver / frеймеровский `useInView` может “не поймать” пересечение так, как мы ожидаем (в комбинации с `margin` и `amount`).
-2) **Сдвиги через transform**: визуальное положение “отзывов на экране” и расчёты пересечения иногда расходятся, когда часть страницы двигается transform’ом.
+### Обновить зависимые переменные:
+```tsx
+// Было:
+const isHeroSticky = isMobile && !hasReachedReviews;
 
-Итог: вы реально доходите до отзывов глазами, но `hasReachedReviews` остаётся `false`, поэтому картинка hero остаётся видимой и “просвечивает” внизу.
+// Станет:
+const isHeroSticky = isMobile && isAboveReviews;
+```
 
-## Цель правки
+### Обновить анимации и классы:
+Везде где было `hasReachedReviews` заменить на `!isAboveReviews`:
+- `opacity: isMobile && !isAboveReviews ? 0 : 1`
+- `bg-background` / `bg-secondary` условие
+- `pointer-events-none` условие
 
-- Как только пользователь доходит до отзывов на мобильном — hero-фото растворяется и **больше никогда не возвращается** (как вы выбрали).
-- Никаких спейсеров, никаких увеличений футера, никаких огромных зазоров.
+## Визуальный результат
 
-## Решение: убрать зависимость от IntersectionObserver и сделать “защёлку” по скроллу (на 100% детерминированно)
+```text
+Скролл вверху:
+┌────────────────┐
+│  Hero 100%     │ ← виден, sticky
+├────────────────┤
+│  Content...    │
 
-Вместо `useInView` сделаем “однократное срабатывание” по факту достижения позиции отзывов в документе:
+Скролл до отзывов:
+┌────────────────┐
+│  Hero → 0%     │ ← плавно исчезает
+├────────────────┤
+│  Reviews       │
 
-### 1) Заменяем `useInView` на state + scroll-trigger (latch)
+Скролл до футера:
+┌────────────────┐
+│  (hero скрыт)  │ ← НЕ просвечивает
+├────────────────┤
+│  Footer        │
 
-- Добавим состояние:
-  - `const [hasReachedReviews, setHasReachedReviews] = useState(false);`
+Скролл обратно вверх:
+┌────────────────┐
+│  Hero ← 100%   │ ← снова появляется!
+├────────────────┤
+│  Content...    │
+```
 
-- В `useEffect` повесим `scroll`-листенер (passive), который:
-  - если `hasReachedReviews === true` → ничего не делает (защёлка)
-  - иначе берёт `reviewsAnchorRef.current`
-  - вычисляет `triggerY` (когда считать “мы дошли до отзывов”):
-    - `const triggerY = anchor.offsetTop - window.innerHeight * 0.35;`
-  - если `window.scrollY >= triggerY` → `setHasReachedReviews(true)`
+## Файлы для изменения
 
-Почему это надёжнее:
-- Не зависит от IntersectionObserver и размеров элемента.
-- Не ломается из‑за “1px” якоря.
-- Работает одинаково везде: iOS Safari / Chrome / Android.
-
-### 2) Делаем так, чтобы даже если где-то появится “окошко прозрачности”, там не будет видно фото
-
-Даже при корректной “защёлке” важно, чтобы внизу страницы не просвечивало ничего “фотографического”.
-
-Сделаем два уровня защиты:
-
-**(А) Плавно скрываем картинку**
-- Оставляем fade/blur/scale (как у вас задумано), но управляем строго от `hasReachedReviews` из state.
-
-**(Б) После скрытия делаем фон hero таким же, как фон страницы**
-- Сейчас hero-контейнер имеет `bg-secondary`, и если где-то просветится фон — может быть заметно.
-- Сделаем условие:
-  - до отзывов: `bg-secondary` (как сейчас)
-  - после отзывов: `bg-background` (чтобы даже при “просвете” это выглядело как обычный белый фон, а не как “подложка” подвалом)
-
-### 3) Отключаем интерактивность hero после “защёлки” окончательно
-
-- Уже есть `pointer-events-none` и условный `onClick`.
-- Сохраняем это, чтобы не было “невидимых кликов” по hero внизу.
-
-## Файлы, которые будут изменены
-
-- `src/pages/ProductPage.tsx`
-  1) удалить `useInView(...)` для отзывов
-  2) добавить `useState + useEffect` с scroll-trigger latch
-  3) привязать `isHeroSticky` и fade-анимацию к новому `hasReachedReviews`
-  4) условно переключать фон hero-контейнера на `bg-background` после достижения отзывов
-
-## Тест-план (как проверим, что это наконец исправлено)
-
-На мобильном (или в узком окне браузера):
-
-1) Открыть товар: hero видно, sticky работает.
-2) Доскроллить до отзывов:
-   - hero плавно растворяется (opacity → 0 + blur).
-3) Доскроллить до самого низа/футера:
-   - **фото hero нигде не видно** (ни при каком “доскролле”).
-   - нет гигантских пустых зазоров перед футером.
-4) Прокрутить вверх/вниз:
-   - hero не возвращается вообще (поведение “навсегда”).
-
-## Почему это должно сработать, даже если раньше не работало
-
-Текущая проблема почти наверняка в том, что `useInView` не срабатывает в вашей реальной прокрутке из-за сочетания:
-- 1px sentinel,
-- rootMargin/threshold,
-- transform-движения контента.
-
-Scroll-trigger latch не использует эти механизмы вообще, поэтому устранит сам источник нестабильности.
-
-## Бонус: минимальная диагностика (если вдруг вы снова увидите фото)
-
-Если после внедрения scroll-trigger вы всё равно увидите hero:
-- добавим временный `console.log` (только на мобиле) при переходе `hasReachedReviews` в `true`, чтобы подтвердить, что защёлка реально срабатывает.
-- но в первую итерацию я постараюсь обойтись без логов, чтобы не засорять консоль.
-
+| Файл | Изменения |
+|------|-----------|
+| `src/pages/ProductPage.tsx` | Заменить "latch" логику на динамическую проверку `isAboveReviews` |
