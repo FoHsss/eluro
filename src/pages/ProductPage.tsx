@@ -274,7 +274,7 @@ const ProductPage = () => {
           <button 
             onClick={handleAddToCart}
             disabled={isAddingToCart || !selectedVariant?.availableForSale}
-            className="btn-cta btn-cta-pulse mb-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="btn-cta btn-cta-pulse mb-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {isAddingToCart ? (
               <Loader2 className="w-5 h-5 animate-spin" />
@@ -284,6 +284,13 @@ const ProductPage = () => {
               'Sold Out'
             )}
           </button>
+
+          {/* Availability reassurance */}
+          {selectedVariant?.availableForSale && (
+            <p className="text-xs text-center text-muted-foreground mb-3">
+              Ready to ship · Prepared within 24–48 hours
+            </p>
+          )}
 
           {/* Size Chart Link */}
           <button 
