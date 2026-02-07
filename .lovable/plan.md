@@ -1,303 +1,90 @@
 
 
-# План: Редизайн модуля апсейлов — интегрированный выбор вариантов
+# План: Исправление фильтра апсейлов + Уникальные отзывы для товаров
 
-## Понимание задачи
+## Найденные проблемы
 
-### Текущее поведение
-- Каждый апсейл — отдельная карточка с checkbox и кнопкой "Add"
-- Апсейлы добавляются в корзину отдельно
-- Нет выбора вариантов (цвета) для апсейла
+### Проблема 1: Фильтр по тегу `upsell-only`
 
-### Новое поведение
-1. **Убрать кнопку "Add"** — достаточно выделения
-2. **Показывать варианты апсейла** как изображения в ряд (аналогично выбору цвета основного товара)
-3. **Название апсейла = кликабельная ссылка** → открывает лайтбокс с:
-   - Увеличенной фотографией выбранного варианта
-   - Описанием товара из Shopify
-4. **При нажатии Add to Cart** — апсейл добавляется вместе с основным товаром (не отдельно)
-5. **Визуальное выделение** выбранного варианта апсейла (ring/border)
+Возможные причины:
+1. **Кэширование**: Данные могут быть закэшированы до добавления тега
+2. **Формат тега**: В Shopify Admin тег может иметь пробел или другое написание
 
----
+Проверил товар "Leather Leash" — тег `"tags": "upsell-only"` установлен корректно.
 
-## Архитектура решения
+Проверю работу фильтра и добавлю отладку.
 
-### Структура данных
+### Проблема 2: Отзывы дублируются
 
-Сейчас GraphQL запрос для апсейлов возвращает:
-- `images(first: 1)` — только 1 изображение
-- `variants` — есть, но без изображений
+**Причина**: В `StaticReviewsSection.tsx` используется массив `staticReviews` — это **один и тот же** захардкоженный список из 4 отзывов, который показывается на ВСЕХ товарах одинаково.
 
-Нужно расширить запрос:
-```graphql
-images(first: 10)  # больше изображений для вариантов
-description        # описание для лайтбокса
-variants {
-  image {          # изображение каждого варианта
-    url
-    altText
-  }
-}
-```
-
-### Логика выбора
-
-```text
-┌─────────────────────────────────────────────────────────┐
-│  "Add to your order"                                    │
-│                                                         │
-│  ┌─ Leash ─────────────────────────────────────────┐   │
-│  │ [ℹ️ Leash for Large Dogs]  +$29.99              │   │
-│  │                                                  │   │
-│  │   (○)  (○)  (●)  (○)   ← варианты как кружки   │   │
-│  │  Brown Black  Tan Navy   (выбранный = ring)    │   │
-│  └──────────────────────────────────────────────────┘   │
-│                                                         │
-│  ┌─ Collar ────────────────────────────────────────┐   │
-│  │ [ℹ️ Collar for Small Dogs]  +$19.99             │   │
-│  │                                                  │   │
-│  │   (●)  (○)  (○)                                 │   │
-│  │   Red  Blue Green                               │   │
-│  └──────────────────────────────────────────────────┘   │
-│                                                         │
-│  [ Add to Cart ]  ← добавляет основной + выбранные     │
-│                     апсейлы одним нажатием              │
-└─────────────────────────────────────────────────────────┘
-```
-
-### Лайтбокс описания
-
-При клике на название апсейла:
-
-```text
-┌────────────────────────────────────────┐
-│                                      ✕ │
-│                                        │
-│       ┌──────────────────────┐        │
-│       │                      │        │
-│       │   [Фото варианта]    │        │
-│       │      (большое)       │        │
-│       │                      │        │
-│       └──────────────────────┘        │
-│                                        │
-│   Leash for Large Dogs                 │
-│   +$29.99                              │
-│                                        │
-│   Premium leather leash designed       │
-│   for medium and large dogs...         │
-│   (описание из Shopify)                │
-│                                        │
-└────────────────────────────────────────┘
+```tsx
+const staticReviews: StaticReview[] = [
+  { id: "1", author: "Emma T.", ... },
+  { id: "2", author: "Marcus L.", ... },
+  // одинаковые для всех товаров!
+];
 ```
 
 ---
 
-## Изменения в GraphQL
+## Решение
 
-### Файл: `src/lib/shopify.ts`
+### Часть 1: Исправить фильтр апсейлов
 
-Расширить запрос для upsellProducts:
+**Шаг 1**: Добавить `console.log` для отладки данных тегов (временно)
 
-```graphql
-upsellProducts: metafield(namespace: "custom", key: "upsell_products") {
-  references(first: 4) {
-    edges {
-      node {
-        ... on Product {
-          id
-          title
-          handle
-          description           # ← ДОБАВИТЬ
-          priceRange { ... }
-          images(first: 10) {   # ← УВЕЛИЧИТЬ с 1 до 10
-            edges {
-              node {
-                url
-                altText
-              }
-            }
-          }
-          variants(first: 10) {
-            edges {
-              node {
-                id
-                title
-                price { ... }
-                availableForSale
-                selectedOptions { ... }
-                image {         # ← ДОБАВИТЬ
-                  url
-                  altText
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+**Шаг 2**: Убедиться, что Storefront API возвращает теги — если нет, проблема в GraphQL запросе
+
+**Шаг 3**: Нормализовать проверку тега (учесть разные форматы):
+```tsx
+.filter(product => {
+  const tags = product.node.tags || [];
+  // Проверяем и массив, и строку (на всякий случай)
+  const tagsArray = Array.isArray(tags) ? tags : [tags];
+  return !tagsArray.some(tag => tag.toLowerCase().includes('upsell-only'));
+})
 ```
 
----
+### Часть 2: Уникальные отзывы для каждого товара
 
-## Редизайн компонента MetafieldUpsellSection
+**Новая архитектура**: Вместо единого массива `staticReviews` — использовать маппинг `productHandle → reviews[]`
 
-### Новый интерфейс
-
+**Шаг 1**: Создать объект с отзывами по handle товара:
 ```tsx
-interface UpsellSelection {
-  productId: string;
-  variantId: string;
-  variantTitle: string;
-  price: { amount: string; currencyCode: string };
-  selectedOptions: Array<{ name: string; value: string }>;
-}
-
-interface MetafieldUpsellSectionProps {
-  upsellProducts: UpsellProduct[] | null;
-  onUpsellChange?: (selections: UpsellSelection[]) => void;
-}
-```
-
-### Состояние
-
-```tsx
-// Выбранные варианты для каждого апсейла: productId → variantId
-const [selectedVariants, setSelectedVariants] = useState<Map<string, string>>(new Map());
-
-// Лайтбокс описания
-const [detailModalProduct, setDetailModalProduct] = useState<UpsellProduct | null>(null);
-```
-
-### Структура JSX
-
-```tsx
-<div className="space-y-3">
-  {upsellProducts.map((product) => {
-    const variants = product.variants.edges.filter(v => v.node.availableForSale);
-    const selectedVariantId = selectedVariants.get(product.id);
-    const selectedVariant = variants.find(v => v.node.id === selectedVariantId)?.node 
-      || variants[0]?.node;
-    const isSelected = selectedVariants.has(product.id);
-    
-    return (
-      <div className={`p-3 rounded-xl border ${isSelected ? 'border-primary bg-primary/5' : 'border-border/50'}`}>
-        {/* Checkbox + Title (clickable for modal) + Price */}
-        <div className="flex items-center gap-3 mb-2">
-          <Checkbox 
-            checked={isSelected} 
-            onCheckedChange={() => toggleProduct(product.id, variants[0]?.node.id)} 
-          />
-          <button 
-            onClick={() => setDetailModalProduct(product)}
-            className="flex-1 text-left"
-          >
-            <span className="font-medium text-sm underline underline-offset-2">
-              {product.title}
-            </span>
-          </button>
-          <span className="text-xs text-muted-foreground">
-            +{selectedVariant?.price.currencyCode} {parseFloat(selectedVariant?.price.amount).toFixed(2)}
-          </span>
-        </div>
-        
-        {/* Variant Images Row - только если апсейл выбран или всегда? */}
-        {variants.length > 1 && (
-          <div className="flex gap-2 pl-7">
-            {variants.map((variant) => {
-              const image = variant.node.image || product.images.edges[0]?.node;
-              const isVariantSelected = selectedVariantId === variant.node.id;
-              
-              return (
-                <button
-                  key={variant.node.id}
-                  onClick={() => selectVariant(product.id, variant.node.id)}
-                  className={`w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${
-                    isVariantSelected 
-                      ? 'border-primary ring-2 ring-primary/30' 
-                      : 'border-transparent hover:border-border'
-                  }`}
-                >
-                  <img src={image?.url} className="w-full h-full object-cover" />
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    );
-  })}
-</div>
-
-{/* Detail Modal */}
-<AnimatePresence>
-  {detailModalProduct && (
-    <motion.div className="fixed inset-0 z-50 bg-black/90 ...">
-      {/* Аналогично Size Chart lightbox */}
-    </motion.div>
-  )}
-</AnimatePresence>
-```
-
----
-
-## Интеграция с ProductPage
-
-### Передача выбранных апсейлов
-
-ProductPage будет хранить состояние выбранных апсейлов:
-
-```tsx
-const [selectedUpsells, setSelectedUpsells] = useState<UpsellSelection[]>([]);
-
-<MetafieldUpsellSection 
-  upsellProducts={...}
-  onUpsellChange={setSelectedUpsells}
-/>
-```
-
-### Модификация handleAddToCart
-
-При нажатии "Add to Cart":
-1. Добавить основной товар
-2. Добавить все выбранные апсейлы
-
-```tsx
-const handleAddToCart = async () => {
-  if (!product || !selectedVariant) return;
-
-  if (isAlreadyInCart) {
-    openCart();
-    return;
-  }
-
-  // 1. Добавить основной товар
-  await addItem({
-    product: { node: product },
-    variantId: selectedVariant.id,
-    ...
-  });
-
-  // 2. Добавить выбранные апсейлы
-  for (const upsell of selectedUpsells) {
-    await addItem({
-      product: { node: findUpsellProduct(upsell.productId) },
-      variantId: upsell.variantId,
-      variantTitle: upsell.variantTitle,
-      price: upsell.price,
-      quantity: 1,
-      selectedOptions: upsell.selectedOptions,
-    });
-  }
-
-  toast.success("Added to cart", {
-    description: selectedUpsells.length > 0 
-      ? `${product.title} + ${selectedUpsells.length} item(s)` 
-      : product.title,
-  });
+const reviewsByProduct: Record<string, StaticReview[]> = {
+  'airtag-leather-collar': [
+    { id: "c1", author: "Emma T.", rating: 5, comment: "Perfect collar for my cat...", date: "February 1, 2026" },
+    { id: "c2", author: "Marcus L.", rating: 5, comment: "AirTag fits perfectly...", date: "January 18, 2026" },
+    // отзывы специфичные для ошейника
+  ],
+  'leather-leash-handle': [
+    { id: "l1", author: "Sophie R.", rating: 4, comment: "Great leash quality...", date: "December 5, 2025" },
+    // отзывы специфичные для поводка
+  ],
+  // 'default' для новых товаров без отзывов
 };
 ```
+
+**Шаг 2**: В компоненте получать отзывы по handle:
+```tsx
+export const StaticReviewsSection = ({ productHandle = "default" }: StaticReviewsSectionProps) => {
+  // Получаем отзывы для конкретного товара или пустой массив
+  const productReviews = reviewsByProduct[productHandle] || [];
+  
+  // Если отзывов нет — показываем только форму
+  const averageRating = productReviews.length > 0 
+    ? productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length
+    : 0;
+  
+  // ...
+};
+```
+
+**Шаг 3**: Для новых товаров (без захардкоженных отзывов) — показывать:
+- Кнопку "Write a Review"
+- Текст "No reviews yet. Be the first!"
+- НЕ копировать отзывы с других товаров
 
 ---
 
@@ -305,51 +92,85 @@ const handleAddToCart = async () => {
 
 | Файл | Изменения |
 |------|-----------|
-| `src/lib/shopify.ts` | Расширить GraphQL запрос: `description`, `images(first: 10)`, `variant.image` |
-| `src/components/product/MetafieldUpsellSection.tsx` | Полный редизайн: убрать кнопку Add, добавить выбор вариантов, добавить лайтбокс |
-| `src/pages/ProductPage.tsx` | Интегрировать выбранные апсейлы в handleAddToCart |
-| `src/i18n/locales/en.json` | Добавить переводы для нового UI |
-| `src/i18n/locales/ru.json` | Добавить переводы для нового UI |
+| `src/pages/Shop.tsx` | Улучшить фильтр тегов с нормализацией |
+| `src/components/product/StaticReviewsSection.tsx` | Маппинг отзывов по `productHandle`, пустое состояние для новых товаров |
 
 ---
 
-## Новые ключи локализации
+## Визуальное сравнение
 
-```json
-{
-  "upsell": {
-    "addToOrder": "Add to your order",
-    "viewDetails": "View details",
-    "included": "Included with your order"
-  }
-}
+### До (текущее):
+```
+Ошейник:           Поводок:
+├─ Emma T. ⭐⭐⭐⭐⭐     ├─ Emma T. ⭐⭐⭐⭐⭐  (дубликат!)
+├─ Marcus L. ⭐⭐⭐⭐⭐   ├─ Marcus L. ⭐⭐⭐⭐⭐ (дубликат!)
+├─ Sophie R. ⭐⭐⭐⭐     ├─ Sophie R. ⭐⭐⭐⭐   (дубликат!)
+└─ James K. ⭐⭐⭐⭐⭐    └─ James K. ⭐⭐⭐⭐⭐  (дубликат!)
+```
+
+### После:
+```
+Ошейник:               Поводок:
+├─ Emma T. ⭐⭐⭐⭐⭐       ─────────────────────
+├─ Marcus L. ⭐⭐⭐⭐⭐     "No reviews yet."
+├─ Sophie R. ⭐⭐⭐⭐       [Write a Review]
+└─ James K. ⭐⭐⭐⭐⭐      ─────────────────────
+                        (уникальные для товара)
 ```
 
 ---
 
-## Визуальная схема финального результата
+## Технические детали
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│  Color: [Brown] [Black] [Tan]                           │
-│  Size:  [S] [M] [L] [XL]                                │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  ╭─ ADD TO YOUR ORDER ─────────────────────────────────╮│
-│  │                                                     ││
-│  │  ☑ Matching Leash                    +USD 29.99    ││
-│  │     ↳ название = ссылка на описание                ││
-│  │                                                     ││
-│  │     ◯     ◯     ●     ◯                            ││
-│  │    Brown Black  Tan  Navy                          ││
-│  │                                                     ││
-│  ╰─────────────────────────────────────────────────────╯│
-│                                                         │
-│         ┌─────────────────────────┐                     │
-│         │      Add to Cart        │ ← добавляет        │
-│         └─────────────────────────┘   ошейник + поводок│
-│                                                         │
-│  Please measure your pet's neck...                      │
-└─────────────────────────────────────────────────────────┘
+### Фильтр тегов (надёжная версия):
+```tsx
+const visibleProducts = products.filter(product => {
+  const tags = product.node.tags;
+  if (!tags) return true;
+  
+  // Обработка и массива, и строки
+  const tagList = Array.isArray(tags) 
+    ? tags 
+    : typeof tags === 'string' 
+      ? tags.split(',').map(t => t.trim()) 
+      : [];
+  
+  return !tagList.some(tag => 
+    tag.toLowerCase() === 'upsell-only'
+  );
+});
+```
+
+### Структура отзывов по товарам:
+```tsx
+const reviewsByProduct: Record<string, StaticReview[]> = {
+  // Используем handle товара как ключ
+  'airtag-leather-collar': [
+    { id: "col-1", author: "Emma T.", rating: 5, 
+      comment: "Exactly what I was looking for. The leather feels quality, and my cat wears it comfortably all day.", 
+      date: "February 1, 2026" },
+    { id: "col-2", author: "Marcus L.", rating: 5, 
+      comment: "The AirTag fits perfectly and stays secure. Nice design that matches our home aesthetic.", 
+      date: "January 18, 2026" },
+    { id: "col-3", author: "Sophie R.", rating: 4, 
+      comment: "Good craftsmanship. Took a few days for my dog to get used to it, but now he doesn't notice it.", 
+      date: "December 5, 2025" },
+    { id: "col-4", author: "James K.", rating: 5, 
+      comment: "Simple, well-made, and gives me peace of mind when we're at the park.", 
+      date: "November 22, 2025" },
+  ],
+  // Для поводка пока пусто — будет "No reviews yet"
+};
+```
+
+### Пустое состояние:
+```tsx
+{productReviews.length === 0 ? (
+  <p className="text-center text-muted-foreground py-8">
+    No reviews yet. Be the first to share your experience!
+  </p>
+) : (
+  // показать отзывы
+)}
 ```
 
