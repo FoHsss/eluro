@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,21 +8,20 @@ import { useCartStore } from "@/stores/cartStore";
 
 export const CartDrawer = () => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
-  const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart, getTotalItems } = useCartStore();
+  const { items, isLoading, isSyncing, isCartOpen, setCartOpen, updateQuantity, removeItem, getCheckoutUrl, syncCart, getTotalItems } = useCartStore();
   const totalItems = getTotalItems();
   const totalPrice = items.reduce((sum, item) => sum + (parseFloat(item.price.amount) * item.quantity), 0);
   const currencyCode = items[0]?.price.currencyCode || 'USD';
 
   useEffect(() => { 
-    if (isOpen) syncCart(); 
-  }, [isOpen, syncCart]);
+    if (isCartOpen) syncCart(); 
+  }, [isCartOpen, syncCart]);
 
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
       window.open(checkoutUrl, '_blank');
-      setIsOpen(false);
+      setCartOpen(false);
     }
   };
 
@@ -32,7 +31,7 @@ export const CartDrawer = () => {
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet open={isCartOpen} onOpenChange={setCartOpen}>
       <SheetTrigger asChild>
         <button
           className="p-2 -mr-2 text-foreground transition-opacity duration-300 hover:opacity-70 relative"

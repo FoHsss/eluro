@@ -29,7 +29,7 @@ const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { product, isLoading, error } = useShopifyProduct(slug);
   const { products: allProducts } = useShopifyProducts(10);
-  const { addItem, isLoading: isAddingToCart } = useCartStore();
+  const { addItem, isLoading: isAddingToCart, isInCart, openCart } = useCartStore();
   const { t } = useTranslation();
   const imageRef = useRef<HTMLDivElement>(null);
   const reviewsAnchorRef = useRef<HTMLDivElement>(null);
@@ -104,9 +104,18 @@ const ProductPage = () => {
   };
 
   const selectedVariant = getSelectedVariant();
+  
+  // Check if current variant is already in cart
+  const isAlreadyInCart = selectedVariant ? isInCart(selectedVariant.id) : false;
 
   const handleAddToCart = async () => {
     if (!product || !selectedVariant) return;
+
+    // If already in cart, open cart drawer instead of adding again
+    if (isAlreadyInCart) {
+      openCart();
+      return;
+    }
 
     await addItem({
       product: { node: product },
@@ -298,10 +307,12 @@ const ProductPage = () => {
           >
             {isAddingToCart ? (
               <Loader2 className="w-5 h-5 animate-spin" />
-            ) : selectedVariant?.availableForSale ? (
-              t('product.addToCart')
-            ) : (
+            ) : !selectedVariant?.availableForSale ? (
               t('product.soldOut')
+            ) : isAlreadyInCart ? (
+              t('product.viewCart')
+            ) : (
+              t('product.addToCart')
             )}
           </button>
 
@@ -356,10 +367,12 @@ const ProductPage = () => {
             >
               {isAddingToCart ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
-              ) : selectedVariant?.availableForSale ? (
-                t('product.addToOrder')
-              ) : (
+              ) : !selectedVariant?.availableForSale ? (
                 t('product.soldOut')
+              ) : isAlreadyInCart ? (
+                t('product.viewCart')
+              ) : (
+                t('product.addToOrder')
               )}
             </button>
           </motion.div>
@@ -419,10 +432,12 @@ const ProductPage = () => {
             >
               {isAddingToCart ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
-              ) : selectedVariant?.availableForSale ? (
-                t('product.addToBag')
-              ) : (
+              ) : !selectedVariant?.availableForSale ? (
                 t('product.soldOut')
+              ) : isAlreadyInCart ? (
+                t('product.viewCart')
+              ) : (
+                t('product.addToBag')
               )}
             </button>
           </motion.div>
