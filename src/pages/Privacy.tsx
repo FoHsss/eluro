@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
 
 const Privacy = () => {
+  const { t } = useTranslation();
+
   return (
     <Layout>
       <div className="py-20 md:py-32">
@@ -13,10 +16,10 @@ const Privacy = () => {
             className="mb-12"
           >
             <h1 className="font-display text-3xl md:text-4xl font-medium text-foreground mb-6">
-              Privacy Policy
+              {t('privacy.title')}
             </h1>
             <p className="text-sm text-muted-foreground">
-              Last updated: January 2025
+              {t('privacy.lastUpdated')}
             </p>
           </motion.div>
 
@@ -28,43 +31,31 @@ const Privacy = () => {
           >
             <section>
               <h2 className="font-display text-lg font-medium text-foreground mb-3">
-                Information We Collect
+                {t('privacy.section1Title')}
               </h2>
-              <p>
-                We collect information you provide directly, such as your name, 
-                email address, and shipping details when making a purchase or 
-                contacting us.
-              </p>
+              <p>{t('privacy.section1Text')}</p>
             </section>
 
             <section>
               <h2 className="font-display text-lg font-medium text-foreground mb-3">
-                How We Use Your Information
+                {t('privacy.section2Title')}
               </h2>
-              <p>
-                Your information is used solely to fulfill orders, communicate 
-                about your purchases, and improve our service. We never sell 
-                your personal data to third parties.
-              </p>
+              <p>{t('privacy.section2Text')}</p>
             </section>
 
             <section>
               <h2 className="font-display text-lg font-medium text-foreground mb-3">
-                Data Security
+                {t('privacy.section3Title')}
               </h2>
-              <p>
-                We implement industry-standard security measures to protect your 
-                personal information. All transactions are encrypted and processed 
-                securely.
-              </p>
+              <p>{t('privacy.section3Text')}</p>
             </section>
 
             <section>
               <h2 className="font-display text-lg font-medium text-foreground mb-3">
-                Contact Us
+                {t('privacy.section4Title')}
               </h2>
               <p>
-                If you have questions about this policy, please reach out at{" "}
+                {t('privacy.section4Text')}{" "}
                 <a 
                   href="mailto:hello@eluro.co" 
                   className="text-foreground underline underline-offset-4"

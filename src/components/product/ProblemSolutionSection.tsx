@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const ProblemSolutionSection = () => {
+  const { t } = useTranslation();
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
@@ -13,19 +16,13 @@ export const ProblemSolutionSection = () => {
       <div className="flex items-center gap-2 mb-4">
         <Heart className="w-5 h-5 text-primary/60" />
         <h3 className="text-lg font-medium text-foreground">
-          A Simple Peace of Mind
+          {t('product.problemTitle')}
         </h3>
       </div>
       
       <div className="space-y-4 text-muted-foreground leading-relaxed">
-        <p>
-          Pets can sometimes wander. A lost collar tag or faded ID can make 
-          a stressful moment even harder.
-        </p>
-        <p>
-          Our leather collar holds an AirTag securely, so you can locate 
-          your companion whenever you need to. No alarms, just quiet confidence.
-        </p>
+        <p>{t('product.problemText1')}</p>
+        <p>{t('product.problemText2')}</p>
       </div>
     </motion.section>
   );

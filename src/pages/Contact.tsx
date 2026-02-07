@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
 import { toast } from "sonner";
 
 const Contact = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,7 +26,7 @@ const Contact = () => {
     // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    toast.success("Message sent. We'll be in touch soon.");
+    toast.success(t('contact.success'));
     setFormData({ name: "", email: "", message: "" });
     setIsSubmitting(false);
   };
@@ -40,11 +42,10 @@ const Contact = () => {
             className="text-center mb-12"
           >
             <h1 className="font-display text-3xl md:text-4xl font-medium text-foreground mb-6">
-              Get in Touch
+              {t('contact.title')}
             </h1>
             <p className="text-muted-foreground leading-relaxed">
-              Questions about an order, or simply want to say hello? 
-              We'd love to hear from you.
+              {t('contact.subtitle')}
             </p>
           </motion.div>
 
@@ -60,7 +61,7 @@ const Contact = () => {
                 htmlFor="name"
                 className="block text-sm font-medium text-foreground mb-2"
               >
-                Name
+                {t('contact.name')}
               </label>
               <input
                 type="text"
@@ -70,7 +71,7 @@ const Contact = () => {
                 onChange={handleChange}
                 required
                 className="input-calm"
-                placeholder="Your name"
+                placeholder={t('contact.namePlaceholder')}
               />
             </div>
 
@@ -79,7 +80,7 @@ const Contact = () => {
                 htmlFor="email"
                 className="block text-sm font-medium text-foreground mb-2"
               >
-                Email
+                {t('contact.email')}
               </label>
               <input
                 type="email"
@@ -89,7 +90,7 @@ const Contact = () => {
                 onChange={handleChange}
                 required
                 className="input-calm"
-                placeholder="your@email.com"
+                placeholder={t('contact.emailPlaceholder')}
               />
             </div>
 
@@ -98,7 +99,7 @@ const Contact = () => {
                 htmlFor="message"
                 className="block text-sm font-medium text-foreground mb-2"
               >
-                Message
+                {t('contact.message')}
               </label>
               <textarea
                 id="message"
@@ -108,7 +109,7 @@ const Contact = () => {
                 required
                 rows={5}
                 className="input-calm resize-none"
-                placeholder="How can we help?"
+                placeholder={t('contact.messagePlaceholder')}
               />
             </div>
 
@@ -117,7 +118,7 @@ const Contact = () => {
               disabled={isSubmitting}
               className="btn-cta disabled:opacity-60"
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
+              {isSubmitting ? t('contact.sending') : t('contact.submit')}
             </button>
           </motion.form>
         </div>

@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
 
 const Terms = () => {
+  const { t } = useTranslation();
+
   return (
     <Layout>
       <div className="py-20 md:py-32">
@@ -13,10 +16,10 @@ const Terms = () => {
             className="mb-12"
           >
             <h1 className="font-display text-3xl md:text-4xl font-medium text-foreground mb-6">
-              Terms of Service
+              {t('terms.title')}
             </h1>
             <p className="text-sm text-muted-foreground">
-              Last updated: January 2025
+              {t('terms.lastUpdated')}
             </p>
           </motion.div>
 
@@ -28,43 +31,31 @@ const Terms = () => {
           >
             <section>
               <h2 className="font-display text-lg font-medium text-foreground mb-3">
-                Orders & Payments
+                {t('terms.section1Title')}
               </h2>
-              <p>
-                All orders are subject to availability. Prices are listed in USD 
-                and include applicable taxes. Payment is processed securely at 
-                checkout.
-              </p>
+              <p>{t('terms.section1Text')}</p>
             </section>
 
             <section>
               <h2 className="font-display text-lg font-medium text-foreground mb-3">
-                Shipping
+                {t('terms.section2Title')}
               </h2>
-              <p>
-                We offer free shipping on all orders. Items are handcrafted within 
-                2-3 business days and delivered within 5-7 business days to most 
-                destinations.
-              </p>
+              <p>{t('terms.section2Text')}</p>
             </section>
 
             <section>
               <h2 className="font-display text-lg font-medium text-foreground mb-3">
-                Returns & Exchanges
+                {t('terms.section3Title')}
               </h2>
-              <p>
-                We accept returns within 30 days of delivery. Items must be unworn 
-                and in original condition. Contact us to initiate a return and 
-                receive your prepaid shipping label.
-              </p>
+              <p>{t('terms.section3Text')}</p>
             </section>
 
             <section>
               <h2 className="font-display text-lg font-medium text-foreground mb-3">
-                Contact
+                {t('terms.section4Title')}
               </h2>
               <p>
-                For any questions regarding these terms, please contact us at{" "}
+                {t('terms.section4Text')}{" "}
                 <a 
                   href="mailto:hello@eluro.co" 
                   className="text-foreground underline underline-offset-4"

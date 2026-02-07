@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, Sparkles, Tag, Box, Truck, RotateCcw, Info, Settings, Heart, Shield } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Section {
   title: string;
@@ -9,19 +10,20 @@ interface Section {
 
 interface DescriptionAccordionProps {
   descriptionHtml?: string;
+  isTranslating?: boolean;
 }
 
 // Map keywords to icons
 const getIconForTitle = (title: string) => {
   const lower = title.toLowerCase();
-  if (lower.includes('highlight') || lower.includes('feature')) return Sparkles;
-  if (lower.includes('airtag') || lower.includes('gps') || lower.includes('track')) return Settings;
-  if (lower.includes('material') || lower.includes('fabric')) return Box;
-  if (lower.includes('ship') || lower.includes('deliver')) return Truck;
-  if (lower.includes('return') || lower.includes('refund')) return RotateCcw;
-  if (lower.includes('care') || lower.includes('wash')) return Heart;
-  if (lower.includes('warranty') || lower.includes('guarantee')) return Shield;
-  if (lower.includes('size') || lower.includes('dimension')) return Tag;
+  if (lower.includes('highlight') || lower.includes('feature') || lower.includes('особенност')) return Sparkles;
+  if (lower.includes('airtag') || lower.includes('gps') || lower.includes('track') || lower.includes('отслеж')) return Settings;
+  if (lower.includes('material') || lower.includes('fabric') || lower.includes('материал')) return Box;
+  if (lower.includes('ship') || lower.includes('deliver') || lower.includes('доставк')) return Truck;
+  if (lower.includes('return') || lower.includes('refund') || lower.includes('возврат')) return RotateCcw;
+  if (lower.includes('care') || lower.includes('wash') || lower.includes('уход')) return Heart;
+  if (lower.includes('warranty') || lower.includes('guarantee') || lower.includes('гарант')) return Shield;
+  if (lower.includes('size') || lower.includes('dimension') || lower.includes('размер')) return Tag;
   return Info;
 };
 
@@ -61,8 +63,27 @@ const parseDescriptionHtml = (html: string): Section[] => {
   return sections;
 };
 
-const DescriptionAccordion = ({ descriptionHtml }: DescriptionAccordionProps) => {
+const DescriptionAccordion = ({ descriptionHtml, isTranslating }: DescriptionAccordionProps) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  
+  // Show skeleton while translating
+  if (isTranslating) {
+    return (
+      <div className="border-t border-border">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="border-b border-border py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Skeleton className="w-4 h-4 rounded" />
+                <Skeleton className="w-32 h-4 rounded" />
+              </div>
+              <Skeleton className="w-4 h-4 rounded" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
   
   if (!descriptionHtml) return null;
   

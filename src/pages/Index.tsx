@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
 const Index = () => {
   const { products, isLoading } = useShopifyProducts(4);
+  const { t } = useTranslation();
 
   return (
     <Layout>
@@ -18,7 +20,7 @@ const Index = () => {
             transition={{ duration: 0.6 }}
             className="text-xs uppercase tracking-widest text-muted-foreground mb-6"
           >
-            Thoughtfully Chosen
+            {t('hero.tagline')}
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -26,9 +28,9 @@ const Index = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-display text-4xl md:text-6xl lg:text-7xl font-medium text-foreground mb-6 text-balance leading-tight"
           >
-            Crafted with care,
+            {t('hero.title')}
             <br />
-            made to last
+            {t('hero.titleLine2')}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -36,8 +38,7 @@ const Index = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl mx-auto"
           >
-            Premium leather goods designed for the moments that matter. 
-            Simple, beautiful, enduring.
+            {t('hero.subtitle')}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -48,7 +49,7 @@ const Index = () => {
               to="/shop"
               className="inline-block btn-cta px-10 py-4 text-center"
             >
-              Explore Collection
+              {t('hero.cta')}
             </Link>
           </motion.div>
         </div>
@@ -65,7 +66,7 @@ const Index = () => {
             className="text-center mb-16"
           >
             <h2 className="font-display text-2xl md:text-3xl font-medium text-foreground">
-              Featured
+              {t('featured.title')}
             </h2>
           </motion.div>
 
@@ -75,7 +76,7 @@ const Index = () => {
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">No products yet</p>
+              <p className="text-muted-foreground">{t('featured.noProducts')}</p>
             </div>
           ) : (
             <div className="grid gap-8 max-w-lg mx-auto">
@@ -111,7 +112,7 @@ const Index = () => {
                       </div>
                       <div className="p-8 text-center">
                         <p className="text-xs text-muted-foreground mb-2 uppercase tracking-widest">
-                          {node.options?.[0]?.values?.[0] || 'Premium'}
+                          {node.options?.[0]?.values?.[0] || t('featured.premium')}
                         </p>
                         <h3 className="font-display text-xl font-medium text-foreground mb-2">
                           {node.title}
@@ -138,7 +139,7 @@ const Index = () => {
               to="/shop"
               className="link-subtle text-sm font-medium text-foreground"
             >
-              View All Products
+              {t('featured.viewAll')}
             </Link>
           </motion.div>
         </div>
@@ -154,7 +155,7 @@ const Index = () => {
             transition={{ duration: 0.6 }}
             className="font-display text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed text-balance"
           >
-            "We believe the best things are chosen carefully and kept for a lifetime."
+            {t('brandQuote')}
           </motion.p>
         </div>
       </section>

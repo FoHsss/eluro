@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
 
 const About = () => {
+  const { t } = useTranslation();
+
   return (
     <Layout>
       <div className="py-20 md:py-32">
@@ -13,10 +16,10 @@ const About = () => {
             className="text-center mb-16"
           >
             <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">
-              Our Story
+              {t('about.tagline')}
             </p>
             <h1 className="font-display text-3xl md:text-4xl font-medium text-foreground">
-              About Eluro
+              {t('about.title')}
             </h1>
           </motion.div>
 
@@ -26,24 +29,9 @@ const About = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="space-y-8 text-muted-foreground leading-relaxed"
           >
-            <p>
-              Eluro was born from a simple belief: the things we choose to keep 
-              should be worth keeping. In a world of endless options, we curate 
-              what matters—products made with intention, built to last.
-            </p>
-
-            <p>
-              Every piece in our collection is thoughtfully chosen. We work with 
-              artisans who share our dedication to quality, selecting materials 
-              that age beautifully and designs that transcend trends.
-            </p>
-
-            <p>
-              We don't believe in urgency tactics or fleeting sales. Our approach 
-              is calm, considered, and centered on trust. When you choose Eluro, 
-              you're choosing something meant to be part of your life for years 
-              to come.
-            </p>
+            <p>{t('about.p1')}</p>
+            <p>{t('about.p2')}</p>
+            <p>{t('about.p3')}</p>
 
             <motion.div
               initial={{ opacity: 0 }}
@@ -53,7 +41,7 @@ const About = () => {
               className="pt-8 border-t border-border mt-12"
             >
               <p className="text-center font-display text-lg text-foreground">
-                Thoughtfully chosen.
+                {t('about.motto')}
               </p>
             </motion.div>
           </motion.div>

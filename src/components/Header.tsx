@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import CartDrawer from "./CartDrawer";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,9 +36,9 @@ const Header = () => {
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { name: "Shop", path: "/shop" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    { name: t('nav.shop'), path: "/shop" },
+    { name: t('nav.about'), path: "/about" },
+    { name: t('nav.contact'), path: "/contact" },
   ];
 
   return (
