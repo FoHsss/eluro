@@ -26,28 +26,28 @@ const staticReviews: StaticReview[] = [
     author: "Emma T.",
     rating: 5,
     comment: "Exactly what I was looking for. The leather feels quality, and my cat wears it comfortably all day.",
-    date: "January 15, 2025"
+    date: "February 1, 2026"
   },
   {
     id: "2",
     author: "Marcus L.",
     rating: 5,
     comment: "The AirTag fits perfectly and stays secure. Nice design that matches our home aesthetic.",
-    date: "January 8, 2025"
+    date: "January 18, 2026"
   },
   {
     id: "3",
     author: "Sophie R.",
     rating: 4,
     comment: "Good craftsmanship. Took a few days for my dog to get used to it, but now he doesn't notice it.",
-    date: "December 22, 2024"
+    date: "December 5, 2025"
   },
   {
     id: "4",
     author: "James K.",
     rating: 5,
     comment: "Simple, well-made, and gives me peace of mind when we're at the park.",
-    date: "December 10, 2024"
+    date: "November 22, 2025"
   }
 ];
 
