@@ -14,6 +14,7 @@ import {
   ProductVideo,
   StaticReviewsSection,
   PairedWithSection,
+  DescriptionAccordion,
 } from "@/components/product";
 
 // Mobile scroll config - tweak these values to adjust the "slide" effect
@@ -300,8 +301,8 @@ const ProductPage = () => {
             Please measure your pet's neck circumference before purchasing!
           </button>
 
-          {/* Description */}
-          {product.description && (
+          {/* Description Accordion */}
+          {(product as any).descriptionHtml && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -309,9 +310,7 @@ const ProductPage = () => {
               transition={{ duration: 0.5 }}
               className="mb-8"
             >
-              <p className="text-muted-foreground leading-relaxed">
-                {product.description}
-              </p>
+              <DescriptionAccordion descriptionHtml={(product as any).descriptionHtml} />
             </motion.div>
           )}
 
