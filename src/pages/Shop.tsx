@@ -56,7 +56,21 @@ const Shop = () => {
           {!isLoading && !error && products.length > 0 && (
             <div className="grid gap-8 max-w-lg mx-auto">
               {products
-                .filter(product => !product.node.tags?.includes('upsell-only'))
+                .filter(product => {
+                  const tags = product.node.tags;
+                  if (!tags) return true;
+                  
+                  // Handle both array and comma-separated string formats
+                  const tagList = Array.isArray(tags) 
+                    ? tags 
+                    : typeof tags === 'string' 
+                      ? (tags as string).split(',').map(t => t.trim()) 
+                      : [];
+                  
+                  return !tagList.some(tag => 
+                    tag.toLowerCase() === 'upsell-only'
+                  );
+                })
                 .map((product, index) => (
                   <ShopifyProductCard key={product.node.id} product={product} index={index} />
                 ))}
