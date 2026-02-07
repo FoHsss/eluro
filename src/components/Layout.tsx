@@ -11,8 +11,8 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col">
-      <PremiumInfoBar />
       <Header />
+      <PremiumInfoBar />
       <main className="flex-1 pt-[100px]">{children}</main>
       <Footer />
       <LanguageSwitcher />

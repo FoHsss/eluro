@@ -25,7 +25,7 @@ const PremiumInfoBar = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 z-[60] h-9 flex items-center justify-center bg-[hsl(40,20%,94%)] dark:bg-[hsl(40,10%,12%)]"
+      className="fixed top-16 left-0 right-0 z-40 h-9 flex items-center justify-center bg-[hsl(40,20%,94%)] dark:bg-[hsl(40,10%,12%)]"
       animate={{ opacity: [0.85, 1, 0.85] }}
       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
     >
