@@ -95,5 +95,13 @@
     "section3Text": "Accettiamo resi entro 30 giorni dalla consegna. Gli articoli devono essere non indossati e in condizioni originali. Contattaci per avviare un reso e ricevere l'etichetta di spedizione prepagata.",
     "section4Title": "Contatti",
     "section4Text": "Per qualsiasi domanda su questi termini, contattaci a"
+  },
+  "urgency": {
+    "preferredPrice": "Attualmente disponibile a un prezzo preferenziale",
+    "limitedQuantity": "Quantità limitata disponibile",
+    "curatedSelection": "Questo articolo fa parte di una selezione curata",
+    "availabilityUpdate": "Aggiornamento disponibilità tra {{time}}",
+    "daysHours": "{{days}}g {{hours}}h",
+    "hoursOnly": "{{hours}} ore"
   }
 }

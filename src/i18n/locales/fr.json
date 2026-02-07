@@ -95,5 +95,13 @@
     "section3Text": "Nous acceptons les retours dans les 30 jours suivant la livraison. Les articles doivent être non portés et dans leur état d'origine. Contactez-nous pour initier un retour et recevoir votre étiquette d'expédition prépayée.",
     "section4Title": "Contact",
     "section4Text": "Pour toute question concernant ces conditions, veuillez nous contacter à"
+  },
+  "urgency": {
+    "preferredPrice": "Actuellement disponible à un prix préférentiel",
+    "limitedQuantity": "Quantité limitée disponible",
+    "curatedSelection": "Cet article fait partie d'une sélection soignée",
+    "availabilityUpdate": "Mise à jour de disponibilité dans {{time}}",
+    "daysHours": "{{days}}j {{hours}}h",
+    "hoursOnly": "{{hours}} heures"
   }
 }

@@ -95,5 +95,13 @@
     "section3Text": "我们接受收货后30天内的退货。商品必须未使用且保持原始状态。联系我们发起退货并获取预付运费标签。",
     "section4Title": "联系方式",
     "section4Text": "如对这些条款有任何疑问，请通过以下方式联系我们"
+  },
+  "urgency": {
+    "preferredPrice": "目前以优惠价格供应",
+    "limitedQuantity": "数量有限",
+    "curatedSelection": "此商品属于精选系列",
+    "availabilityUpdate": "库存更新时间：{{time}}",
+    "daysHours": "{{days}}天{{hours}}小时",
+    "hoursOnly": "{{hours}}小时"
   }
 }

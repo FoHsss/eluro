@@ -95,5 +95,13 @@
     "section3Text": "Aceptamos devoluciones dentro de los 30 días posteriores a la entrega. Los artículos deben estar sin usar y en condición original. Contáctanos para iniciar una devolución y recibir tu etiqueta de envío prepagada.",
     "section4Title": "Contacto",
     "section4Text": "Para cualquier pregunta sobre estos términos, contáctanos en"
+  },
+  "urgency": {
+    "preferredPrice": "Actualmente disponible a un precio preferencial",
+    "limitedQuantity": "Cantidad limitada disponible",
+    "curatedSelection": "Este artículo forma parte de una selección curada",
+    "availabilityUpdate": "Actualización de disponibilidad en {{time}}",
+    "daysHours": "{{days}}d {{hours}}h",
+    "hoursOnly": "{{hours}} horas"
   }
 }

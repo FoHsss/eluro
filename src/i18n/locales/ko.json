@@ -95,5 +95,13 @@
     "section3Text": "배송 후 30일 이내 반품을 받습니다. 제품은 미사용 상태이고 원래 상태여야 합니다. 반품을 시작하고 선불 배송 라벨을 받으려면 문의해 주세요.",
     "section4Title": "연락처",
     "section4Text": "이 약관에 대해 질문이 있으시면 다음으로 연락해 주세요"
+  },
+  "urgency": {
+    "preferredPrice": "현재 우대 가격으로 이용 가능",
+    "limitedQuantity": "수량 한정",
+    "curatedSelection": "이 상품은 엄선된 컬렉션의 일부입니다",
+    "availabilityUpdate": "재고 업데이트까지 {{time}}",
+    "daysHours": "{{days}}일 {{hours}}시간",
+    "hoursOnly": "{{hours}}시간"
   }
 }
