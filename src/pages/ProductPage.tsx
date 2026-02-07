@@ -4,11 +4,17 @@ import { useRef, useState } from "react";
 import { Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import Layout from "@/components/Layout";
-import { useShopifyProduct } from "@/hooks/useShopifyProducts";
+import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { useCartStore } from "@/stores/cartStore";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { useIsMobile } from "@/hooks/use-mobile";
 import sizeChartImage from "@/assets/size-chart.jpg";
+import {
+  ProblemSolutionSection,
+  ProductVideo,
+  StaticReviewsSection,
+  PairedWithSection,
+} from "@/components/product";
 
 // Mobile scroll config - tweak these values to adjust the "slide" effect
 const MOBILE_SCROLL_START = 0;
@@ -18,6 +24,7 @@ const MOBILE_CONTENT_LIFT = -100; // how much content "lifts" onto the hero (neg
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { product, isLoading, error } = useShopifyProduct(slug);
+  const { products: allProducts } = useShopifyProducts(10);
   const { addItem, isLoading: isAddingToCart } = useCartStore();
   const imageRef = useRef<HTMLDivElement>(null);
   const reviewsAnchorRef = useRef<HTMLDivElement>(null);
@@ -301,6 +308,12 @@ const ProductPage = () => {
             </motion.div>
           )}
 
+          {/* Problem → Solution Section */}
+          <ProblemSolutionSection />
+
+          {/* Product Video/GIF */}
+          <ProductVideo />
+
           {/* Thumbnail Gallery - Horizontal Carousel with Glassmorphism */}
           {galleryImages.length > 0 && (
             <div className="mb-10 py-8 px-4 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 rounded-3xl">
@@ -337,9 +350,41 @@ const ProductPage = () => {
             </div>
           )}
 
-          {/* Reviews Section */}
+          {/* Static English Reviews */}
+          <StaticReviewsSection />
+
+          {/* DB Reviews Section */}
           <div ref={reviewsAnchorRef} className="h-px" />
           <ReviewsSection productHandle={product.handle} />
+
+          {/* Secondary CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
+            className="py-8"
+          >
+            <button 
+              onClick={handleAddToCart}
+              disabled={isAddingToCart || !selectedVariant?.availableForSale}
+              className="btn-cta btn-cta-pulse disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isAddingToCart ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : selectedVariant?.availableForSale ? (
+                'Add to Cart'
+              ) : (
+                'Sold Out'
+              )}
+            </button>
+          </motion.div>
+
+          {/* Often Paired With Section */}
+          <PairedWithSection 
+            products={allProducts} 
+            currentHandle={product.handle} 
+          />
           </div>
         </motion.div>
       </div>
