@@ -17,6 +17,7 @@ interface CartStore {
   checkoutUrl: string | null;
   isLoading: boolean;
   isSyncing: boolean;
+  isCartOpen: boolean;
   addItem: (item: Omit<CartItem, 'lineId'>) => Promise<void>;
   updateQuantity: (variantId: string, quantity: number) => Promise<void>;
   removeItem: (variantId: string) => Promise<void>;
@@ -24,6 +25,9 @@ interface CartStore {
   syncCart: () => Promise<void>;
   getCheckoutUrl: () => string | null;
   getTotalItems: () => number;
+  isInCart: (variantId: string) => boolean;
+  openCart: () => void;
+  setCartOpen: (open: boolean) => void;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -34,6 +38,7 @@ export const useCartStore = create<CartStore>()(
       checkoutUrl: null,
       isLoading: false,
       isSyncing: false,
+      isCartOpen: false,
 
       addItem: async (item) => {
         const { items, cartId, clearCart } = get();
@@ -132,6 +137,12 @@ export const useCartStore = create<CartStore>()(
       getCheckoutUrl: () => get().checkoutUrl,
       
       getTotalItems: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
+      
+      isInCart: (variantId) => get().items.some(i => i.variantId === variantId),
+      
+      openCart: () => set({ isCartOpen: true }),
+      
+      setCartOpen: (open) => set({ isCartOpen: open }),
 
       syncCart: async () => {
         const { cartId, isSyncing, clearCart } = get();

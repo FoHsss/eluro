@@ -55,9 +55,11 @@ const Shop = () => {
           {/* Product Grid */}
           {!isLoading && !error && products.length > 0 && (
             <div className="grid gap-8 max-w-lg mx-auto">
-              {products.map((product, index) => (
-                <ShopifyProductCard key={product.node.id} product={product} index={index} />
-              ))}
+              {products
+                .filter(product => !product.node.tags?.includes('upsell-only'))
+                .map((product, index) => (
+                  <ShopifyProductCard key={product.node.id} product={product} index={index} />
+                ))}
             </div>
           )}
         </div>
