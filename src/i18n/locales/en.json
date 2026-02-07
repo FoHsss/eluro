@@ -106,5 +106,10 @@
     "readyToShip": "Thoughtfully chosen, ready to ship",
     "daysHours": "{{days}}d {{hours}}h",
     "hoursOnly": "{{hours}} hours"
+  },
+  "upsell": {
+    "title": "Complete your order",
+    "addButton": "+ Add",
+    "added": "Added to cart"
   }
 }

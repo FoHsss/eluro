@@ -100,8 +100,16 @@
     "preferredPrice": "현재 우대 가격으로 이용 가능",
     "limitedQuantity": "수량 한정",
     "curatedSelection": "이 상품은 엄선된 컬렉션의 일부입니다",
+    "curatedEluro": "이 상품은 Eluro 엄선 컬렉션의 일부입니다",
     "availabilityUpdate": "재고 업데이트까지 {{time}}",
+    "availabilityDays": "재고 업데이트까지 {{days}}일",
+    "readyToShip": "신중하게 선택된, 배송 준비 완료",
     "daysHours": "{{days}}일 {{hours}}시간",
     "hoursOnly": "{{hours}}시간"
+  },
+  "upsell": {
+    "title": "주문을 완료하세요",
+    "addButton": "+ 추가",
+    "added": "장바구니에 추가됨"
   }
 }
