@@ -95,5 +95,13 @@
     "section3Text": "Wir akzeptieren Rückgaben innerhalb von 30 Tagen nach Lieferung. Artikel müssen ungetragen und im Originalzustand sein. Kontaktieren Sie uns, um eine Rückgabe einzuleiten und Ihr vorfrankiertes Versandetikett zu erhalten.",
     "section4Title": "Kontakt",
     "section4Text": "Bei Fragen zu diesen Bedingungen kontaktieren Sie uns bitte unter"
+  },
+  "urgency": {
+    "preferredPrice": "Derzeit zum Vorzugspreis erhältlich",
+    "limitedQuantity": "Begrenzte Stückzahl verfügbar",
+    "curatedSelection": "Dieser Artikel gehört zu einer kuratierten Auswahl",
+    "availabilityUpdate": "Verfügbarkeitsaktualisierung in {{time}}",
+    "daysHours": "{{days}}T {{hours}}Std",
+    "hoursOnly": "{{hours}} Stunden"
   }
 }

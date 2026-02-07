@@ -17,6 +17,7 @@ import {
   StaticReviewsSection,
   PairedWithSection,
   DescriptionAccordion,
+  CalmUrgency,
 } from "@/components/product";
 
 // Mobile scroll config - tweak these values to adjust the "slide" effect
@@ -304,10 +305,19 @@ const ProductPage = () => {
           {/* Size Chart Link */}
           <button 
             onClick={() => setSizeChartOpen(true)}
-            className="text-xs text-center text-primary hover:text-primary/80 underline underline-offset-2 w-full transition-colors mb-6"
+            className="text-xs text-center text-primary hover:text-primary/80 underline underline-offset-2 w-full transition-colors mb-4"
           >
             {t('product.sizeChartLink')}
           </button>
+
+          {/* Calm Urgency Elements - appears after scroll */}
+          <CalmUrgency 
+            showAfterScroll={150}
+            countdownHours={72}
+            showPreferredPrice={true}
+            showLimitedQuantity={true}
+            showCuratedSelection={false}
+          />
 
           {/* Description Accordion */}
           {(product as any).descriptionHtml && (

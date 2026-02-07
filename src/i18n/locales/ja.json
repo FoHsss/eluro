@@ -95,5 +95,13 @@
     "section3Text": "配送後30日以内の返品を受け付けます。商品は未使用でオリジナルの状態である必要があります。返品を開始し、前払い配送ラベルを受け取るにはお問い合わせください。",
     "section4Title": "お問い合わせ",
     "section4Text": "これらの規約についてご質問がある場合は、以下までお問い合わせください"
+  },
+  "urgency": {
+    "preferredPrice": "現在、お得な価格でご提供中",
+    "limitedQuantity": "数量限定",
+    "curatedSelection": "こちらは厳選コレクションの一品です",
+    "availabilityUpdate": "在庫更新まで{{time}}",
+    "daysHours": "{{days}}日{{hours}}時間",
+    "hoursOnly": "{{hours}}時間"
   }
 }

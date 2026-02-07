@@ -95,5 +95,13 @@
     "section3Text": "We accept returns within 30 days of delivery. Items must be unworn and in original condition. Contact us to initiate a return and receive your prepaid shipping label.",
     "section4Title": "Contact",
     "section4Text": "For any questions regarding these terms, please contact us at"
+  },
+  "urgency": {
+    "preferredPrice": "Currently available at a preferred price",
+    "limitedQuantity": "Limited quantity available",
+    "curatedSelection": "This item is part of a curated selection",
+    "availabilityUpdate": "Availability updates in {{time}}",
+    "daysHours": "{{days}}d {{hours}}h",
+    "hoursOnly": "{{hours}} hours"
   }
 }
