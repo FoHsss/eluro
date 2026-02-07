@@ -1,269 +1,127 @@
 
-# Product Page Enhancement Plan
 
-## Overview
-Extend the existing product page with new sections that maintain Eluro's calm, supportive, and premium brand identity. All additions will use reassuring language without urgency or aggressive sales tactics.
+# План: Описание товара в виде аккордеона
 
-## Current Page Structure
+## Обзор
+Переделать отображение описания товара с простого текста на интерактивный аккордеон, как на скриншотах. Заголовки секций берутся из жирного текста в Shopify, а полное описание раскрывается при клике.
+
+## Как форматировать текст в Shopify
+
+В редакторе описания товара в Shopify нужно использовать следующий формат:
+
 ```text
-┌─────────────────────────────────────┐
-│           Hero Image                │
-├─────────────────────────────────────┤
-│  Glass Card (Title + Price)         │
-│  Variant Options (Color/Size)       │
-│  CTA: Add to Cart                   │
-│  Size Chart Link                    │
-│  Description                        │
-│  Gallery Carousel                   │
-├─────────────────────────────────────┤
-│  Reviews Section (from DB)          │
-└─────────────────────────────────────┘
+**Product Highlights**
+No Subscription Needed: Works seamlessly with your AirTag without monthly fees.
+Apple AirTag Integration: Specially designed pocket to securely hold your AirTag.
+
+**Apple AirTag**
+Compatible with Apple AirTag for precise location tracking.
+
+**Materials**
+Premium quality cow leather with microfiber lining.
+
+**Shipping & Returns**
+Free shipping on orders over $50. 30-day return policy.
 ```
 
-## Proposed New Structure
+Жирный текст (`**текст**` или через кнопку Bold) станет заголовком аккордеона, а весь текст до следующего жирного заголовка раскроется при клике.
+
+---
+
+## Технические изменения
+
+### 1. Обновить GraphQL-запрос (src/lib/shopify.ts)
+
+Добавить поле `descriptionHtml` для получения HTML-версии описания:
+
+```typescript
+export const PRODUCT_BY_HANDLE_QUERY = `
+  query GetProductByHandle($handle: String!) {
+    product(handle: $handle) {
+      id
+      title
+      description
+      descriptionHtml  // <-- добавить
+      handle
+      ...
+    }
+  }
+`;
+```
+
+### 2. Обновить типы (src/lib/shopify.ts)
+
+Добавить поле `descriptionHtml` в интерфейс продукта.
+
+### 3. Создать компонент DescriptionAccordion
+
+Новый компонент `src/components/product/DescriptionAccordion.tsx`:
+
+- Парсит `descriptionHtml` и выделяет секции по жирному тексту (`<strong>`, `<b>`)
+- Отображает каждую секцию как элемент аккордеона
+- Иконки слева от заголовков (как на фото)
+- Стиль "+" справа, который меняется на "-" при открытии
+
+Логика парсинга:
 ```text
-┌─────────────────────────────────────┐
-│           Hero Image                │
-├─────────────────────────────────────┤
-│  Glass Card (Title + Price)         │
-│  Variant Options (Color/Size)       │
-│  CTA: Add to Cart                   │
-│  Size Chart Link                    │
-│  Description                        │
-├─────────────────────────────────────┤
-│  NEW: Problem → Solution Section    │
-├─────────────────────────────────────┤
-│  NEW: Product Video/GIF             │
-├─────────────────────────────────────┤
-│  Gallery Carousel                   │
-├─────────────────────────────────────┤
-│  Reviews Section (with static EN)   │
-├─────────────────────────────────────┤
-│  NEW: Duplicate CTA Button          │
-├─────────────────────────────────────┤
-│  NEW: "Often paired with" Upsell    │
-└─────────────────────────────────────┘
+1. Разбить HTML по тегам <strong> или <b>
+2. Текст внутри <strong>/<b> = заголовок секции
+3. Текст после закрывающего тега до следующего <strong>/<b> = содержимое
+4. Каждая пара становится элементом аккордеона
 ```
 
----
+### 4. Заменить простой текст на аккордеон (src/pages/ProductPage.tsx)
 
-## Section 1: Problem → Solution
-
-A calm, supportive section explaining the everyday situation this product addresses.
-
-**Content example (for the Airtag Leather Collar):**
-- **Header**: "A Simple Peace of Mind"
-- **Problem (neutral)**: "Pets can sometimes wander. A lost collar tag or faded ID can make a stressful moment even harder."
-- **Solution (reassuring)**: "Our leather collar holds an AirTag securely, so you can locate your companion whenever you need to. No alarms, just quiet confidence."
-
-**Design:**
-- Soft muted background (`bg-muted/20`)
-- Calm iconography (optional: subtle icon like a house or heart)
-- Short paragraphs, balanced text
-- Framer Motion fade-in animation (consistent with existing sections)
-
----
-
-## Section 2: Product Video/GIF
-
-A short looping video showing the product in real-life use.
-
-**Requirements:**
-- Autoplay, muted, looped
-- No text overlays
-- Calm pace (slow motion or relaxed movement)
-- Rounded corners, subtle shadow
-
-**Implementation:**
-- Create a reusable `<ProductVideo>` component
-- Accept `src` prop (video URL or local asset)
-- Use HTML5 `<video>` tag with `autoPlay`, `muted`, `loop`, `playsInline`
-- Graceful fallback if video doesn't load
-- Initially use a placeholder video URL (to be replaced with actual product video)
-
-**Design:**
-- Container: `rounded-2xl overflow-hidden` with `bg-secondary` fallback
-- Subtle border and shadow matching gallery style
-- Centered within content container
-
----
-
-## Section 3: Static Customer Reviews (English)
-
-Since the current `ReviewsSection` fetches from the database (which may be empty or in Russian), we'll add a supplementary section with 4 pre-written static reviews in English.
-
-**Reviews content (calm, natural language):**
-
-1. **Emma T.** ★★★★★
-   "Exactly what I was looking for. The leather feels quality, and my cat wears it comfortably all day."
-
-2. **Marcus L.** ★★★★★
-   "The AirTag fits perfectly and stays secure. Nice design that matches our home aesthetic."
-
-3. **Sophie R.** ★★★★☆
-   "Good craftsmanship. Took a few days for my dog to get used to it, but now he doesn't notice it."
-
-4. **James K.** ★★★★★
-   "Simple, well-made, and gives me peace of mind when we're at the park."
-
-**Design:**
-- Display before the database reviews section
-- Same card styling as existing reviews (`bg-muted/20 rounded-xl border`)
-- Star rating component (reuse existing `StarRating`)
-- Grid or stacked layout on mobile
-
----
-
-## Section 4: Duplicate CTA Button
-
-Place a secondary "Add to Cart" button after the reviews section.
-
-**Implementation:**
-- Exact same styling as primary CTA (`btn-cta btn-cta-pulse`)
-- Same `onClick` handler and disabled states
-- Same loading/sold-out states
-
----
-
-## Section 5: "Often paired with" Upsell
-
-A subtle suggestion for a complementary product.
-
-**Design:**
-- **Header**: "Often paired with"
-- Show one product only (fetched from Shopify)
-- No discounts, no urgency language
-- Card style matching existing product cards
-
-**Implementation:**
-- Use `useShopifyProducts` hook to fetch products
-- Filter out current product, show first different one
-- If only 1 product exists (current state), hide this section entirely
-- Small, subtle layout - not dominant
-
----
-
-## Technical Details
-
-### Files to Modify
-
-**`src/pages/ProductPage.tsx`** - Main changes:
-1. Add `ProblemSolutionSection` component (inline or imported)
-2. Add `ProductVideo` component
-3. Add `StaticReviewsSection` component with hardcoded English reviews
-4. Add second CTA button after reviews
-5. Add `PairedWithSection` for upsell
-
-### New Components (inline in ProductPage for simplicity)
-
+Вместо:
 ```tsx
-// Problem → Solution Section
-const ProblemSolutionSection = () => (
-  <motion.section ...>
-    <h3>A Simple Peace of Mind</h3>
-    <p>Pets can sometimes wander...</p>
-    <p>Our leather collar holds an AirTag securely...</p>
-  </motion.section>
-);
-
-// Product Video
-const ProductVideo = ({ src }: { src: string }) => (
-  <div className="rounded-2xl overflow-hidden...">
-    <video autoPlay muted loop playsInline src={src} />
-  </div>
-);
-
-// Static English Reviews
-const StaticReviewsSection = () => (
-  <motion.section ...>
-    {staticReviews.map(review => <ReviewCard key={...} />)}
-  </motion.section>
-);
-
-// Paired With Section
-const PairedWithSection = ({ products, currentHandle }) => {
-  const otherProduct = products.find(p => p.node.handle !== currentHandle);
-  if (!otherProduct) return null;
-  return <motion.section ...><ProductCard /></motion.section>;
-};
+<p className="text-muted-foreground leading-relaxed">
+  {product.description}
+</p>
 ```
 
-### Animation Consistency
-All new sections will use the same animation pattern:
+Использовать:
 ```tsx
-initial={{ opacity: 0, y: 20 }}
-whileInView={{ opacity: 1, y: 0 }}
-viewport={{ once: true, margin: "-50px" }}
-transition={{ duration: 0.5 }}
-```
-
-### Spacing & Layout
-- Sections separated by `py-8` or `py-10` for calm breathing room
-- Content max-width: `max-w-lg` (consistent with existing)
-- Border separators where appropriate (`border-t border-border`)
-
----
-
-## Content Details
-
-### Problem → Solution Copy
-```
-Header: "A Simple Peace of Mind"
-
-Problem: 
-"Pets can sometimes wander. A lost collar tag or faded ID can make 
-a stressful moment even harder."
-
-Solution:
-"Our leather collar holds an AirTag securely, so you can locate 
-your companion whenever you need to. No alarms, just quiet confidence."
-```
-
-### Static Reviews (English)
-```
-1. Emma T. | ★★★★★
-   "Exactly what I was looking for. The leather feels quality, 
-   and my cat wears it comfortably all day."
-
-2. Marcus L. | ★★★★★
-   "The AirTag fits perfectly and stays secure. Nice design 
-   that matches our home aesthetic."
-
-3. Sophie R. | ★★★★☆
-   "Good craftsmanship. Took a few days for my dog to get used 
-   to it, but now he doesn't notice it."
-
-4. James K. | ★★★★★
-   "Simple, well-made, and gives me peace of mind when 
-   we're at the park."
+<DescriptionAccordion descriptionHtml={product.descriptionHtml} />
 ```
 
 ---
 
-## Video Placeholder
+## Визуальный дизайн (по скриншотам)
 
-Since no product video currently exists in assets, implementation will:
-1. Create a placeholder div with text "Video coming soon" if no video URL is provided
-2. Accept a `videoUrl` prop that can be updated later
-3. Structure supports MP4, WebM, or external video URLs
+- Каждая секция с тонкой разделительной линией снизу
+- Иконка слева от заголовка (можно подобрать по ключевым словам: "Materials" = список, "Shipping" = грузовик, и т.д.)
+- "+" справа, при открытии становится "-"
+- Плавная анимация раскрытия
+- Содержимое с отступом и читабельным межстрочным интервалом
 
 ---
 
-## Summary of Changes
+## Пример результата
 
-| Section | Type | Location |
-|---------|------|----------|
-| Problem → Solution | New | After Description |
-| Product Video/GIF | New | After Problem → Solution |
-| Gallery | Existing | Unchanged |
-| Static English Reviews | New | Before DB Reviews |
-| DB Reviews (existing) | Existing | Unchanged |
-| Secondary CTA | New | After Reviews |
-| "Often paired with" | New | End of page |
+```text
+┌─────────────────────────────────────────────┐
+│ ◉ Product Highlights                      + │
+├─────────────────────────────────────────────┤
+│ ⚙ Apple AirTag                            + │
+├─────────────────────────────────────────────┤
+│ ≡ Materials                               + │
+├─────────────────────────────────────────────┤
+│ 🚚 Shipping & Returns                      + │
+└─────────────────────────────────────────────┘
+```
 
-All additions maintain Eluro's brand values:
-- No urgency tactics
-- No aggressive language
-- Calm, supportive tone
-- Premium visual aesthetic
-- Consistent animations and styling
+При клике на секцию:
+```text
+┌─────────────────────────────────────────────┐
+│ ◉ Product Highlights                      - │
+│                                             │
+│ No Subscription Needed: Works seamlessly    │
+│ with your AirTag without monthly fees.      │
+│                                             │
+│ Apple AirTag Integration: Specially         │
+│ designed pocket to securely hold your...    │
+├─────────────────────────────────────────────┤
+│ ⚙ Apple AirTag                            + │
+...
+```
+
