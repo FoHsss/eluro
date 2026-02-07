@@ -181,7 +181,7 @@ const ProductPage = () => {
           ref={imageRef}
           className={`relative bg-secondary ${
             isMobile 
-              ? (isHeroSticky ? 'sticky top-[100px] z-0 h-[55vh]' : 'h-[55vh]') 
+              ? (isHeroSticky ? 'sticky top-9 z-0 h-[55vh]' : 'h-[55vh]') 
               : 'h-[75vh]'
           }`}
         >
