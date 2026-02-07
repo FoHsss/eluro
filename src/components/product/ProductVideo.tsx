@@ -10,7 +10,11 @@ interface ProductVideoProps {
 export const ProductVideo = ({ src, poster }: ProductVideoProps) => {
   const [hasError, setHasError] = useState(false);
 
-  // If no video source provided, show placeholder
+  // Determine media type
+  const isGif = src?.toLowerCase().includes('.gif');
+  const isVideo = src?.toLowerCase().match(/\.(mp4|webm|mov)$/);
+
+  // If no source provided, show placeholder
   if (!src || hasError) {
     return (
       <motion.div
@@ -28,6 +32,27 @@ export const ProductVideo = ({ src, poster }: ProductVideoProps) => {
     );
   }
 
+  // For GIF or other images - render as img tag
+  if (isGif || !isVideo) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="mb-8 rounded-2xl overflow-hidden bg-secondary border border-border/50 shadow-lg"
+      >
+        <img 
+          src={src} 
+          alt="Product demo" 
+          className="w-full object-cover"
+          onError={() => setHasError(true)}
+        />
+      </motion.div>
+    );
+  }
+
+  // For video files
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

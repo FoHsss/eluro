@@ -6,19 +6,29 @@ import { useTranslation } from "react-i18next";
 import CartDrawer from "./CartDrawer";
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
+      
+      // Show header when scrolling up or at the top
+      if (currentScrollY < lastScrollY || currentScrollY < 50) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -44,7 +54,9 @@ const Header = () => {
   return (
     <>
       <header
-        className="relative z-40 h-16 mt-9"
+        className={`fixed top-9 left-0 right-0 z-40 h-16 bg-background/95 backdrop-blur-md transition-transform duration-300 ${
+          isVisible ? 'translate-y-0' : '-translate-y-full'
+        }`}
       >
         <div className="container h-full flex items-center justify-between">
           {/* Mobile Menu Button */}
