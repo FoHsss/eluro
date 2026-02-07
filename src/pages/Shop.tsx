@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
 import ShopifyProductCard from "@/components/ShopifyProductCard";
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
 const Shop = () => {
   const { products, isLoading, error } = useShopifyProducts(20);
+  const { t } = useTranslation();
 
   return (
     <Layout>
@@ -19,10 +21,10 @@ const Shop = () => {
             className="text-center mb-12 md:mb-16"
           >
             <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">
-              Collection
+              {t('shop.collection')}
             </p>
             <h1 className="font-display text-3xl md:text-4xl font-medium text-foreground">
-              Shop All
+              {t('shop.title')}
             </h1>
           </motion.div>
 
@@ -43,9 +45,9 @@ const Shop = () => {
           {/* Empty State */}
           {!isLoading && !error && products.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-muted-foreground text-lg mb-4">No products found</p>
+              <p className="text-muted-foreground text-lg mb-4">{t('shop.noProducts')}</p>
               <p className="text-sm text-muted-foreground">
-                Tell me what product you'd like to create and I'll add it to your store.
+                {t('shop.noProductsHint')}
               </p>
             </div>
           )}

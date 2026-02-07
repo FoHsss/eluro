@@ -3,9 +3,11 @@ import { motion, useScroll, useTransform, AnimatePresence, useInView } from "fra
 import { useRef, useState } from "react";
 import { Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
 import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { useCartStore } from "@/stores/cartStore";
+import { useTranslatedDescription } from "@/hooks/useTranslatedDescription";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import sizeChartImage from "@/assets/size-chart.jpg";
@@ -27,6 +29,7 @@ const ProductPage = () => {
   const { product, isLoading, error } = useShopifyProduct(slug);
   const { products: allProducts } = useShopifyProducts(10);
   const { addItem, isLoading: isAddingToCart } = useCartStore();
+  const { t } = useTranslation();
   const imageRef = useRef<HTMLDivElement>(null);
   const reviewsAnchorRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
@@ -37,6 +40,11 @@ const ProductPage = () => {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [sizeChartOpen, setSizeChartOpen] = useState(false);
+  
+  // AI translation for product descriptions
+  const { translatedHtml, isTranslating } = useTranslatedDescription(
+    (product as any)?.descriptionHtml
+  );
 
   // Global scroll for mobile slide effect
   const { scrollY } = useScroll();
@@ -225,7 +233,7 @@ const ProductPage = () => {
               }`}
             >
               <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
-                Thoughtfully chosen
+                {t('product.tagline')}
               </p>
               <h1 className="font-display text-xl md:text-2xl font-medium text-foreground">
                 {product.title}
@@ -280,16 +288,16 @@ const ProductPage = () => {
             {isAddingToCart ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : selectedVariant?.availableForSale ? (
-              'Add to Cart'
+              t('product.addToCart')
             ) : (
-              'Sold Out'
+              t('product.soldOut')
             )}
           </button>
 
           {/* Availability reassurance */}
           {selectedVariant?.availableForSale && (
             <p className="text-xs text-center text-muted-foreground mb-3">
-              Ready to ship · Prepared within 24–48 hours
+              {t('product.readyToShip')}
             </p>
           )}
 
@@ -298,7 +306,7 @@ const ProductPage = () => {
             onClick={() => setSizeChartOpen(true)}
             className="text-xs text-center text-primary hover:text-primary/80 underline underline-offset-2 w-full transition-colors mb-6"
           >
-            Please measure your pet's neck circumference before purchasing!
+            {t('product.sizeChartLink')}
           </button>
 
           {/* Description Accordion */}
@@ -310,7 +318,10 @@ const ProductPage = () => {
               transition={{ duration: 0.5 }}
               className="mb-8"
             >
-              <DescriptionAccordion descriptionHtml={(product as any).descriptionHtml} />
+              <DescriptionAccordion 
+                descriptionHtml={translatedHtml} 
+                isTranslating={isTranslating}
+              />
             </motion.div>
           )}
 
@@ -336,9 +347,9 @@ const ProductPage = () => {
               {isAddingToCart ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : selectedVariant?.availableForSale ? (
-                'Add to Order'
+                t('product.addToOrder')
               ) : (
-                'Sold Out'
+                t('product.soldOut')
               )}
             </button>
           </motion.div>
@@ -347,7 +358,7 @@ const ProductPage = () => {
           {galleryImages.length > 0 && (
             <div className="mb-10 py-8 px-4 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 rounded-3xl">
               <h3 className="text-sm uppercase tracking-widest text-muted-foreground mb-6 text-center">
-                Gallery
+                {t('product.gallery')}
               </h3>
               <div 
                 className="flex gap-6 overflow-x-auto snap-x snap-mandatory py-6 px-4 scrollbar-hide"
@@ -399,9 +410,9 @@ const ProductPage = () => {
               {isAddingToCart ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : selectedVariant?.availableForSale ? (
-                'Add to Bag'
+                t('product.addToBag')
               ) : (
-                'Sold Out'
+                t('product.soldOut')
               )}
             </button>
           </motion.div>

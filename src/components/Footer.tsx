@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-background border-t border-border py-12 mt-auto">
       <div className="container">
@@ -11,7 +14,7 @@ const Footer = () => {
               Eluro
             </span>
             <span className="text-sm text-muted-foreground">
-              Thoughtfully chosen
+              {t('footer.tagline')}
             </span>
           </div>
 
@@ -27,20 +30,20 @@ const Footer = () => {
               to="/privacy"
               className="hover:text-foreground transition-colors duration-300"
             >
-              Privacy Policy
+              {t('footer.privacy')}
             </Link>
             <Link
               to="/terms"
               className="hover:text-foreground transition-colors duration-300"
             >
-              Terms of Service
+              {t('footer.terms')}
             </Link>
           </nav>
         </div>
 
         <div className="mt-8 pt-8 border-t border-border">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Eluro. All rights reserved.
+            {t('footer.copyright', { year: new Date().getFullYear() })}
           </p>
         </div>
       </div>
