@@ -21,10 +21,10 @@ const Footer = () => {
           {/* Links */}
           <nav className="flex flex-wrap gap-6 text-sm text-muted-foreground">
             <a
-              href="mailto:hello@eluro.co"
+              href="mailto:support@doggospotusa.com"
               className="hover:text-foreground transition-colors duration-300"
             >
-              hello@eluro.co
+              support@doggospotusa.com
             </a>
             <Link
               to="/privacy"
@@ -37,6 +37,18 @@ const Footer = () => {
               className="hover:text-foreground transition-colors duration-300"
             >
               {t('footer.terms')}
+            </Link>
+            <Link
+              to="/refund"
+              className="hover:text-foreground transition-colors duration-300"
+            >
+              Refund Policy
+            </Link>
+            <Link
+              to="/shipping"
+              className="hover:text-foreground transition-colors duration-300"
+            >
+              Shipping Policy
             </Link>
           </nav>
         </div>
