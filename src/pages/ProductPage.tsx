@@ -227,8 +227,12 @@ const ProductPage = () => {
               <motion.img
                 key={heroImage.url}
                 initial={{ opacity: 0, rotateY: 15, scale: 0.95 }}
-                animate={{ opacity: 1, rotateY: 0, scale: 1 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                animate={{ 
+                  opacity: isMobile && reviewsInView ? 0 : 1, 
+                  rotateY: 0, 
+                  scale: 1 
+                }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 src={heroImage.url}
                 alt={heroImage.altText || product.title}
                 className="max-w-full max-h-full object-contain cursor-pointer"
@@ -470,10 +474,6 @@ const ProductPage = () => {
           </div>
         </motion.div>
 
-        {/* White spacer to fully cover hero before footer on mobile */}
-        {isMobile && (
-          <div className="bg-background h-[60vh] relative z-10" />
-        )}
       </div>
 
       {/* Lightbox */}
