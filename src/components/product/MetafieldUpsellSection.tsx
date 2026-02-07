@@ -72,6 +72,19 @@ export const MetafieldUpsellSection = ({
   // Detail modal state
   const [detailProduct, setDetailProduct] = useState<UpsellProduct | null>(null);
 
+  // Block body scroll when modal is open
+  useEffect(() => {
+    if (detailProduct) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [detailProduct]);
+
   // Get available variants for a product
   const getAvailableVariants = useCallback((product: UpsellProduct) => 
     product.variants.edges.filter(v => v.node.availableForSale), []);
