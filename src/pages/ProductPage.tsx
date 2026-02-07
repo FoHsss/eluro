@@ -380,9 +380,9 @@ const ProductPage = () => {
             </div>
           )}
 
-          {/* Static English Reviews */}
+          {/* Customer Reviews */}
           <div ref={reviewsAnchorRef} className="h-px" />
-          <StaticReviewsSection />
+          <StaticReviewsSection productHandle={product.handle} />
 
           {/* Secondary CTA Button */}
           <motion.div
