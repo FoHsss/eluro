@@ -310,9 +310,8 @@ const ProductPage = () => {
             {t('product.sizeChartLink')}
           </button>
 
-          {/* Calm Urgency Elements - appears after scroll */}
+          {/* Calm Urgency Elements */}
           <CalmUrgency 
-            showAfterScroll={150}
             countdownHours={72}
             showPreferredPrice={true}
             showLimitedQuantity={true}
