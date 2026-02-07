@@ -469,6 +469,11 @@ const ProductPage = () => {
           />
           </div>
         </motion.div>
+
+        {/* White spacer to fully cover hero before footer on mobile */}
+        {isMobile && (
+          <div className="bg-background h-[60vh] relative z-10" />
+        )}
       </div>
 
       {/* Lightbox */}
