@@ -252,7 +252,7 @@ const ProductPage = () => {
         >
           {/* Solid background layer to cover sticky hero on mobile */}
           {isMobile && (
-            <div className="absolute inset-x-0 top-32 bottom-0 bg-background -z-10" />
+            <div className="absolute inset-0 bg-background -z-10" />
           )}
           {/* Glass overlay with title/price - now part of content flow */}
           <div className="container max-w-lg mx-auto px-4">
