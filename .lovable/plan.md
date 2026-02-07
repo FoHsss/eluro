@@ -1,76 +1,132 @@
 
 
-## Что происходит (почему «текст уезжает, а белый фон остаётся»)
-Понимаю, о чём ты. Это выглядит как будто у Header “оторвался” фон, но по коду сейчас фон у Header уже убран.
+# План: Исправление переводов + Модуль апсейла из Shopify
 
-Реальная причина на странице товара — **не Header**, а настройки **липкого (sticky) hero-изображения** в `ProductPage.tsx`:
+## Часть 1: Исправление переводов PremiumInfoBar
 
-- Сейчас sticky hero на мобилке задан как `sticky top-[100px]`
-- `100px` — это **старое значение** под ситуацию, когда сверху были *фиксированы* и строка (36px), и хедер (64px): 36 + 64 = 100
-- Теперь хедер **не fixed**, он уезжает при скролле, а hero всё равно продолжает “уважать” `top-[100px]` и держится ниже.
-- В итоге, когда Header уехал, **освобождается зона ~64px**, но hero всё равно не поднимается в неё — и там виден **фон страницы (светлая полоса)**. Ты это и воспринимаешь как «фон остался».
+### Проблема
+В PremiumInfoBar используются ключи из секции `urgency`, которые отсутствуют в неанглийских локалях:
+- `urgency.curatedEluro`
+- `urgency.availabilityDays`
+- `urgency.readyToShip`
 
-## Цель
-- Строка (PremiumInfoBar) остаётся фиксированной сверху
-- Header уезжает целиком как модуль
-- Когда Header уехал — **сверху не остаётся светлой полосы**, там должен быть контент/фото (hero) как раньше
+### Решение
+Добавить недостающие ключи во все локали (10 языков).
+
+| Файл | Ключи для добавления |
+|------|---------------------|
+| `src/i18n/locales/ru.json` | curatedEluro, availabilityDays, readyToShip |
+| `src/i18n/locales/de.json` | curatedEluro, availabilityDays, readyToShip |
+| `src/i18n/locales/fr.json` | curatedEluro, availabilityDays, readyToShip |
+| `src/i18n/locales/es.json` | curatedEluro, availabilityDays, readyToShip |
+| `src/i18n/locales/it.json` | curatedEluro, availabilityDays, readyToShip |
+| `src/i18n/locales/pt.json` | curatedEluro, availabilityDays, readyToShip |
+| `src/i18n/locales/zh.json` | curatedEluro, availabilityDays, readyToShip |
+| `src/i18n/locales/ja.json` | curatedEluro, availabilityDays, readyToShip |
+| `src/i18n/locales/ko.json` | curatedEluro, availabilityDays, readyToShip |
 
 ---
 
-## Изменения (минимальные и по делу)
+## Часть 2: Модуль апсейла из Shopify
 
-### 1) `src/pages/ProductPage.tsx` — исправить sticky offset hero
-Найти блок:
+### Текущее состояние
+- Компонент `PairedWithSection` уже существует
+- Загружает все товары через `useShopifyProducts(10)`
+- Показывает один случайный товар (не текущий)
+- Нет возможности добавить в корзину напрямую
 
-```ts
-isMobile 
-  ? (isHeroSticky ? 'sticky top-[100px] z-0 h-[55vh]' : 'h-[55vh]') 
-  : 'h-[75vh]'
+### Улучшения
+
+**Новый компонент:** `UpsellSection.tsx`
+
+Функционал:
+1. Заголовок "Complete the look" / "Дополни образ" (переводимый)
+2. Карточка товара из Shopify с:
+   - Изображением
+   - Названием
+   - Ценой
+   - Кнопкой "Add to Cart" (без перехода на страницу)
+3. Опциональный выбор варианта (если есть опции)
+4. Анимация появления
+
+### Структура компонента
+
+```text
+┌──────────────────────────────────────┐
+│     Complete your order              │  ← переводимый заголовок
+├──────────────────────────────────────┤
+│  ┌─────────────┐                     │
+│  │   [Фото]    │  Collar + Leash Set │
+│  │             │  USD 89.99          │
+│  │             │                     │
+│  └─────────────┘  [ + Add ]          │
+└──────────────────────────────────────┘
 ```
 
-Заменить `top-[100px]` на значение, которое учитывает только **фиксированную строку** (она `h-9` = 36px):
+### Данные из Shopify
+- Товары загружаются через существующий `useShopifyProducts`
+- Фильтрация: исключаем текущий товар по `handle`
+- Показываем первый доступный (`availableForSale: true`)
 
-Вариант A (tailwind-канонично):
-- `sticky top-9 z-0 h-[55vh]`
+### Файлы для создания/изменения
 
-Вариант B (явно пикселями):
-- `sticky top-[36px] z-0 h-[55vh]`
+| Файл | Действие |
+|------|----------|
+| `src/components/product/UpsellSection.tsx` | Создать новый компонент |
+| `src/i18n/locales/*.json` (все 10) | Добавить ключи `upsell.title`, `upsell.addButton` |
+| `src/components/product/index.ts` | Экспортировать UpsellSection |
+| `src/pages/ProductPage.tsx` | Заменить PairedWithSection на UpsellSection |
 
-Почему это правильно:
-- Единственный фиксированный элемент сверху сейчас — PremiumInfoBar (36px)
-- Header в потоке, значит его высоту **нельзя закладывать** в `top` sticky-элемента
+### Переводы для апсейла
+
+| Язык | `upsell.title` | `upsell.addButton` |
+|------|----------------|-------------------|
+| EN | Complete your order | + Add |
+| RU | Дополни заказ | + Добавить |
+| DE | Vervollständige deine Bestellung | + Hinzufügen |
+| FR | Complétez votre commande | + Ajouter |
+| ES | Completa tu pedido | + Añadir |
+| IT | Completa il tuo ordine | + Aggiungi |
+| PT | Complete seu pedido | + Adicionar |
+| ZH | 完善您的订单 | + 添加 |
+| JA | ご注文を完了する | + 追加 |
+| KO | 주문을 완료하세요 | + 추가 |
 
 ---
 
-## Что может потребовать лёгкой подстройки (только если визуально “съедет”)
-На мобилке ещё есть слой фона, который начинается с `top-32`:
+## Технические детали
+
+### UpsellSection.tsx — ключевые моменты
 
 ```tsx
-{isMobile && (
-  <div className="absolute inset-x-0 top-32 bottom-0 bg-background -z-10" />
-)}
+// Получаем товары из Shopify
+const { products } = useShopifyProducts(10);
+const { addItem } = useCartStore();
+
+// Находим другой товар (не текущий)
+const upsellProduct = products.find(p => 
+  p.node.handle !== currentHandle && 
+  p.node.variants.edges.some(v => v.node.availableForSale)
+);
+
+// Добавляем в корзину напрямую
+const handleQuickAdd = async () => {
+  const variant = upsellProduct.node.variants.edges
+    .find(v => v.node.availableForSale)?.node;
+  
+  await addItem({
+    product: upsellProduct,
+    variantId: variant.id,
+    // ...
+  });
+  
+  toast.success("Added to cart");
+};
 ```
 
-Он был подобран под прежнюю геометрию (когда сверху была сумма “строка + fixed header”). После фикса `top` у hero, возможно, захочется:
-- оставить как есть (скорее всего будет нормально)
-- или чуть уменьшить `top-32` → например `top-24/top-20`, если появится заметный “разрыв” между фото и подложкой
-
-Я бы сначала сделал пункт (1) со `top-[100px]` → `top-9`, посмотрел вживую, и только потом трогал `top-32` (чтобы не ломать твой glass/slide эффект).
-
----
-
-## Как проверяем, что стало “как раньше”
-1) Открыть страницу товара на мобилке (или сузить окно)
-2) Начать скролл:
-   - строка остаётся сверху
-   - header уезжает вверх
-   - вместо “белой полосы” сверху остаётся фото/контент без контрастного фона
-3) Доскроллить до отзывов (там sticky hero отключается) — убедиться, что ничего не дергается
-
----
-
-## Файлы, которые нужно править
-- `src/pages/ProductPage.tsx`
-  - заменить `sticky top-[100px]` на `sticky top-9` (или `top-[36px]`)
-  - (опционально) при необходимости подстроить `top-32` у фонового слоя на мобилке
+### Порядок работы
+1. Сначала исправляю переводы PremiumInfoBar (быстро)
+2. Создаю UpsellSection с функцией добавления в корзину
+3. Добавляю переводы для апсейла
+4. Заменяю старый PairedWithSection на новый UpsellSection
 
