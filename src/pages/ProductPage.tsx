@@ -36,35 +36,30 @@ const ProductPage = () => {
   const reviewsAnchorRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   
-  // Scroll-based latch: once reviews are reached, hero is hidden forever
-  const [hasReachedReviews, setHasReachedReviews] = useState(false);
+  // Dynamic scroll check: hero visible above reviews, hidden below
+  const [isAboveReviews, setIsAboveReviews] = useState(true);
   
   useEffect(() => {
     if (!isMobile) return;
     
     const handleScroll = () => {
-      // Once latched, never unlatch
-      if (hasReachedReviews) return;
-      
       const anchor = reviewsAnchorRef.current;
       if (!anchor) return;
       
       // Trigger when reviews are ~35% from bottom of viewport
       const triggerY = anchor.offsetTop - window.innerHeight * 0.35;
       
-      if (window.scrollY >= triggerY) {
-        setHasReachedReviews(true);
-      }
+      // Dynamically update based on current scroll position
+      setIsAboveReviews(window.scrollY < triggerY);
     };
     
     window.addEventListener('scroll', handleScroll, { passive: true });
-    // Check immediately in case we're already past the trigger point
-    handleScroll();
+    handleScroll(); // Check immediately
     
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isMobile, hasReachedReviews]);
+  }, [isMobile]);
   
-  const isHeroSticky = isMobile && !hasReachedReviews;
+  const isHeroSticky = isMobile && isAboveReviews;
   
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -242,7 +237,7 @@ const ProductPage = () => {
         <div
           ref={imageRef}
           className={`relative transition-colors duration-500 ${
-            isMobile && hasReachedReviews ? 'bg-background' : 'bg-secondary'
+            isMobile && !isAboveReviews ? 'bg-background' : 'bg-secondary'
           } ${
             isMobile 
               ? (isHeroSticky ? 'sticky top-9 z-0 h-[55vh]' : 'h-[55vh]') 
@@ -258,17 +253,17 @@ const ProductPage = () => {
                 key={heroImage.url}
                 initial={{ opacity: 0, rotateY: 15, scale: 0.95 }}
                 animate={{ 
-                  opacity: isMobile && hasReachedReviews ? 0 : 1, 
+                  opacity: isMobile && !isAboveReviews ? 0 : 1, 
                   rotateY: 0, 
-                  scale: isMobile && hasReachedReviews ? 0.98 : 1,
-                  filter: isMobile && hasReachedReviews ? 'blur(6px)' : 'blur(0px)'
+                  scale: isMobile && !isAboveReviews ? 0.98 : 1,
+                  filter: isMobile && !isAboveReviews ? 'blur(6px)' : 'blur(0px)'
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 src={heroImage.url}
                 alt={heroImage.altText || product.title}
-                className={`max-w-full max-h-full object-contain ${isMobile && hasReachedReviews ? 'pointer-events-none' : 'cursor-pointer'}`}
+                className={`max-w-full max-h-full object-contain ${isMobile && !isAboveReviews ? 'pointer-events-none' : 'cursor-pointer'}`}
                 style={{ transformStyle: "preserve-3d" }}
-                onClick={isMobile && hasReachedReviews ? undefined : () => {
+                onClick={isMobile && !isAboveReviews ? undefined : () => {
                   const heroIdx = product.images.edges.findIndex(img => img.node.url === heroImage.url);
                   setLightboxIndex(heroIdx >= 0 ? heroIdx : 0);
                   setLightboxOpen(true);
