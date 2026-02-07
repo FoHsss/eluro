@@ -1,27 +1,52 @@
 
 
-# План: Info Bar фиксированный наверху БЕЗ Header
+# План: Info Bar фиксированный + Header прячется при скролле
 
-## Что вы хотите
-- Info bar: **фиксированный в самом верху** (`fixed top-0`)
-- Header: **убрать совсем** или сделать не фиксированным
-- Info bar остаётся видимым при прокрутке
+## Что нужно
+- **Info bar**: `fixed top-0` — всегда виден наверху
+- **Header**: под info bar, но **уходит вверх** при прокрутке
 
-## Что я сделал неправильно
-Я убрал фиксацию с info bar, сделав его частью потока. Нужно наоборот — вернуть фиксацию info bar и убрать Header.
+---
+
+## Визуальная схема
+
+```text
+Начальное состояние:
+┌────────────────────────────────────┐
+│  Currently available at... (fixed) │  ← z-50, top-0, ВСЕГДА виден
+├────────────────────────────────────┤
+│           Header (Eluro)           │  ← top-9, уходит при скролле
+├────────────────────────────────────┤
+│         Page Content               │
+└────────────────────────────────────┘
+
+После прокрутки:
+┌────────────────────────────────────┐
+│  Currently available at... (fixed) │  ← остаётся на месте
+├────────────────────────────────────┤
+│         Page Content               │  ← Header ушёл вверх
+└────────────────────────────────────┘
+```
 
 ---
 
 ## Изменения
 
-### 1. `src/components/product/PremiumInfoBar.tsx`
+### 1. `src/components/Header.tsx`
+
+**Было:**
+```tsx
+className={`fixed top-0 left-0 right-0 z-50 h-16 ...`}
+```
 
 **Станет:**
 ```tsx
-className="fixed top-0 left-0 right-0 z-50 h-9 flex items-center justify-center bg-[hsl(40,20%,94%)] ..."
+className="relative z-40 h-16 bg-background/95 backdrop-blur-sm"
 ```
 
-Info bar фиксируется в самом верху экрана (`top-0`).
+- Убираем `fixed` — Header становится частью потока документа
+- Убираем `top-0` — позиция определяется потоком
+- `z-40` — ниже info bar (`z-50`)
 
 ---
 
@@ -29,10 +54,12 @@ Info bar фиксируется в самом верху экрана (`top-0`).
 
 **Станет:**
 ```tsx
+import Header from "./Header";
+
 <div className="min-h-screen flex flex-col">
   <PremiumInfoBar />
-  {/* Header убран */}
-  <main className="flex-1 pt-9">
+  <Header />
+  <main className="flex-1">
     {children}
   </main>
   <Footer />
@@ -40,23 +67,27 @@ Info bar фиксируется в самом верху экрана (`top-0`).
 </div>
 ```
 
-- Header убирается из Layout
-- Padding main уменьшается до `pt-9` (только высота info bar)
+- Возвращаем `<Header />`
+- `pt-9` на main больше не нужен — padding создаётся самим Header
+- Порядок: PremiumInfoBar (fixed) → Header (в потоке) → main
 
 ---
 
-## Визуальная схема
+### 3. `src/components/product/PremiumInfoBar.tsx`
 
-```text
-┌────────────────────────────────────┐
-│  Currently available at... (fixed) │  ← z-50, top-0, всегда виден
-└────────────────────────────────────┘
-┌────────────────────────────────────┐
-│                                    │
-│         Page Content               │  ← прокручивается под info bar
-│                                    │
-└────────────────────────────────────┘
+Остаётся как есть:
+```tsx
+className="fixed top-0 left-0 right-0 z-50 h-9 ..."
 ```
+
+---
+
+## Как это работает
+
+1. **Info bar** — `fixed top-0 z-50`, всегда прикреплён к верху экрана
+2. **Header** — обычный элемент в потоке, идёт сразу после info bar
+3. При прокрутке Header уходит вверх вместе с контентом, а info bar остаётся на месте
+4. `pt-9` на `<main>` убирается — теперь контент идёт сразу после Header
 
 ---
 
@@ -64,6 +95,6 @@ Info bar фиксируется в самом верху экрана (`top-0`).
 
 | Файл | Изменение |
 |------|-----------|
-| `src/components/product/PremiumInfoBar.tsx` | Добавить `fixed top-0 left-0 right-0 z-50` |
-| `src/components/Layout.tsx` | Убрать `<Header />`, изменить padding на `pt-9` |
+| `src/components/Header.tsx` | Убрать `fixed top-0`, сделать `relative` |
+| `src/components/Layout.tsx` | Вернуть `<Header />`, убрать `pt-9` с main |
 
