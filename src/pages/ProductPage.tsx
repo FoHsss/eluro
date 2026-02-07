@@ -35,8 +35,8 @@ const ProductPage = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   const reviewsAnchorRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  const reviewsInView = useInView(reviewsAnchorRef, { margin: "-20% 0px 0px 0px", amount: 0.01 });
-  const isHeroSticky = isMobile && !reviewsInView;
+  const hasReachedReviews = useInView(reviewsAnchorRef, { margin: "-20% 0px 0px 0px", amount: 0.01, once: true });
+  const isHeroSticky = isMobile && !hasReachedReviews;
   
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -228,16 +228,17 @@ const ProductPage = () => {
                 key={heroImage.url}
                 initial={{ opacity: 0, rotateY: 15, scale: 0.95 }}
                 animate={{ 
-                  opacity: isMobile && reviewsInView ? 0 : 1, 
+                  opacity: isMobile && hasReachedReviews ? 0 : 1, 
                   rotateY: 0, 
-                  scale: 1 
+                  scale: isMobile && hasReachedReviews ? 0.98 : 1,
+                  filter: isMobile && hasReachedReviews ? 'blur(6px)' : 'blur(0px)'
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 src={heroImage.url}
                 alt={heroImage.altText || product.title}
-                className="max-w-full max-h-full object-contain cursor-pointer"
+                className={`max-w-full max-h-full object-contain ${isMobile && hasReachedReviews ? 'pointer-events-none' : 'cursor-pointer'}`}
                 style={{ transformStyle: "preserve-3d" }}
-                onClick={() => {
+                onClick={isMobile && hasReachedReviews ? undefined : () => {
                   const heroIdx = product.images.edges.findIndex(img => img.node.url === heroImage.url);
                   setLightboxIndex(heroIdx >= 0 ? heroIdx : 0);
                   setLightboxOpen(true);
