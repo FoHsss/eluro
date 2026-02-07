@@ -16,6 +16,7 @@ import {
   ProductVideo,
   StaticReviewsSection,
   UpsellSection,
+  MetafieldUpsellSection,
   DescriptionAccordion,
 } from "@/components/product";
 
@@ -278,6 +279,11 @@ const ProductPage = () => {
               ))}
             </div>
           )}
+
+          {/* Metafield Upsell Section - Individual upsells from Shopify */}
+          <MetafieldUpsellSection 
+            upsellProducts={(product as any).upsellProducts?.references?.edges?.map((e: any) => e.node) || null}
+          />
 
           {/* CTA Button */}
           <button 
