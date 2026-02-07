@@ -1,11 +1,9 @@
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Clock, Package } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface CalmUrgencyProps {
-  /** Show after scrolling this many pixels */
-  showAfterScroll?: number;
   /** Hours until availability update (for countdown) */
   countdownHours?: number;
   /** Show limited quantity message */
@@ -17,27 +15,15 @@ interface CalmUrgencyProps {
 }
 
 const CalmUrgency = ({
-  showAfterScroll = 200,
   countdownHours = 48,
   showLimitedQuantity = true,
   showPreferredPrice = true,
   showCuratedSelection = false,
 }: CalmUrgencyProps) => {
   const { t } = useTranslation();
-  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-30px" });
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0 });
-
-  // Track scroll position
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > showAfterScroll);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Check initial position
-    
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [showAfterScroll]);
 
   // Calculate countdown (no seconds - calm approach)
   useEffect(() => {
@@ -69,8 +55,6 @@ const CalmUrgency = ({
     return () => clearInterval(interval);
   }, [countdownHours]);
 
-  if (!isVisible) return null;
-
   const messages = [];
   
   if (showPreferredPrice) {
@@ -99,9 +83,9 @@ const CalmUrgency = ({
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 10 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className="py-4 px-4 mb-4 rounded-xl bg-muted/30 border border-border/50"
     >
