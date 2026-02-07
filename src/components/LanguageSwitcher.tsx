@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Globe, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 
@@ -82,15 +82,15 @@ const LanguageSwitcher = () => {
         transition={{ duration: 0.3, delay: 0.5 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full 
+        className="flex items-center justify-center w-11 h-11 rounded-full 
                    bg-background/80 backdrop-blur-xl border border-border shadow-lg
                    hover:bg-background hover:shadow-xl transition-all duration-300"
         aria-label="Select language"
         aria-expanded={isOpen}
       >
-        <Globe className="w-4 h-4 text-muted-foreground" />
-        <span className="text-lg">{currentLang.flag}</span>
-        <span className="text-sm font-medium text-foreground">{currentLang.code.toUpperCase()}</span>
+        <span className="text-sm font-semibold text-foreground tracking-tight">
+          {currentLang.code.toUpperCase()}
+        </span>
       </motion.button>
     </div>
   );
