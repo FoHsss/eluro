@@ -1,12 +1,14 @@
 
-# План: Info Bar как отдельный прокручиваемый элемент
 
-## Текущее поведение
-- Info bar: `fixed top-16` — прикреплён под шапкой, всегда виден
-- Шапка: `fixed top-0` — всегда наверху
+# План: Info Bar фиксированный наверху БЕЗ Header
 
-## Новое поведение
-Info bar становится **частью потока страницы** и прокручивается вместе с контентом, отдельно от шапки.
+## Что вы хотите
+- Info bar: **фиксированный в самом верху** (`fixed top-0`)
+- Header: **убрать совсем** или сделать не фиксированным
+- Info bar остаётся видимым при прокрутке
+
+## Что я сделал неправильно
+Я убрал фиксацию с info bar, сделав его частью потока. Нужно наоборот — вернуть фиксацию info bar и убрать Header.
 
 ---
 
@@ -14,41 +16,32 @@ Info bar становится **частью потока страницы** и 
 
 ### 1. `src/components/product/PremiumInfoBar.tsx`
 
-**Было:**
-```tsx
-className="fixed top-16 left-0 right-0 z-40 h-9 ..."
-```
-
 **Станет:**
 ```tsx
-className="w-full h-9 flex items-center justify-center bg-[hsl(40,20%,94%)] ..."
+className="fixed top-0 left-0 right-0 z-50 h-9 flex items-center justify-center bg-[hsl(40,20%,94%)] ..."
 ```
 
-Убираем `fixed`, `top-16`, `z-40` — элемент становится обычным блоком в потоке документа.
+Info bar фиксируется в самом верху экрана (`top-0`).
 
 ---
 
 ### 2. `src/components/Layout.tsx`
 
-**Было:**
-```tsx
-<Header />
-<PremiumInfoBar />
-<main className="flex-1 pt-[100px]">{children}</main>
-```
-
 **Станет:**
 ```tsx
-<Header />
-<main className="flex-1 pt-16">
+<div className="min-h-screen flex flex-col">
   <PremiumInfoBar />
-  {children}
-</main>
+  {/* Header убран */}
+  <main className="flex-1 pt-9">
+    {children}
+  </main>
+  <Footer />
+  <LanguageSwitcher />
+</div>
 ```
 
-- Info bar перемещается внутрь `<main>`
-- Padding уменьшается до `pt-16` (только под шапку)
-- Info bar прокручивается вместе с контентом
+- Header убирается из Layout
+- Padding main уменьшается до `pt-9` (только высота info bar)
 
 ---
 
@@ -56,18 +49,14 @@ className="w-full h-9 flex items-center justify-center bg-[hsl(40,20%,94%)] ..."
 
 ```text
 ┌────────────────────────────────────┐
-│           Header (fixed)           │  ← остаётся фиксированным
+│  Currently available at... (fixed) │  ← z-50, top-0, всегда виден
 └────────────────────────────────────┘
 ┌────────────────────────────────────┐
-│     Currently available at...      │  ← прокручивается с контентом
-├────────────────────────────────────┤
 │                                    │
-│         Page Content               │
+│         Page Content               │  ← прокручивается под info bar
 │                                    │
 └────────────────────────────────────┘
 ```
-
-При прокрутке info bar уходит вверх вместе с остальным контентом, а шапка с брендом остаётся на месте.
 
 ---
 
@@ -75,5 +64,6 @@ className="w-full h-9 flex items-center justify-center bg-[hsl(40,20%,94%)] ..."
 
 | Файл | Изменение |
 |------|-----------|
-| `src/components/product/PremiumInfoBar.tsx` | Убрать `fixed`, `top-16`, `z-40` |
-| `src/components/Layout.tsx` | Переместить info bar внутрь main, изменить padding |
+| `src/components/product/PremiumInfoBar.tsx` | Добавить `fixed top-0 left-0 right-0 z-50` |
+| `src/components/Layout.tsx` | Убрать `<Header />`, изменить padding на `pt-9` |
+
