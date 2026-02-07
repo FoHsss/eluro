@@ -100,7 +100,10 @@
     "preferredPrice": "Currently available at a preferred price",
     "limitedQuantity": "Limited quantity available",
     "curatedSelection": "This item is part of a curated selection",
+    "curatedEluro": "This item is part of a curated Eluro selection",
     "availabilityUpdate": "Availability updates in {{time}}",
+    "availabilityDays": "Availability updates in {{days}} days",
+    "readyToShip": "Thoughtfully chosen, ready to ship",
     "daysHours": "{{days}}d {{hours}}h",
     "hoursOnly": "{{hours}} hours"
   }

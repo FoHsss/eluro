@@ -17,7 +17,6 @@ import {
   StaticReviewsSection,
   PairedWithSection,
   DescriptionAccordion,
-  CalmUrgency,
 } from "@/components/product";
 
 // Mobile scroll config - tweak these values to adjust the "slide" effect
@@ -182,7 +181,7 @@ const ProductPage = () => {
           ref={imageRef}
           className={`relative bg-secondary ${
             isMobile 
-              ? (isHeroSticky ? 'sticky top-16 z-0 h-[55vh]' : 'h-[55vh]') 
+              ? (isHeroSticky ? 'sticky top-[100px] z-0 h-[55vh]' : 'h-[55vh]') 
               : 'h-[75vh]'
           }`}
         >
@@ -309,15 +308,6 @@ const ProductPage = () => {
           >
             {t('product.sizeChartLink')}
           </button>
-
-          {/* Calm Urgency Elements */}
-          <CalmUrgency 
-            countdownHours={72}
-            showPreferredPrice={true}
-            showLimitedQuantity={true}
-            showCuratedSelection={false}
-          />
-
           {/* Description Accordion */}
           {(product as any).descriptionHtml && (
             <motion.div
