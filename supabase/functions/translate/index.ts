@@ -32,7 +32,18 @@ serve(async (req) => {
     }
 
     // Translate using Lovable AI
-    const langName = targetLang === "ru" ? "Russian" : targetLang;
+    const languageNames: Record<string, string> = {
+      ru: "Russian",
+      de: "German",
+      fr: "French",
+      es: "Spanish",
+      it: "Italian",
+      pt: "Portuguese",
+      zh: "Chinese (Simplified)",
+      ja: "Japanese",
+      ko: "Korean",
+    };
+    const langName = languageNames[targetLang] || targetLang;
     
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

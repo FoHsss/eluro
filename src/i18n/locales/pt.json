@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "shop": "Loja",
+    "about": "Sobre",
+    "contact": "Contato"
+  },
+  "hero": {
+    "tagline": "Escolhido com cuidado",
+    "title": "Feito com carinho,",
+    "titleLine2": "projetado para durar",
+    "subtitle": "Artigos de couro premium projetados para os momentos que importam. Simples, bonito, duradouro.",
+    "cta": "Explorar coleção"
+  },
+  "featured": {
+    "title": "Destaques",
+    "viewAll": "Ver todos os produtos",
+    "noProducts": "Nenhum produto ainda",
+    "premium": "Premium"
+  },
+  "brandQuote": "\"Acreditamos que as melhores coisas são escolhidas com cuidado e guardadas para a vida toda.\"",
+  "shop": {
+    "collection": "Coleção",
+    "title": "Todos os produtos",
+    "noProducts": "Nenhum produto encontrado",
+    "noProductsHint": "Diga-me qual produto você gostaria de criar e eu o adicionarei à sua loja."
+  },
+  "product": {
+    "tagline": "Escolhido com cuidado",
+    "addToCart": "Adicionar ao carrinho",
+    "addToOrder": "Adicionar ao pedido",
+    "addToBag": "Adicionar à sacola",
+    "soldOut": "Esgotado",
+    "readyToShip": "Pronto para envio · Preparado em 24–48 horas",
+    "sizeChartLink": "Por favor, meça a circunferência do pescoço do seu pet antes de comprar!",
+    "gallery": "Galeria",
+    "problemTitle": "Tranquilidade simples",
+    "problemText1": "Pets às vezes podem se perder. Uma placa perdida ou identificação desbotada pode tornar um momento estressante ainda mais difícil.",
+    "problemText2": "Nossa coleira de couro mantém um AirTag com segurança, para que você possa localizar seu companheiro quando precisar. Sem alarmes, apenas confiança tranquila."
+  },
+  "cart": {
+    "title": "Carrinho de compras",
+    "empty": "Seu carrinho está vazio",
+    "itemCount": "{{count}} item no seu carrinho",
+    "itemCount_plural": "{{count}} itens no seu carrinho",
+    "total": "Total",
+    "checkout": "Finalizar com Shopify"
+  },
+  "about": {
+    "tagline": "Nossa história",
+    "title": "Sobre a Eluro",
+    "p1": "A Eluro nasceu de uma crença simples: as coisas que escolhemos guardar devem valer a pena serem guardadas. Em um mundo de opções infinitas, selecionamos o que importa — produtos feitos com intenção, construídos para durar.",
+    "p2": "Cada peça da nossa coleção é cuidadosamente escolhida. Trabalhamos com artesãos que compartilham nossa dedicação à qualidade, selecionando materiais que envelhecem lindamente e designs que transcendem tendências.",
+    "p3": "Não acreditamos em táticas de urgência ou vendas passageiras. Nossa abordagem é calma, ponderada e centrada na confiança. Quando você escolhe Eluro, você escolhe algo destinado a fazer parte da sua vida por anos.",
+    "motto": "Escolhido com cuidado."
+  },
+  "contact": {
+    "title": "Entre em contato",
+    "subtitle": "Dúvidas sobre um pedido ou simplesmente quer dizer olá? Adoraríamos ouvir de você.",
+    "name": "Nome",
+    "namePlaceholder": "Seu nome",
+    "email": "E-mail",
+    "emailPlaceholder": "seu@email.com",
+    "message": "Mensagem",
+    "messagePlaceholder": "Como podemos ajudar?",
+    "submit": "Enviar mensagem",
+    "sending": "Enviando...",
+    "success": "Mensagem enviada. Entraremos em contato em breve."
+  },
+  "footer": {
+    "tagline": "Escolhido com cuidado",
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Serviço",
+    "copyright": "© {{year}} Eluro. Todos os direitos reservados."
+  },
+  "privacy": {
+    "title": "Política de Privacidade",
+    "lastUpdated": "Última atualização: janeiro de 2025",
+    "section1Title": "Informações que coletamos",
+    "section1Text": "Coletamos informações que você fornece diretamente, como nome, endereço de e-mail e detalhes de envio ao fazer uma compra ou entrar em contato conosco.",
+    "section2Title": "Como usamos suas informações",
+    "section2Text": "Suas informações são usadas exclusivamente para processar pedidos, comunicar sobre suas compras e melhorar nosso serviço. Nunca vendemos seus dados pessoais a terceiros.",
+    "section3Title": "Segurança de dados",
+    "section3Text": "Implementamos medidas de segurança padrão da indústria para proteger suas informações pessoais. Todas as transações são criptografadas e processadas com segurança.",
+    "section4Title": "Entre em contato",
+    "section4Text": "Se você tiver dúvidas sobre esta política, entre em contato em"
+  },
+  "terms": {
+    "title": "Termos de Serviço",
+    "lastUpdated": "Última atualização: janeiro de 2025",
+    "section1Title": "Pedidos e pagamentos",
+    "section1Text": "Todos os pedidos estão sujeitos à disponibilidade. Os preços estão em USD e incluem impostos aplicáveis. O pagamento é processado com segurança no checkout.",
+    "section2Title": "Envio",
+    "section2Text": "Oferecemos frete grátis em todos os pedidos. Os itens são feitos à mão em 2-3 dias úteis e entregues em 5-7 dias úteis para a maioria dos destinos.",
+    "section3Title": "Devoluções e trocas",
+    "section3Text": "Aceitamos devoluções dentro de 30 dias após a entrega. Os itens devem estar sem uso e em condição original. Entre em contato para iniciar uma devolução e receber sua etiqueta de envio pré-paga.",
+    "section4Title": "Contato",
+    "section4Text": "Para qualquer dúvida sobre estes termos, entre em contato em"
+  }
+}
