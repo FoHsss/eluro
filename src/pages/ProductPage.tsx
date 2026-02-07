@@ -167,6 +167,11 @@ const ProductPage = () => {
     img => img.node.altText?.toLowerCase().includes('gallery')
   );
 
+  // Find GIF media for video module (altText contains 'gif')
+  const gifMedia = product.images.edges.find(
+    img => img.node.altText?.toLowerCase().includes('gif')
+  );
+
   // Sort options: Color first, then Size
   const sortedOptions = product.options ? [...product.options].sort((a, b) => {
     if (a.name.toLowerCase() === 'color') return -1;
@@ -334,7 +339,7 @@ const ProductPage = () => {
           <ProblemSolutionSection />
 
           {/* Product Video/GIF */}
-          <ProductVideo />
+          <ProductVideo src={gifMedia?.node.url} poster={gifMedia?.node.url} />
 
           {/* Mid-page CTA Button */}
           <motion.div
