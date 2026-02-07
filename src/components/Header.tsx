@@ -44,7 +44,7 @@ const Header = () => {
   return (
     <>
       <header
-        className="relative z-40 h-16 mt-9 bg-background/95 backdrop-blur-sm"
+        className="relative z-40 h-16 mt-9"
       >
         <div className="container h-full flex items-center justify-between">
           {/* Mobile Menu Button */}
