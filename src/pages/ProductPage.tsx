@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import Layout from "@/components/Layout";
 import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { useCartStore } from "@/stores/cartStore";
-import { ReviewsSection } from "@/components/ReviewsSection";
+
 import { useIsMobile } from "@/hooks/use-mobile";
 import sizeChartImage from "@/assets/size-chart.jpg";
 import {
@@ -381,11 +381,8 @@ const ProductPage = () => {
           )}
 
           {/* Static English Reviews */}
-          <StaticReviewsSection />
-
-          {/* DB Reviews Section */}
           <div ref={reviewsAnchorRef} className="h-px" />
-          <ReviewsSection productHandle={product.handle} />
+          <StaticReviewsSection />
 
           {/* Secondary CTA Button */}
           <motion.div
