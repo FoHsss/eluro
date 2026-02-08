@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Camera, X, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -14,6 +15,7 @@ export const ReviewPhotoUpload = ({
   onPhotosChange, 
   maxPhotos = 3 
 }: ReviewPhotoUploadProps) => {
+  const { t } = useTranslation();
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -23,7 +25,7 @@ export const ReviewPhotoUpload = ({
 
     const remainingSlots = maxPhotos - photos.length;
     if (remainingSlots <= 0) {
-      toast.error(`Maximum ${maxPhotos} photos allowed`);
+      toast.error(t('reviews.maxPhotos', { max: maxPhotos }));
       return;
     }
 
@@ -36,13 +38,13 @@ export const ReviewPhotoUpload = ({
       for (const file of filesToUpload) {
         // Validate file type
         if (!file.type.startsWith('image/')) {
-          toast.error(`${file.name} is not an image`);
+          toast.error(t('reviews.notImage', { name: file.name }));
           continue;
         }
 
         // Validate file size (max 5MB)
         if (file.size > 5 * 1024 * 1024) {
-          toast.error(`${file.name} is too large (max 5MB)`);
+          toast.error(t('reviews.tooLarge', { name: file.name }));
           continue;
         }
 
@@ -57,7 +59,7 @@ export const ReviewPhotoUpload = ({
 
         if (error) {
           console.error('Upload error:', error);
-          toast.error(`Failed to upload ${file.name}`);
+          toast.error(t('reviews.uploadFailed', { name: file.name }));
           continue;
         }
 
@@ -74,7 +76,7 @@ export const ReviewPhotoUpload = ({
       }
     } catch (error) {
       console.error('Upload error:', error);
-      toast.error('Failed to upload photos');
+      toast.error(t('reviews.uploadError'));
     } finally {
       setIsUploading(false);
       // Reset input
@@ -131,7 +133,7 @@ export const ReviewPhotoUpload = ({
       </div>
 
       <p className="text-xs text-muted-foreground">
-        Add up to {maxPhotos} photos (optional)
+        {t('reviews.addPhotos', { max: maxPhotos })}
       </p>
 
       <input

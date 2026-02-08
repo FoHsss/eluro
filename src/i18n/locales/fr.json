@@ -112,5 +112,29 @@
     "addToOrder": "Complétez le set & économisez sur la livraison",
     "addButton": "Ajouter",
     "added": "Ajouté au panier"
+  },
+  "reviews": {
+    "title": "Avis clients",
+    "noReviews": "Pas encore d'avis",
+    "outOf5": "sur 5",
+    "reviewsCount": "({{count}} avis)",
+    "writeReview": "Écrire un avis",
+    "beFirst": "Soyez le premier à partager votre expérience !",
+    "yourName": "Votre nom",
+    "namePlaceholder": "Comment vous appelez-vous ?",
+    "rating": "Note",
+    "yourReview": "Votre avis",
+    "reviewPlaceholder": "Parlez-nous de votre expérience avec ce produit...",
+    "photos": "Photos",
+    "addPhotos": "Ajoutez jusqu'à {{max}} photos (optionnel)",
+    "cancel": "Annuler",
+    "submit": "Envoyer",
+    "successTitle": "Merci pour votre avis !",
+    "successDescription": "Votre avis sera visible après modération.",
+    "maxPhotos": "Maximum {{max}} photos autorisées",
+    "notImage": "{{name}} n'est pas une image",
+    "tooLarge": "{{name}} est trop volumineux (max 5Mo)",
+    "uploadFailed": "Échec du téléchargement de {{name}}",
+    "uploadError": "Échec du téléchargement des photos"
   }
 }

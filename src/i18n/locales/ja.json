@@ -112,5 +112,29 @@
     "addToOrder": "セットを揃えて送料を節約",
     "addButton": "追加",
     "added": "カートに追加しました"
+  },
+  "reviews": {
+    "title": "カスタマーレビュー",
+    "noReviews": "まだレビューはありません",
+    "outOf5": "/ 5",
+    "reviewsCount": "({{count}} 件のレビュー)",
+    "writeReview": "レビューを書く",
+    "beFirst": "最初に体験を共有しましょう！",
+    "yourName": "お名前",
+    "namePlaceholder": "お名前は？",
+    "rating": "評価",
+    "yourReview": "レビュー内容",
+    "reviewPlaceholder": "この商品についてのご感想をお聞かせください...",
+    "photos": "写真",
+    "addPhotos": "最大 {{max}} 枚の写真を追加（任意）",
+    "cancel": "キャンセル",
+    "submit": "送信",
+    "successTitle": "レビューありがとうございます！",
+    "successDescription": "レビューは審査後に表示されます。",
+    "maxPhotos": "写真は最大 {{max}} 枚まで",
+    "notImage": "{{name}} は画像ではありません",
+    "tooLarge": "{{name}} が大きすぎます（最大 5MB）",
+    "uploadFailed": "{{name}} のアップロードに失敗しました",
+    "uploadError": "写真のアップロードに失敗しました"
   }
 }

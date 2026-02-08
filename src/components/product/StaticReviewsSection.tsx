@@ -4,6 +4,7 @@ import { User, Loader2, Send } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "react-i18next";
 import { StarRating } from "@/components/StarRating";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -96,6 +97,8 @@ interface StaticReviewsSectionProps {
 }
 
 export const StaticReviewsSection = ({ productHandle = "default" }: StaticReviewsSectionProps) => {
+  const { t } = useTranslation();
+  
   // Get reviews specific to this product, or empty array for new products
   const productReviews = reviewsByProduct[productHandle] || [];
   const hasReviews = productReviews.length > 0;
@@ -129,8 +132,8 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
         form.reset();
         setUploadedPhotos([]);
         setShowForm(false);
-        toast.success("Thank you for your review!", {
-          description: "Your review will be visible after moderation."
+        toast.success(t('reviews.successTitle'), {
+          description: t('reviews.successDescription')
         });
       }
     });
@@ -148,18 +151,18 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-lg font-medium text-foreground mb-1">
-            Customer Reviews
+            {t('reviews.title')}
           </h2>
           {hasReviews ? (
             <div className="flex items-center gap-2">
               <StarRating rating={Math.round(averageRating)} size="sm" />
               <span className="text-sm text-muted-foreground">
-                {averageRating.toFixed(1)} out of 5 ({productReviews.length} reviews)
+                {averageRating.toFixed(1)} {t('reviews.outOf5')} {t('reviews.reviewsCount', { count: productReviews.length })}
               </span>
             </div>
           ) : (
             <span className="text-sm text-muted-foreground">
-              No reviews yet
+              {t('reviews.noReviews')}
             </span>
           )}
         </div>
@@ -170,7 +173,7 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
             size="sm"
             onClick={() => setShowForm(true)}
           >
-            Write a Review
+            {t('reviews.writeReview')}
           </Button>
         )}
       </div>
@@ -190,9 +193,9 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
                 name="author_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Your Name</FormLabel>
+                    <FormLabel>{t('reviews.yourName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="What's your name?" {...field} />
+                      <Input placeholder={t('reviews.namePlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -204,7 +207,7 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
                 name="rating"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Rating</FormLabel>
+                    <FormLabel>{t('reviews.rating')}</FormLabel>
                     <FormControl>
                       <StarRating 
                         rating={field.value} 
@@ -223,10 +226,10 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
                 name="comment"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Your Review</FormLabel>
+                    <FormLabel>{t('reviews.yourReview')}</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="Tell us about your experience with this product..."
+                        placeholder={t('reviews.reviewPlaceholder')}
                         className="min-h-[100px]"
                         {...field} 
                       />
@@ -238,7 +241,7 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
 
               {/* Photo Upload */}
               <div>
-                <FormLabel className="mb-2 block">Photos</FormLabel>
+                <FormLabel className="mb-2 block">{t('reviews.photos')}</FormLabel>
                 <ReviewPhotoUpload 
                   photos={uploadedPhotos}
                   onPhotosChange={setUploadedPhotos}
@@ -256,7 +259,7 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
                     form.reset();
                   }}
                 >
-                  Cancel
+                  {t('reviews.cancel')}
                 </Button>
                 <Button type="submit" disabled={isSubmitting}>
                   {isSubmitting ? (
@@ -264,7 +267,7 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
                   ) : (
                     <Send className="w-4 h-4 mr-2" />
                   )}
-                  Submit
+                  {t('reviews.submit')}
                 </Button>
               </div>
             </form>
@@ -315,7 +318,7 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
       ) : (
         <div className="text-center py-8 bg-muted/10 rounded-xl border border-border/30">
           <p className="text-muted-foreground mb-2">
-            No reviews yet. Be the first to share your experience!
+            {t('reviews.beFirst')}
           </p>
           {!showForm && (
             <Button 
@@ -323,7 +326,7 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
               size="sm"
               onClick={() => setShowForm(true)}
             >
-              Write a Review
+              {t('reviews.writeReview')}
             </Button>
           )}
         </div>

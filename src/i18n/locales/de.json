@@ -112,5 +112,29 @@
     "addToOrder": "Set vervollständigen & Versand sparen",
     "addButton": "Hinzufügen",
     "added": "Zum Warenkorb hinzugefügt"
+  },
+  "reviews": {
+    "title": "Kundenbewertungen",
+    "noReviews": "Noch keine Bewertungen",
+    "outOf5": "von 5",
+    "reviewsCount": "({{count}} Bewertungen)",
+    "writeReview": "Bewertung schreiben",
+    "beFirst": "Seien Sie der Erste, der seine Erfahrung teilt!",
+    "yourName": "Ihr Name",
+    "namePlaceholder": "Wie heißen Sie?",
+    "rating": "Bewertung",
+    "yourReview": "Ihre Bewertung",
+    "reviewPlaceholder": "Erzählen Sie uns von Ihrer Erfahrung mit diesem Produkt...",
+    "photos": "Fotos",
+    "addPhotos": "Fügen Sie bis zu {{max}} Fotos hinzu (optional)",
+    "cancel": "Abbrechen",
+    "submit": "Absenden",
+    "successTitle": "Vielen Dank für Ihre Bewertung!",
+    "successDescription": "Ihre Bewertung wird nach Moderation sichtbar.",
+    "maxPhotos": "Maximal {{max}} Fotos erlaubt",
+    "notImage": "{{name}} ist kein Bild",
+    "tooLarge": "{{name}} ist zu groß (max. 5MB)",
+    "uploadFailed": "Upload von {{name}} fehlgeschlagen",
+    "uploadError": "Fotos konnten nicht hochgeladen werden"
   }
 }

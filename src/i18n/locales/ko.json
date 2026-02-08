@@ -112,5 +112,29 @@
     "addToOrder": "세트 완성하고 배송비 절약하세요",
     "addButton": "추가",
     "added": "장바구니에 추가됨"
+  },
+  "reviews": {
+    "title": "고객 리뷰",
+    "noReviews": "아직 리뷰가 없습니다",
+    "outOf5": "/ 5",
+    "reviewsCount": "({{count}}개 리뷰)",
+    "writeReview": "리뷰 작성",
+    "beFirst": "첫 번째로 경험을 공유해 보세요!",
+    "yourName": "이름",
+    "namePlaceholder": "이름이 무엇인가요?",
+    "rating": "평점",
+    "yourReview": "리뷰",
+    "reviewPlaceholder": "이 제품에 대한 경험을 알려주세요...",
+    "photos": "사진",
+    "addPhotos": "최대 {{max}}장의 사진 추가 (선택)",
+    "cancel": "취소",
+    "submit": "제출",
+    "successTitle": "리뷰 감사합니다!",
+    "successDescription": "리뷰는 검토 후 표시됩니다.",
+    "maxPhotos": "최대 {{max}}장의 사진만 허용됩니다",
+    "notImage": "{{name}}은(는) 이미지가 아닙니다",
+    "tooLarge": "{{name}}이(가) 너무 큽니다 (최대 5MB)",
+    "uploadFailed": "{{name}} 업로드 실패",
+    "uploadError": "사진 업로드에 실패했습니다"
   }
 }
