@@ -115,5 +115,29 @@
     "added": "Added to cart",
     "viewDetails": "View details",
     "included": "Included with your order"
+  },
+  "reviews": {
+    "title": "Customer Reviews",
+    "noReviews": "No reviews yet",
+    "outOf5": "out of 5",
+    "reviewsCount": "({{count}} reviews)",
+    "writeReview": "Write a Review",
+    "beFirst": "Be the first to share your experience!",
+    "yourName": "Your Name",
+    "namePlaceholder": "What's your name?",
+    "rating": "Rating",
+    "yourReview": "Your Review",
+    "reviewPlaceholder": "Tell us about your experience with this product...",
+    "photos": "Photos",
+    "addPhotos": "Add up to {{max}} photos (optional)",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "successTitle": "Thank you for your review!",
+    "successDescription": "Your review will be visible after moderation.",
+    "maxPhotos": "Maximum {{max}} photos allowed",
+    "notImage": "{{name}} is not an image",
+    "tooLarge": "{{name}} is too large (max 5MB)",
+    "uploadFailed": "Failed to upload {{name}}",
+    "uploadError": "Failed to upload photos"
   }
 }

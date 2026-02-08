@@ -112,5 +112,29 @@
     "addToOrder": "凑齐套装，节省运费",
     "addButton": "添加",
     "added": "已添加到购物车"
+  },
+  "reviews": {
+    "title": "顾客评价",
+    "noReviews": "暂无评价",
+    "outOf5": "/ 5",
+    "reviewsCount": "({{count}} 条评价)",
+    "writeReview": "写评价",
+    "beFirst": "成为第一个分享体验的人！",
+    "yourName": "您的姓名",
+    "namePlaceholder": "您叫什么名字？",
+    "rating": "评分",
+    "yourReview": "您的评价",
+    "reviewPlaceholder": "告诉我们您使用这款产品的体验...",
+    "photos": "照片",
+    "addPhotos": "最多添加 {{max}} 张照片（可选）",
+    "cancel": "取消",
+    "submit": "提交",
+    "successTitle": "感谢您的评价！",
+    "successDescription": "您的评价将在审核后显示。",
+    "maxPhotos": "最多允许 {{max}} 张照片",
+    "notImage": "{{name}} 不是图片",
+    "tooLarge": "{{name}} 太大了（最大 5MB）",
+    "uploadFailed": "{{name}} 上传失败",
+    "uploadError": "照片上传失败"
   }
 }
