@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useAddReview } from "@/hooks/useProductReviews";
+import { ReviewPhotoUpload } from "./ReviewPhotoUpload";
+import { ReviewPhotoGallery } from "./ReviewPhotoGallery";
 import { toast } from "sonner";
 
 interface StaticReview {
@@ -18,6 +20,7 @@ interface StaticReview {
   rating: number;
   comment: string;
   date: string;
+  photos?: string[];
 }
 
 // Reviews mapped by product handle - each product has its own unique reviews
@@ -102,6 +105,7 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
     : 0;
   
   const [showForm, setShowForm] = useState(false);
+  const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const { mutate: addReview, isPending: isSubmitting } = useAddReview();
 
   const form = useForm<ReviewFormData>({
@@ -118,10 +122,12 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
       product_handle: productHandle,
       author_name: data.author_name,
       rating: data.rating,
-      comment: data.comment
+      comment: data.comment,
+      photo_urls: uploadedPhotos
     }, {
       onSuccess: () => {
         form.reset();
+        setUploadedPhotos([]);
         setShowForm(false);
         toast.success("Thank you for your review!", {
           description: "Your review will be visible after moderation."
@@ -230,12 +236,23 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
                 )}
               />
 
+              {/* Photo Upload */}
+              <div>
+                <FormLabel className="mb-2 block">Photos</FormLabel>
+                <ReviewPhotoUpload 
+                  photos={uploadedPhotos}
+                  onPhotosChange={setUploadedPhotos}
+                  maxPhotos={3}
+                />
+              </div>
+
               <div className="flex gap-2 justify-end">
                 <Button 
                   type="button" 
                   variant="ghost" 
                   onClick={() => {
                     setShowForm(false);
+                    setUploadedPhotos([]);
                     form.reset();
                   }}
                 >
@@ -288,6 +305,10 @@ export const StaticReviewsSection = ({ productHandle = "default" }: StaticReview
               <p className="text-sm text-muted-foreground leading-relaxed pl-[52px]">
                 {review.comment}
               </p>
+              {/* Review Photos */}
+              {review.photos && review.photos.length > 0 && (
+                <ReviewPhotoGallery photos={review.photos} />
+              )}
             </motion.div>
           ))}
         </div>

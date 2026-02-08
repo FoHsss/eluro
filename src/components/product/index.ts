@@ -1,8 +1,11 @@
 export { ProblemSolutionSection } from './ProblemSolutionSection';
 export { ProductVideo } from './ProductVideo';
+export { ProductVideoSection } from './ProductVideoSection';
 export { StaticReviewsSection } from './StaticReviewsSection';
 export { PairedWithSection } from './PairedWithSection';
 export { UpsellSection } from './UpsellSection';
 export { MetafieldUpsellSection } from './MetafieldUpsellSection';
+export { ReviewPhotoUpload } from './ReviewPhotoUpload';
+export { ReviewPhotoGallery } from './ReviewPhotoGallery';
 export { default as DescriptionAccordion } from './DescriptionAccordion';
 export { default as PremiumInfoBar } from './PremiumInfoBar';

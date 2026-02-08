@@ -21,6 +21,7 @@ export type Database = {
           created_at: string | null
           id: string
           is_approved: boolean | null
+          photo_urls: string[] | null
           product_handle: string
           rating: number
         }
@@ -30,6 +31,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_approved?: boolean | null
+          photo_urls?: string[] | null
           product_handle: string
           rating: number
         }
@@ -39,6 +41,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_approved?: boolean | null
+          photo_urls?: string[] | null
           product_handle?: string
           rating?: number
         }

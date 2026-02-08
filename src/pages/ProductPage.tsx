@@ -10,10 +10,9 @@ import { useCartStore } from "@/stores/cartStore";
 import { useTranslatedDescription } from "@/hooks/useTranslatedDescription";
 
 import { useIsMobile } from "@/hooks/use-mobile";
-import sizeChartImage from "@/assets/size-chart.jpg";
 import {
-  ProblemSolutionSection,
   ProductVideo,
+  ProductVideoSection,
   StaticReviewsSection,
   UpsellSection,
   MetafieldUpsellSection,
@@ -218,9 +217,22 @@ const ProductPage = () => {
     img => img.node.altText?.toLowerCase().includes('gallery')
   );
 
-  // Find GIF media for video module (altText contains 'gif')
+  // Check if URL is a video file
+  const isVideoUrl = (url: string) => /\.(mp4|webm|mov)(\?|$)/i.test(url);
+
+  // Find GIF media for demo module (altText contains 'gif')
   const gifMedia = product.images.edges.find(
     img => img.node.altText?.toLowerCase().includes('gif')
+  );
+
+  // Find video media for video section (altText contains 'video')
+  const videoMedia = product.images.edges.find(
+    img => img.node.altText?.toLowerCase().includes('video')
+  );
+
+  // Find size chart media (altText contains 'sizechart')
+  const sizeChartMedia = product.images.edges.find(
+    img => img.node.altText?.toLowerCase().includes('sizechart')
   );
 
   // Sort options: Color first, then Size
@@ -401,13 +413,15 @@ const ProductPage = () => {
             </p>
           )}
 
-          {/* Size Chart Link */}
-          <button 
-            onClick={() => setSizeChartOpen(true)}
-            className="text-xs text-center text-primary hover:text-primary/80 underline underline-offset-2 w-full transition-colors mb-4"
-          >
-            {t('product.sizeChartLink')}
-          </button>
+          {/* Size Chart Link - only show if sizechart media exists */}
+          {sizeChartMedia && (
+            <button 
+              onClick={() => setSizeChartOpen(true)}
+              className="text-xs text-center text-primary hover:text-primary/80 underline underline-offset-2 w-full transition-colors mb-4"
+            >
+              {t('product.sizeChartLink')}
+            </button>
+          )}
           {/* Description Accordion */}
           {(product as any).descriptionHtml && (
             <motion.div
@@ -424,10 +438,10 @@ const ProductPage = () => {
             </motion.div>
           )}
 
-          {/* Problem → Solution Section */}
-          <ProblemSolutionSection />
+          {/* Video Section from Shopify (replaces ProblemSolutionSection) */}
+          <ProductVideoSection videoUrl={videoMedia?.node.url} />
 
-          {/* Product Video/GIF */}
+          {/* Product GIF/Demo */}
           <ProductVideo src={gifMedia?.node.url} poster={gifMedia?.node.url} />
 
           {/* Mid-page CTA Button */}
@@ -465,28 +479,45 @@ const ProductPage = () => {
                 className="flex gap-6 overflow-x-auto snap-x snap-mandatory py-6 px-4 scrollbar-hide"
                 style={{ perspective: '1000px' }}
               >
-                {galleryImages.map((img, index) => (
-                  <motion.button
-                    key={img.node.url}
-                    onClick={() => {
-                      setLightboxIndex(index);
-                      setLightboxOpen(true);
-                    }}
-                    initial={{ rotateY: 25, opacity: 0.5, scale: 0.9 }}
-                    whileInView={{ rotateY: 0, opacity: 1, scale: 1 }}
-                    viewport={{ once: false, amount: 0.7 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                    whileHover={{ scale: 1.05, y: -4 }}
-                    style={{ transformStyle: 'preserve-3d' }}
-                    className="w-[250px] h-[250px] rounded-2xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 shadow-xl shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:border-white/40 transition-all duration-300 flex-shrink-0 snap-center"
-                  >
-                    <img 
-                      src={img.node.url} 
-                      alt={img.node.altText || `${product.title} - ${index + 1}`}
-                      className="w-full h-full object-contain" 
-                    />
-                  </motion.button>
-                ))}
+                {galleryImages.map((img, index) => {
+                  const isVideo = isVideoUrl(img.node.url);
+                  
+                  return (
+                    <motion.button
+                      key={img.node.url}
+                      onClick={() => {
+                        if (!isVideo) {
+                          setLightboxIndex(index);
+                          setLightboxOpen(true);
+                        }
+                      }}
+                      initial={{ rotateY: 25, opacity: 0.5, scale: 0.9 }}
+                      whileInView={{ rotateY: 0, opacity: 1, scale: 1 }}
+                      viewport={{ once: false, amount: 0.7 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      whileHover={{ scale: 1.05, y: -4 }}
+                      style={{ transformStyle: 'preserve-3d' }}
+                      className="w-[250px] h-[250px] rounded-2xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 shadow-xl shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:border-white/40 transition-all duration-300 flex-shrink-0 snap-center"
+                    >
+                      {isVideo ? (
+                        <video
+                          src={img.node.url}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <img 
+                          src={img.node.url} 
+                          alt={img.node.altText || `${product.title} - ${index + 1}`}
+                          className="w-full h-full object-contain" 
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -613,9 +644,9 @@ const ProductPage = () => {
         )}
       </AnimatePresence>
 
-      {/* Size Chart Lightbox */}
+      {/* Size Chart Lightbox - only if sizechart media exists */}
       <AnimatePresence>
-        {sizeChartOpen && (
+        {sizeChartOpen && sizeChartMedia && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -634,7 +665,7 @@ const ProductPage = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              src={sizeChartImage}
+              src={sizeChartMedia.node.url}
               alt="Size Chart"
               className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
               onClick={(e) => e.stopPropagation()}
