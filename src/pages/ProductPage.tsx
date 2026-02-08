@@ -299,8 +299,26 @@ const ProductPage = () => {
               <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
                 {t('product.tagline')}
               </p>
-              <h1 className="font-display text-xl md:text-2xl font-medium text-foreground">
-                {product.title}
+              <h1 className="font-display text-foreground">
+                {(() => {
+                  // Parse title format: "Product Name" Tagline
+                  const match = product.title.match(/^"([^"]+)"\s*(.*)$/);
+                  if (match) {
+                    const [, productName, tagline] = match;
+                    return (
+                      <>
+                        <span className="block text-xl md:text-2xl font-medium">{productName}</span>
+                        {tagline && (
+                          <span className="block text-sm md:text-base font-normal text-muted-foreground mt-1">
+                            {tagline}
+                          </span>
+                        )}
+                      </>
+                    );
+                  }
+                  // Fallback: show title as-is
+                  return <span className="text-xl md:text-2xl font-medium">{product.title}</span>;
+                })()}
               </h1>
               <p className="text-base text-muted-foreground flex items-center gap-2">
                 <span className="line-through text-muted-foreground/60">
