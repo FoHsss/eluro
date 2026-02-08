@@ -10,6 +10,7 @@ export interface Review {
   comment: string;
   is_approved: boolean;
   created_at: string;
+  photo_urls: string[];
 }
 
 export interface NewReview {
@@ -17,6 +18,7 @@ export interface NewReview {
   author_name: string;
   rating: number;
   comment: string;
+  photo_urls?: string[];
 }
 
 export const useProductReviews = (productHandle: string) => {
@@ -58,7 +60,14 @@ export const useAddReview = () => {
       // is_approved defaults to false via RLS policy - reviews require moderation
       const { data, error } = await supabase
         .from("reviews")
-        .insert([{ ...newReview, is_approved: false }])
+        .insert([{ 
+          product_handle: newReview.product_handle,
+          author_name: newReview.author_name,
+          rating: newReview.rating,
+          comment: newReview.comment,
+          photo_urls: newReview.photo_urls || [],
+          is_approved: false 
+        }])
         .select()
         .single();
 
