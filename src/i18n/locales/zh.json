@@ -35,7 +35,8 @@
     "gallery": "图库",
     "problemTitle": "简单的安心",
     "problemText1": "宠物有时会走失。丢失的铭牌或褪色的标识会让紧张的时刻变得更加困难。",
-    "problemText2": "我们的皮革项圈可以安全地固定AirTag，让您随时可以找到您的伙伴。没有警报，只有平静的安心。"
+    "problemText2": "我们的皮革项圈可以安全地固定AirTag，让您随时可以找到您的伙伴。没有警报，只有平静的安心。",
+    "limitedBatch": "限量批次"
   },
   "cart": {
     "title": "购物车",
@@ -70,7 +71,9 @@
     "tagline": "精心挑选",
     "privacy": "隐私政策",
     "terms": "服务条款",
-    "copyright": "© {{year}} Eluro. 保留所有权利。"
+    "copyright": "© {{year}} Eluro. 保留所有权利。",
+    "refund": "退款政策",
+    "shipping": "配送政策"
   },
   "privacy": {
     "title": "隐私政策",

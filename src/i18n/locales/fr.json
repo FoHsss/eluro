@@ -35,7 +35,8 @@
     "gallery": "Galerie",
     "problemTitle": "Une tranquillité d'esprit simple",
     "problemText1": "Les animaux peuvent parfois s'égarer. Un médaillon perdu ou une identification effacée peut rendre un moment stressant encore plus difficile.",
-    "problemText2": "Notre collier en cuir maintient un AirTag en sécurité, vous permettant de localiser votre compagnon quand vous en avez besoin. Pas d'alarmes, juste une confiance sereine."
+    "problemText2": "Notre collier en cuir maintient un AirTag en sécurité, vous permettant de localiser votre compagnon quand vous en avez besoin. Pas d'alarmes, juste une confiance sereine.",
+    "limitedBatch": "Stock limité"
   },
   "cart": {
     "title": "Panier",
@@ -70,7 +71,9 @@
     "tagline": "Choisi avec soin",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
-    "copyright": "© {{year}} Eluro. Tous droits réservés."
+    "copyright": "© {{year}} Eluro. Tous droits réservés.",
+    "refund": "Politique de remboursement",
+    "shipping": "Politique de livraison"
   },
   "privacy": {
     "title": "Politique de confidentialité",

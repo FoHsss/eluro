@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "shop": "Sklep",
+    "about": "O nas",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "tagline": "Starannie dobrane",
+    "title": "Stworzone z troską,",
+    "titleLine2": "zrobione na lata",
+    "subtitle": "Produkty ze skóry naturalnej klasy premium na wyjątkowe chwile. Prosto, pięknie, trwale.",
+    "cta": "Zobacz kolekcję"
+  },
+  "featured": {
+    "title": "Polecane",
+    "viewAll": "Wszystkie produkty",
+    "noProducts": "Brak produktów",
+    "premium": "Premium"
+  },
+  "brandQuote": "\u201EWierzymy, że najlepsze rzeczy wybiera się starannie i zachowuje na całe życie.\u201D",
+  "shop": {
+    "collection": "Kolekcja",
+    "title": "Wszystkie produkty",
+    "noProducts": "Nie znaleziono produktów",
+    "noProductsHint": "Powiedz mi, jaki produkt chcesz stworzyć, a dodam go do Twojego sklepu."
+  },
+  "product": {
+    "tagline": "Starannie dobrane",
+    "addToCart": "Dodaj do koszyka",
+    "addToOrder": "Dodaj do zamówienia",
+    "addToBag": "Dodaj do torby",
+    "viewCart": "Zobacz koszyk →",
+    "soldOut": "Wyprzedane",
+    "readyToShip": "Gotowe do wysyłki · Przygotowanie w mniej niż 6 godzin!",
+    "sizeChartLink": "Proszę zmierzyć obwód szyi zwierzaka przed zakupem!",
+    "gallery": "Galeria",
+    "problemTitle": "Prosty spokój ducha",
+    "problemText1": "Zwierzęta czasem mogą się zgubić. Zgubiony znacznik lub wyblakła identyfikacja mogą sprawić, że stresujący moment stanie się jeszcze trudniejszy.",
+    "problemText2": "Nasza skórzana obroża bezpiecznie trzyma AirTag, więc możesz zlokalizować swojego towarzysza, kiedy tylko potrzebujesz. Bez alarmów, tylko cichy spokój.",
+    "limitedBatch": "Limitowana partia"
+  },
+  "cart": {
+    "title": "Koszyk",
+    "empty": "Twój koszyk jest pusty",
+    "itemCount": "{{count}} produkt w koszyku",
+    "itemCount_plural": "{{count}} produktów w koszyku",
+    "total": "Razem",
+    "checkout": "Zamówienie przez Shopify"
+  },
+  "about": {
+    "tagline": "Nasza historia",
+    "title": "O Eluro",
+    "p1": "Eluro narodziło się z prostego przekonania: rzeczy, które decydujemy się zachować, powinny być warte zachowania. W świecie nieskończonych możliwości wybieramy to, co ważne — produkty tworzone z intencją, zbudowane na lata.",
+    "p2": "Każdy element naszej kolekcji jest starannie dobrany. Współpracujemy z rzemieślnikami, którzy podzielają nasze oddanie jakości, wybierając materiały, które pięknie się starzeją, i wzory ponadczasowe.",
+    "p3": "Nie wierzymy w taktyki pilności ani przelotne wyprzedaże. Nasze podejście jest spokojne, przemyślane i oparte na zaufaniu. Wybierając Eluro, wybierasz coś, co ma być częścią Twojego życia przez lata.",
+    "motto": "Starannie dobrane."
+  },
+  "contact": {
+    "title": "Skontaktuj się",
+    "subtitle": "Pytania o zamówienie lub po prostu chcesz się przywitać? Chętnie Cię wysłuchamy.",
+    "name": "Imię",
+    "namePlaceholder": "Twoje imię",
+    "email": "Email",
+    "emailPlaceholder": "twoj@email.com",
+    "message": "Wiadomość",
+    "messagePlaceholder": "Jak możemy pomóc?",
+    "submit": "Wyślij wiadomość",
+    "sending": "Wysyłanie...",
+    "success": "Wiadomość wysłana. Wkrótce się odezwiemy."
+  },
+  "footer": {
+    "tagline": "Starannie dobrane",
+    "privacy": "Polityka prywatności",
+    "terms": "Regulamin",
+    "copyright": "© {{year}} Eluro. Wszelkie prawa zastrzeżone.",
+    "refund": "Polityka zwrotów",
+    "shipping": "Polityka wysyłki"
+  },
+  "privacy": {
+    "title": "Polityka prywatności",
+    "lastUpdated": "Ostatnia aktualizacja: Styczeń 2025",
+    "section1Title": "Zbierane informacje",
+    "section1Text": "Zbieramy informacje, które podajesz bezpośrednio, takie jak imię, adres e-mail i dane do wysyłki podczas dokonywania zakupu lub kontaktu z nami.",
+    "section2Title": "Jak wykorzystujemy Twoje informacje",
+    "section2Text": "Twoje informacje są wykorzystywane wyłącznie do realizacji zamówień, komunikacji dotyczącej zakupów i ulepszania naszych usług. Nigdy nie sprzedajemy Twoich danych osobowych stronom trzecim.",
+    "section3Title": "Bezpieczeństwo danych",
+    "section3Text": "Stosujemy standardy branżowe w zakresie bezpieczeństwa, aby chronić Twoje dane osobowe. Wszystkie transakcje są szyfrowane i przetwarzane bezpiecznie.",
+    "section4Title": "Kontakt",
+    "section4Text": "Jeśli masz pytania dotyczące tej polityki, napisz do nas na"
+  },
+  "terms": {
+    "title": "Regulamin",
+    "lastUpdated": "Ostatnia aktualizacja: Styczeń 2025",
+    "section1Title": "Zamówienia i płatności",
+    "section1Text": "Wszystkie zamówienia zależą od dostępności. Ceny podane są w dolarach amerykańskich i zawierają odpowiednie podatki. Płatność jest bezpiecznie przetwarzana przy kasie.",
+    "section2Title": "Wysyłka",
+    "section2Text": "Oferujemy bezpłatną wysyłkę na wszystkie zamówienia. Produkty są ręcznie wykonywane w ciągu 2-3 dni roboczych i dostarczane w ciągu 5-7 dni roboczych do większości miejsc.",
+    "section3Title": "Zwroty i wymiany",
+    "section3Text": "Przyjmujemy zwroty w ciągu 30 dni od dostawy. Produkty muszą być nienoszone i w oryginalnym stanie. Skontaktuj się z nami, aby zainicjować zwrot i otrzymać opłaconą etykietę zwrotną.",
+    "section4Title": "Kontakt",
+    "section4Text": "W przypadku pytań dotyczących regulaminu prosimy o kontakt pod adresem"
+  },
+  "urgency": {
+    "preferredPrice": "Obecnie dostępne w preferencyjnej cenie",
+    "limitedQuantity": "Ograniczona ilość",
+    "curatedSelection": "Ten produkt jest częścią wyselekcjonowanej kolekcji",
+    "curatedEluro": "Ten produkt jest częścią wyselekcjonowanej kolekcji Eluro",
+    "availabilityUpdate": "Aktualizacja dostępności za {{time}}",
+    "availabilityDays": "Aktualizacja dostępności za {{days}} dni",
+    "readyToShip": "Starannie dobrane, gotowe do wysyłki",
+    "daysHours": "{{days}}d {{hours}}h",
+    "hoursOnly": "{{hours}} godzin"
+  },
+  "upsell": {
+    "title": "Uzupełnij zamówienie",
+    "addToOrder": "Skompletuj zestaw i zaoszczędź na wysyłce",
+    "addButton": "Dodaj",
+    "added": "Dodano do koszyka",
+    "viewDetails": "Szczegóły",
+    "included": "Dołączone do zamówienia"
+  },
+  "reviews": {
+    "title": "Opinie klientów",
+    "noReviews": "Brak opinii",
+    "outOf5": "z 5",
+    "reviewsCount": "({{count}} opinii)",
+    "writeReview": "Napisz opinię",
+    "beFirst": "Bądź pierwszą osobą, która podzieli się wrażeniami!",
+    "yourName": "Twoje imię",
+    "namePlaceholder": "Jak masz na imię?",
+    "rating": "Ocena",
+    "yourReview": "Twoja opinia",
+    "reviewPlaceholder": "Opowiedz nam o swoim doświadczeniu z tym produktem...",
+    "photos": "Zdjęcia",
+    "addPhotos": "Dodaj do {{max}} zdjęć (opcjonalnie)",
+    "cancel": "Anuluj",
+    "submit": "Wyślij",
+    "successTitle": "Dziękujemy za Twoją opinię!",
+    "successDescription": "Twoja opinia pojawi się po moderacji.",
+    "maxPhotos": "Maksymalnie {{max}} zdjęć",
+    "notImage": "{{name}} nie jest obrazem",
+    "tooLarge": "{{name}} jest za duży (maks. 5MB)",
+    "uploadFailed": "Nie udało się przesłać {{name}}",
+    "uploadError": "Nie udało się przesłać zdjęć"
+  }
+}

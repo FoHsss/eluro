@@ -12,6 +12,7 @@ import pt from './locales/pt.json';
 import zh from './locales/zh.json';
 import ja from './locales/ja.json';
 import ko from './locales/ko.json';
+import pl from './locales/pl.json';
 
 i18n
   .use(LanguageDetector)
@@ -28,9 +29,10 @@ i18n
       zh: { translation: zh },
       ja: { translation: ja },
       ko: { translation: ko },
+      pl: { translation: pl },
     },
     fallbackLng: 'en',
-    supportedLngs: ['en', 'ru', 'de', 'fr', 'es', 'it', 'pt', 'zh', 'ja', 'ko'],
+    supportedLngs: ['en', 'ru', 'de', 'fr', 'es', 'it', 'pt', 'zh', 'ja', 'ko', 'pl'],
     interpolation: {
       escapeValue: false,
     },

@@ -42,13 +42,13 @@ const Footer = () => {
               to="/refund"
               className="hover:text-foreground transition-colors duration-300"
             >
-              Refund Policy
+              {t('footer.refund')}
             </Link>
             <Link
               to="/shipping"
               className="hover:text-foreground transition-colors duration-300"
             >
-              Shipping Policy
+              {t('footer.shipping')}
             </Link>
           </nav>
         </div>

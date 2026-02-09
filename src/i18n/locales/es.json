@@ -35,7 +35,8 @@
     "gallery": "Galería",
     "problemTitle": "Tranquilidad simple",
     "problemText1": "Las mascotas a veces pueden deambular. Una placa perdida o una identificación desvanecida puede hacer que un momento estresante sea aún más difícil.",
-    "problemText2": "Nuestro collar de cuero sostiene un AirTag de forma segura, para que puedas localizar a tu compañero cuando lo necesites. Sin alarmas, solo confianza tranquila."
+    "problemText2": "Nuestro collar de cuero sostiene un AirTag de forma segura, para que puedas localizar a tu compañero cuando lo necesites. Sin alarmas, solo confianza tranquila.",
+    "limitedBatch": "Lote limitado"
   },
   "cart": {
     "title": "Carrito de compras",
@@ -70,7 +71,9 @@
     "tagline": "Elegido con cuidado",
     "privacy": "Política de privacidad",
     "terms": "Términos de servicio",
-    "copyright": "© {{year}} Eluro. Todos los derechos reservados."
+    "copyright": "© {{year}} Eluro. Todos los derechos reservados.",
+    "refund": "Política de reembolso",
+    "shipping": "Política de envío"
   },
   "privacy": {
     "title": "Política de privacidad",
