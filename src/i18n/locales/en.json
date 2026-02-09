@@ -36,7 +36,8 @@
     "gallery": "Gallery",
     "problemTitle": "A Simple Peace of Mind",
     "problemText1": "Pets can sometimes wander. A lost collar tag or faded ID can make a stressful moment even harder.",
-    "problemText2": "Our leather collar holds an AirTag securely, so you can locate your companion whenever you need to. No alarms, just quiet confidence."
+    "problemText2": "Our leather collar holds an AirTag securely, so you can locate your companion whenever you need to. No alarms, just quiet confidence.",
+    "limitedBatch": "Limited stock batch"
   },
   "cart": {
     "title": "Shopping Cart",
@@ -71,7 +72,9 @@
     "tagline": "Thoughtfully chosen",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "copyright": "© {{year}} Eluro. All rights reserved."
+    "copyright": "© {{year}} Eluro. All rights reserved.",
+    "refund": "Refund Policy",
+    "shipping": "Shipping Policy"
   },
   "privacy": {
     "title": "Privacy Policy",

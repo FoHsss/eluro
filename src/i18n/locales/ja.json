@@ -35,7 +35,8 @@
     "gallery": "ギャラリー",
     "problemTitle": "シンプルな安心感",
     "problemText1": "ペットは時々迷子になることがあります。失われた迷子札や色あせたIDは、ストレスの多い状況をさらに困難にします。",
-    "problemText2": "私たちのレザー首輪はAirTagをしっかり固定し、必要なときにいつでもパートナーを見つけることができます。アラームなし、ただ静かな安心感。"
+    "problemText2": "私たちのレザー首輪はAirTagをしっかり固定し、必要なときにいつでもパートナーを見つけることができます。アラームなし、ただ静かな安心感。",
+    "limitedBatch": "限定ロット"
   },
   "cart": {
     "title": "ショッピングカート",
@@ -70,7 +71,9 @@
     "tagline": "こだわりの逸品",
     "privacy": "プライバシーポリシー",
     "terms": "利用規約",
-    "copyright": "© {{year}} Eluro. All rights reserved."
+    "copyright": "© {{year}} Eluro. All rights reserved.",
+    "refund": "返金ポリシー",
+    "shipping": "配送ポリシー"
   },
   "privacy": {
     "title": "プライバシーポリシー",

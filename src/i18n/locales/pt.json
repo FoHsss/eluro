@@ -35,7 +35,8 @@
     "gallery": "Galeria",
     "problemTitle": "Tranquilidade simples",
     "problemText1": "Pets às vezes podem se perder. Uma placa perdida ou identificação desbotada pode tornar um momento estressante ainda mais difícil.",
-    "problemText2": "Nossa coleira de couro mantém um AirTag com segurança, para que você possa localizar seu companheiro quando precisar. Sem alarmes, apenas confiança tranquila."
+    "problemText2": "Nossa coleira de couro mantém um AirTag com segurança, para que você possa localizar seu companheiro quando precisar. Sem alarmes, apenas confiança tranquila.",
+    "limitedBatch": "Lote limitado"
   },
   "cart": {
     "title": "Carrinho de compras",
@@ -70,7 +71,9 @@
     "tagline": "Escolhido com cuidado",
     "privacy": "Política de Privacidade",
     "terms": "Termos de Serviço",
-    "copyright": "© {{year}} Eluro. Todos os direitos reservados."
+    "copyright": "© {{year}} Eluro. Todos os direitos reservados.",
+    "refund": "Política de reembolso",
+    "shipping": "Política de envio"
   },
   "privacy": {
     "title": "Política de Privacidade",

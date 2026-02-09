@@ -167,7 +167,7 @@ const ProductPage = () => {
       ? `${product.title} + ${selectedUpsells.length} ${selectedUpsells.length === 1 ? 'item' : 'items'}`
       : product.title;
 
-    toast.success("Added to cart", {
+    toast.success(t('upsell.added'), {
       description,
     });
   };
@@ -342,7 +342,7 @@ const ProductPage = () => {
                   </span>
                 </p>
                 <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
-                  Limited stock batch
+                  {t('product.limitedBatch')}
                 </span>
               </div>
             </motion.div>

@@ -35,7 +35,8 @@
     "gallery": "갤러리",
     "problemTitle": "간단한 마음의 평화",
     "problemText1": "반려동물은 때때로 길을 잃을 수 있습니다. 분실된 인식표나 바랜 ID는 스트레스 상황을 더 어렵게 만들 수 있습니다.",
-    "problemText2": "우리의 가죽 목줄은 AirTag를 안전하게 고정하여 필요할 때 언제든 반려동물을 찾을 수 있습니다. 알람 없이, 조용한 안심감만."
+    "problemText2": "우리의 가죽 목줄은 AirTag를 안전하게 고정하여 필요할 때 언제든 반려동물을 찾을 수 있습니다. 알람 없이, 조용한 안심감만.",
+    "limitedBatch": "한정 수량"
   },
   "cart": {
     "title": "장바구니",
@@ -70,7 +71,9 @@
     "tagline": "신중하게 선택된",
     "privacy": "개인정보 처리방침",
     "terms": "이용약관",
-    "copyright": "© {{year}} Eluro. All rights reserved."
+    "copyright": "© {{year}} Eluro. All rights reserved.",
+    "refund": "환불 정책",
+    "shipping": "배송 정책"
   },
   "privacy": {
     "title": "개인정보 처리방침",

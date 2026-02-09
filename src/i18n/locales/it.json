@@ -35,7 +35,8 @@
     "gallery": "Galleria",
     "problemTitle": "Semplicità e tranquillità",
     "problemText1": "Gli animali domestici a volte possono vagare. Una medaglietta persa o un'identificazione sbiadita può rendere un momento stressante ancora più difficile.",
-    "problemText2": "Il nostro collare in pelle tiene un AirTag in sicurezza, così puoi localizzare il tuo compagno quando ne hai bisogno. Nessun allarme, solo tranquilla fiducia."
+    "problemText2": "Il nostro collare in pelle tiene un AirTag in sicurezza, così puoi localizzare il tuo compagno quando ne hai bisogno. Nessun allarme, solo tranquilla fiducia.",
+    "limitedBatch": "Lotto limitato"
   },
   "cart": {
     "title": "Carrello",
@@ -70,7 +71,9 @@
     "tagline": "Scelto con cura",
     "privacy": "Privacy Policy",
     "terms": "Termini di servizio",
-    "copyright": "© {{year}} Eluro. Tutti i diritti riservati."
+    "copyright": "© {{year}} Eluro. Tutti i diritti riservati.",
+    "refund": "Politica di rimborso",
+    "shipping": "Politica di spedizione"
   },
   "privacy": {
     "title": "Privacy Policy",

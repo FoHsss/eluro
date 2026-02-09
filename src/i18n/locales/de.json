@@ -35,7 +35,8 @@
     "gallery": "Galerie",
     "problemTitle": "Einfache Sicherheit",
     "problemText1": "Haustiere können manchmal davonlaufen. Eine verlorene Marke oder verblasste ID kann eine stressige Situation noch schwieriger machen.",
-    "problemText2": "Unser Lederhalsband hält einen AirTag sicher, so dass Sie Ihren Begleiter jederzeit orten können. Keine Alarme, nur ruhige Gewissheit."
+    "problemText2": "Unser Lederhalsband hält einen AirTag sicher, so dass Sie Ihren Begleiter jederzeit orten können. Keine Alarme, nur ruhige Gewissheit.",
+    "limitedBatch": "Limitierte Charge"
   },
   "cart": {
     "title": "Warenkorb",
@@ -70,7 +71,9 @@
     "tagline": "Mit Bedacht gewählt",
     "privacy": "Datenschutz",
     "terms": "AGB",
-    "copyright": "© {{year}} Eluro. Alle Rechte vorbehalten."
+    "copyright": "© {{year}} Eluro. Alle Rechte vorbehalten.",
+    "refund": "Rückgaberecht",
+    "shipping": "Versandrichtlinie"
   },
   "privacy": {
     "title": "Datenschutzerklärung",
