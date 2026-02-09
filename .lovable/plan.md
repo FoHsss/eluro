@@ -1,172 +1,59 @@
 
-# План реализации
+# Plan: Polish Language + Translation Audit + Upsell Modal Fix
 
-## Обзор изменений
+## 1. Add Polish Language (PL)
 
-Реализуем 4 функции:
+### Files to create:
+- **src/i18n/locales/pl.json** -- full Polish translation of all keys (nav, hero, featured, brandQuote, shop, product, cart, about, contact, footer, privacy, terms, urgency, upsell, reviews)
 
-1. Фотографии в отзывах
-2. Видео из Shopify галереи вместо блока "A Simple Peace of Mind"
-3. Поддержка видео в галерее товаров
-4. Подсказка о размерах только для товаров с соответствующим медиа в Shopify
-
----
-
-## 1. Фотографии в отзывах
-
-### Что делаем:
-- Добавляем storage bucket для фото отзывов
-- Расширяем таблицу reviews, добавляя массив URL фотографий
-- Обновляем форму отзыва - добавляем кнопку загрузки фото (до 3 шт)
-- Отображаем фото в карточках отзывов с лайтбоксом
-
-### Изменения:
-- **База данных**: миграция для добавления колонки `photo_urls text[]`
-- **Storage**: создание bucket `review-photos` с публичным доступом
-- **StaticReviewsSection.tsx**: добавляем поле загрузки и отображение фото
-- **useProductReviews.ts**: обновляем типы и мутацию
+### Files to update:
+- **src/i18n/index.ts** -- import `pl` locale, add to resources and supportedLngs
+- **src/components/LanguageSwitcher.tsx** -- add `{ code: 'pl', name: 'Polski', flag: '\U0001F1F5\U0001F1F1' }` to the languages array
 
 ---
 
-## 2. Видео вместо блока "A Simple Peace of Mind"
+## 2. Translation Audit -- Fix Hardcoded Strings
 
-### Что делаем:
-- Удаляем блок `ProblemSolutionSection` со страницы товара
-- Ищем в Shopify галерее медиа с altText содержащим "video"
-- Если найдено - показываем видео-плеер
-- Если нет - ничего не показываем (без заглушки)
+Found untranslated hardcoded text in these files:
 
-### Логика определения:
-```text
-Если altText изображения содержит "video" → отображаем как видео
+| File | Hardcoded Text | Fix |
+|------|---------------|-----|
+| `src/pages/ProductPage.tsx` line 170 | `"Added to cart"` | Use `t('upsell.added')` |
+| `src/pages/ProductPage.tsx` line 345 | `"Limited stock batch"` | Add key `product.limitedBatch` and use `t()` |
+| `src/components/Footer.tsx` line 45 | `"Refund Policy"` | Add key `footer.refund` and use `t()` |
+| `src/components/Footer.tsx` line 51 | `"Shipping Policy"` | Add key `footer.shipping` and use `t()` |
+| `src/pages/Refund.tsx` line 16 | `"Refund Policy"` (title) | These pages are legal docs; keeping English is standard, but adding i18n keys for titles |
+| `src/pages/Shipping.tsx` line 16 | `"Shipping Policy"` (title) | Same as above |
+
+### New translation keys to add to ALL 11 locale files (en + 10 existing + pl):
 ```
-
-### Изменения:
-- **ProductPage.tsx**: 
-  - Удаляем `<ProblemSolutionSection />`
-  - Добавляем поиск видео по altText
-  - Рендерим видео-секцию на месте старого блока
-
----
-
-## 3. Поддержка видео в галерее
-
-### Что делаем:
-- В карусели галереи (altText = "gallery") поддерживаем MP4/WebM
-- Если URL заканчивается на `.mp4` или `.webm` → рендерим `<video>` вместо `<img>`
-- Видео автовоспроизводится без звука в цикле
-
-### Изменения:
-- **ProductPage.tsx**: в секции галереи проверяем расширение файла
-
----
-
-## 4. Подсказка о размерах по данным из Shopify
-
-### Что делаем:
-- Вместо статической ссылки на size-chart.jpg проверяем галерею Shopify
-- Если есть изображение с altText содержащим "sizechart" → показываем ссылку
-- Это изображение открывается в лайтбоксе
-- Если такого изображения нет → подсказка не отображается
-
-### Логика:
-```text
-Если в галерее есть медиа с altText.includes("sizechart") → показать ссылку "Please measure..."
-При клике → открыть это изображение в лайтбоксе
-```
-
-### Изменения:
-- **ProductPage.tsx**: 
-  - Ищем `sizechartMedia` среди images
-  - Условно рендерим кнопку подсказки
-  - Обновляем лайтбокс для показа изображения из Shopify
-
----
-
-## Визуальная схема изменений ProductPage
-
-```text
-┌─────────────────────────────────────────┐
-│  Hero Image                             │
-├─────────────────────────────────────────┤
-│  Title + Price + Limited stock badge    │
-├─────────────────────────────────────────┤
-│  Variant Options                        │
-├─────────────────────────────────────────┤
-│  Upsell Section                         │
-├─────────────────────────────────────────┤
-│  Add to Cart Button                     │
-├─────────────────────────────────────────┤
-│  "Ready to ship"                        │
-├─────────────────────────────────────────┤
-│  Size Chart Link  ← УСЛОВНО (sizechart) │
-├─────────────────────────────────────────┤
-│  Description Accordion                  │
-├─────────────────────────────────────────┤
-│  ❌ ProblemSolutionSection (УДАЛЁН)     │
-├─────────────────────────────────────────┤
-│  Video Section ← НОВЫЙ (если есть video)│
-├─────────────────────────────────────────┤
-│  GIF/Demo Section (если есть gif)       │
-├─────────────────────────────────────────┤
-│  Mid-page CTA                           │
-├─────────────────────────────────────────┤
-│  Gallery Carousel (поддержка видео)     │
-├─────────────────────────────────────────┤
-│  Reviews Section (с фото)               │
-└─────────────────────────────────────────┘
+"product.limitedBatch": "Limited stock batch"
+"footer.refund": "Refund Policy"  
+"footer.shipping": "Shipping Policy"
 ```
 
 ---
 
-## Технические детали
+## 3. Fix Upsell Detail Modal Positioning
 
-### База данных (миграция)
+**Problem**: When clicking the product title link in the upsell section, the detail modal "flies to the ceiling" because `body.style.position = 'fixed'` with `top: -scrollY` conflicts with the modal's `fixed inset-0` positioning on mobile (especially with the sticky hero).
 
-```sql
--- Добавляем колонку для URL фотографий
-ALTER TABLE reviews ADD COLUMN photo_urls text[] DEFAULT '{}';
+**Solution**: Replace the `body.style.position = 'fixed'` scroll-lock approach with a simpler `overflow: hidden` approach, and add `items-start pt-[10vh]` or keep `items-center` but ensure proper safe-area handling:
 
--- Создаём bucket для фото отзывов
-INSERT INTO storage.buckets (id, name, public)
-VALUES ('review-photos', 'review-photos', true);
-
--- RLS политики для storage
-CREATE POLICY "Anyone can upload review photos"
-ON storage.objects FOR INSERT
-WITH CHECK (bucket_id = 'review-photos');
-
-CREATE POLICY "Anyone can view review photos"  
-ON storage.objects FOR SELECT
-USING (bucket_id = 'review-photos');
-```
-
-### Типы Shopify altText
-
-| altText содержит | Назначение |
-|-----------------|-----------|
-| `gallery` | Показать в карусели галереи |
-| `gif` | Показать в блоке GIF/Demo |
-| `video` | Показать в новой видео-секции |
-| `sizechart` | Показать подсказку о размерах |
+- **MetafieldUpsellSection.tsx**:
+  - Change the scroll-lock effect (lines 76-99) to use `document.body.style.overflow = 'hidden'` instead of `position: fixed` trick
+  - This prevents the page jump that causes the modal to appear mispositioned
+  - Keep `flex items-center justify-center` on the overlay but ensure it renders properly
 
 ---
 
-## Файлы для изменения
+## Technical Details
 
-1. **supabase/migrations/xxx.sql** - миграция БД + storage
-2. **src/pages/ProductPage.tsx** - основные изменения логики
-3. **src/components/product/StaticReviewsSection.tsx** - загрузка и отображение фото
-4. **src/hooks/useProductReviews.ts** - обновление типов
-5. **src/components/product/ProductVideoSection.tsx** - новый компонент для видео
-
----
-
-## Как добавлять контент в Shopify
-
-После реализации, чтобы настроить товар:
-
-1. **Видео на странице товара**: загрузить видео/изображение с altText = "video"
-2. **Подсказка о размерах**: загрузить изображение с altText = "sizechart"
-3. **GIF/Demo**: загрузить с altText = "gif" (уже работает)
-4. **Галерея**: загрузить с altText = "gallery" (уже работает)
+### Files to modify:
+1. **src/i18n/locales/pl.json** -- CREATE new file with full Polish translations
+2. **src/i18n/index.ts** -- add Polish import + config
+3. **src/components/LanguageSwitcher.tsx** -- add PL to language list
+4. **All 11 locale files** -- add `product.limitedBatch`, `footer.refund`, `footer.shipping`
+5. **src/pages/ProductPage.tsx** -- replace hardcoded "Added to cart" and "Limited stock batch" with t()
+6. **src/components/Footer.tsx** -- replace hardcoded "Refund Policy" and "Shipping Policy" with t()
+7. **src/components/product/MetafieldUpsellSection.tsx** -- fix scroll-lock logic to prevent modal jump
