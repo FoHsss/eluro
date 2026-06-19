@@ -158,7 +158,7 @@ export const useCartStore = create<CartStore>()(
           const cart = data?.data?.cart;
           if (!cart || cart.totalQuantity === 0) clearCart();
         } catch (error) {
-          console.error('Failed to sync cart with Shopify:', error);
+          logError('cartStore.syncCart', error);
         } finally {
           set({ isSyncing: false });
         }
