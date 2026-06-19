@@ -81,7 +81,7 @@ export const useCartStore = create<CartStore>()(
             }
           }
         } catch (error) {
-          console.error('Failed to add item:', error);
+          logError('cartStore.addItem', error);
         } finally {
           set({ isLoading: false });
         }
