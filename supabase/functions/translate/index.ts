@@ -87,8 +87,8 @@ IMPORTANT RULES:
           { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
-      const errorText = await aiResponse.text();
-      console.error("AI error:", aiResponse.status, errorText);
+      // Avoid leaking upstream error bodies to client-visible logs
+      console.error("AI translation failed with status:", aiResponse.status);
       return new Response(
         JSON.stringify({ error: "Translation failed" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -129,9 +129,9 @@ IMPORTANT RULES:
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Translate error:", error);
+    console.error("Translate error:", error instanceof Error ? error.message : "unknown");
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: "Translation failed" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

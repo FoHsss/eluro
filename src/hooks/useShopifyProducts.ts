@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ShopifyProduct, fetchProducts, fetchProductByHandle } from '@/lib/shopify';
+import { logError } from '@/lib/errorLogger';
 
 export function useShopifyProducts(first: number = 20) {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -15,7 +16,7 @@ export function useShopifyProducts(first: number = 20) {
         setError(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load products');
-        console.error('Error loading products:', err);
+        logError('useShopifyProducts', err);
       } finally {
         setIsLoading(false);
       }
@@ -46,7 +47,7 @@ export function useShopifyProduct(handle: string | undefined) {
         setError(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load product');
-        console.error('Error loading product:', err);
+        logError('useShopifyProduct', err);
       } finally {
         setIsLoading(false);
       }

@@ -10,6 +10,7 @@ import {
   storefrontApiRequest,
   CART_QUERY
 } from '@/lib/shopify';
+import { logError } from '@/lib/errorLogger';
 
 interface CartStore {
   items: CartItem[];
