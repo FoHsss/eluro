@@ -41,6 +41,7 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="/refund" element={<Refund />} />
             <Route path="/shipping" element={<Shipping />} />
+            <Route path="/blog/leather-airtag-dog-collar-guide" element={<LeatherAirtagDogCollarGuide />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </CartSyncProvider>
