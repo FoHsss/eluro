@@ -243,8 +243,58 @@ const ProductPage = () => {
     return 0;
   }) : [];
 
+  // SEO: derive clean title + structured data
+  const titleMatch = product.title.match(/^"([^"]+)"\s*(.*)$/);
+  const cleanProductName = titleMatch ? titleMatch[1] : product.title;
+  const seoTitle = `${cleanProductName} — Eluro`;
+  const plainDescription = ((product as any).description || cleanProductName).toString().slice(0, 160);
+  const productUrl = `https://eiuro.com/product/${slug}`;
+  const productImage = heroImage?.url;
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: cleanProductName,
+    description: plainDescription,
+    image: productImage ? [productImage] : undefined,
+    brand: { "@type": "Brand", name: "Eluro" },
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: price.currencyCode,
+      price: parseFloat(price.amount).toFixed(2),
+      availability: selectedVariant?.availableForSale
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://eiuro.com/" },
+      { "@type": "ListItem", position: 2, name: "Shop", item: "https://eiuro.com/shop" },
+      { "@type": "ListItem", position: 3, name: cleanProductName, item: productUrl },
+    ],
+  };
+
   return (
     <Layout>
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={plainDescription} />
+        <link rel="canonical" href={productUrl} />
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={plainDescription} />
+        <meta property="og:url" content={productUrl} />
+        {productImage && <meta property="og:image" content={productImage} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoTitle} />
+        <meta name="twitter:description" content={plainDescription} />
+        {productImage && <meta name="twitter:image" content={productImage} />}
+        <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      </Helmet>
       <div className="pb-20">
         {/* Hero Image - Sticky on mobile (only until reviews) */}
         <div
