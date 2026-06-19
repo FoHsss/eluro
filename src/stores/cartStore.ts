@@ -107,7 +107,7 @@ export const useCartStore = create<CartStore>()(
             clearCart();
           }
         } catch (error) {
-          console.error('Failed to update quantity:', error);
+          logError('cartStore.updateQuantity', error);
         } finally {
           set({ isLoading: false });
         }
