@@ -59,7 +59,9 @@ export const useCartStore = create<CartStore>()(
           } else if (existingItem) {
             const newQuantity = existingItem.quantity + item.quantity;
             if (!existingItem.lineId) {
-              console.error('Cannot update quantity for item without lineId:', existingItem);
+              if (import.meta.env.DEV) {
+                console.error('Cannot update quantity for item without lineId:', existingItem);
+              }
               return;
             }
             const result = await updateShopifyCartLine(cartId, existingItem.lineId, newQuantity);
