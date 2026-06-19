@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import ShopifyProductCard from "@/components/ShopifyProductCard";
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 

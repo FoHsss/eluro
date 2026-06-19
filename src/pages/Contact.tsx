@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import { toast } from "sonner";
 
 const Contact = () => {
