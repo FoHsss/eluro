@@ -118,23 +118,21 @@ IMPORTANT RULES:
       );
     }
 
-    // Save to cache
-    if (sourceHash) {
-      const supabaseUrl = Deno.env.get("SUPABASE_URL");
-      const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-      
-      if (supabaseUrl && supabaseKey) {
-        const supabase = createClient(supabaseUrl, supabaseKey);
-        
-        await supabase.from("translations_cache").upsert({
-          source_hash: sourceHash,
-          source_lang: "en",
-          target_lang: targetLang,
-          translated_text: translated,
-        }, {
-          onConflict: "source_hash,target_lang",
-        });
-      }
+    // Save to cache using server-computed hash
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (supabaseUrl && supabaseKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      await supabase.from("translations_cache").upsert({
+        source_hash: sourceHash,
+        source_lang: "en",
+        target_lang: targetLang,
+        translated_text: translated,
+      }, {
+        onConflict: "source_hash,target_lang",
+      });
     }
 
     return new Response(
