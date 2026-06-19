@@ -34,6 +34,9 @@ i18n
     fallbackLng: 'en',
     supportedLngs: ['en', 'ru', 'de', 'fr', 'es', 'it', 'pt', 'zh', 'ja', 'ko', 'pl'],
     interpolation: {
+      // Safe: React/JSX escapes interpolated values by default, so disabling
+      // i18next's own escaping prevents double-escaping. Never render the
+      // result of t() via dangerouslySetInnerHTML — always use JSX text nodes.
       escapeValue: false,
     },
     detection: {

@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { logError } from "@/lib/errorLogger";
 
 export interface Review {
   id: string;
@@ -83,7 +84,7 @@ export const useAddReview = () => {
       });
     },
     onError: (error) => {
-      console.error("Error adding review:", error);
+      logError("useAddReview", error);
       toast.error("Ошибка", {
         description: "Не удалось добавить отзыв. Попробуйте ещё раз.",
       });

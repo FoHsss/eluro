@@ -323,7 +323,7 @@ export async function createShopifyCart(item: CartItem): Promise<{ cartId: strin
   });
 
   if (data?.data?.cartCreate?.userErrors?.length > 0) {
-    console.error('Cart creation failed:', data.data.cartCreate.userErrors);
+    if (import.meta.env.DEV) console.error('Cart creation failed:', data.data.cartCreate.userErrors);
     return null;
   }
 
@@ -345,7 +345,7 @@ export async function addLineToShopifyCart(cartId: string, item: CartItem): Prom
   const userErrors = data?.data?.cartLinesAdd?.userErrors || [];
   if (isCartNotFoundError(userErrors)) return { success: false, cartNotFound: true };
   if (userErrors.length > 0) {
-    console.error('Add line failed:', userErrors);
+    if (import.meta.env.DEV) console.error('Add line failed:', userErrors);
     return { success: false };
   }
 
@@ -363,7 +363,7 @@ export async function updateShopifyCartLine(cartId: string, lineId: string, quan
   const userErrors = data?.data?.cartLinesUpdate?.userErrors || [];
   if (isCartNotFoundError(userErrors)) return { success: false, cartNotFound: true };
   if (userErrors.length > 0) {
-    console.error('Update line failed:', userErrors);
+    if (import.meta.env.DEV) console.error('Update line failed:', userErrors);
     return { success: false };
   }
   return { success: true };
@@ -378,7 +378,7 @@ export async function removeLineFromShopifyCart(cartId: string, lineId: string):
   const userErrors = data?.data?.cartLinesRemove?.userErrors || [];
   if (isCartNotFoundError(userErrors)) return { success: false, cartNotFound: true };
   if (userErrors.length > 0) {
-    console.error('Remove line failed:', userErrors);
+    if (import.meta.env.DEV) console.error('Remove line failed:', userErrors);
     return { success: false };
   }
   return { success: true };

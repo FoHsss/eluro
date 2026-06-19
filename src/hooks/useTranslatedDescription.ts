@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/integrations/supabase/client';
+import { logError } from '@/lib/errorLogger';
 
 // Simple hash function for caching
 const hashString = (str: string): string => {
@@ -68,7 +69,7 @@ export const useTranslatedDescription = (
         });
 
         if (error) {
-          console.error('Translation error:', error);
+          logError('useTranslatedDescription.invoke', error);
           setTranslatedHtml(descriptionHtml);
         } else if (data?.translated) {
           setTranslatedHtml(data.translated);
@@ -76,7 +77,7 @@ export const useTranslatedDescription = (
           setTranslatedHtml(descriptionHtml);
         }
       } catch (err) {
-        console.error('Translation failed:', err);
+        logError('useTranslatedDescription', err);
         setTranslatedHtml(descriptionHtml);
       } finally {
         setIsTranslating(false);

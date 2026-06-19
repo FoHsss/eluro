@@ -3,6 +3,7 @@ import { Camera, X, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { logError } from "@/lib/errorLogger";
 
 interface ReviewPhotoUploadProps {
   photos: string[];
@@ -48,17 +49,20 @@ export const ReviewPhotoUpload = ({
           continue;
         }
 
-        // Generate unique filename
-        const ext = file.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
+        // Generate unique filename inside the required `reviews/` folder.
+        // The storage policy enforces this prefix, image MIME, and 5MB cap.
+        const rawExt = file.name.split('.').pop()?.toLowerCase() ?? '';
+        const allowedExts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        const ext = allowedExts.includes(rawExt) ? rawExt : 'jpg';
+        const fileName = `reviews/${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
 
         // Upload to Supabase Storage
         const { data, error } = await supabase.storage
           .from('review-photos')
-          .upload(fileName, file);
+          .upload(fileName, file, { contentType: file.type });
 
         if (error) {
-          console.error('Upload error:', error);
+          logError('ReviewPhotoUpload.upload', error);
           toast.error(t('reviews.uploadFailed', { name: file.name }));
           continue;
         }
@@ -75,7 +79,7 @@ export const ReviewPhotoUpload = ({
         onPhotosChange([...photos, ...uploadedUrls]);
       }
     } catch (error) {
-      console.error('Upload error:', error);
+      logError('ReviewPhotoUpload', error);
       toast.error(t('reviews.uploadError'));
     } finally {
       setIsUploading(false);
