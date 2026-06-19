@@ -14,6 +14,7 @@ import Terms from "./pages/Terms";
 import Refund from "./pages/Refund";
 import Shipping from "./pages/Shipping";
 import NotFound from "./pages/NotFound";
+import LeatherAirtagDogCollarGuide from "./pages/LeatherAirtagDogCollarGuide";
 
 const queryClient = new QueryClient();
 
