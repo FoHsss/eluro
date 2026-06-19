@@ -129,7 +129,7 @@ export const useCartStore = create<CartStore>()(
             clearCart();
           }
         } catch (error) {
-          console.error('Failed to remove item:', error);
+          logError('cartStore.removeItem', error);
         } finally {
           set({ isLoading: false });
         }
