@@ -12,6 +12,19 @@ const Shop = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Shop Premium Leather Bags & Accessories — Eluro"
+        description="Browse Eluro's collection of handcrafted leather bags, wallets, and accessories. Premium materials, enduring design, thoughtfully made."
+        path="/shop"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Eluro Shop",
+          description: "Handcrafted leather goods and accessories by Eluro.",
+          url: "https://eiuro.com/shop",
+          isPartOf: { "@type": "WebSite", name: "Eluro", url: "https://eiuro.com/" },
+        }}
+      />
       <div className="py-12 md:py-20">
         <div className="container">
           {/* Header */}

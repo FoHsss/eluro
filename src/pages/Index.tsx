@@ -12,6 +12,11 @@ const Index = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Eluro — Premium Handcrafted Leather Goods & Accessories"
+        description="Eluro crafts thoughtfully chosen premium leather goods — bags, wallets, and accessories handcrafted to last for the moments that matter."
+        path="/"
+      />
       {/* Hero Section */}
       <section className="min-h-[90vh] flex flex-col justify-center px-4">
         <div className="container max-w-4xl mx-auto text-center">

@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 
 const Refund = () => {
   return (
     <Layout>
+      <SEO
+        title="Refund Policy — Eluro"
+        description="Eluro's refund and return policy: how to return items, eligibility, and how refunds are processed."
+        path="/refund"
+      />
       <div className="py-20 md:py-32">
         <div className="container max-w-3xl mx-auto px-6">
           <motion.div

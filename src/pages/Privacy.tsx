@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 
 const Privacy = () => {
   return (
     <Layout>
+      <SEO
+        title="Privacy Policy — Eluro"
+        description="How Eluro collects, uses, and protects your personal information when you shop our handcrafted leather goods."
+        path="/privacy"
+      />
       <div className="py-20 md:py-32">
         <div className="container max-w-3xl mx-auto px-6">
           <motion.div

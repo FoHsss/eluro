@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 
 const Terms = () => {
   return (
     <Layout>
+      <SEO
+        title="Terms of Service — Eluro"
+        description="The terms governing your use of Eluro's website and purchase of our handcrafted leather products."
+        path="/terms"
+      />
       <div className="py-20 md:py-32">
         <div className="container max-w-3xl mx-auto px-6">
           <motion.div
