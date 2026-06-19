@@ -1,12 +1,25 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 
 const About = () => {
   const { t } = useTranslation();
 
   return (
     <Layout>
+      <SEO
+        title="About Eluro — Our Craft & Philosophy"
+        description="Learn about Eluro's commitment to handcrafted leather goods made from carefully selected materials, designed to be kept for a lifetime."
+        path="/about"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          name: "About Eluro",
+          url: "https://eiuro.com/about",
+          mainEntity: { "@type": "Organization", name: "Eluro", url: "https://eiuro.com/" },
+        }}
+      />
       <div className="py-20 md:py-32">
         <div className="container max-w-2xl mx-auto px-6">
           <motion.div

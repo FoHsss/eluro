@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 
 const Terms = () => {
   return (
     <Layout>
+      <SEO
+        title="Terms of Service — Eluro"
+        description="The terms governing your use of Eluro's website and purchase of our handcrafted leather products."
+        path="/terms"
+      />
       <div className="py-20 md:py-32">
         <div className="container max-w-3xl mx-auto px-6">
           <motion.div
@@ -16,7 +22,7 @@ const Terms = () => {
               Terms of Service
             </h1>
             <p className="text-sm text-muted-foreground">
-              <strong>Last updated:</strong> November 3, 2025 | <strong>Store:</strong> Doggo Spot | <strong>Contact Email:</strong> support@doggospotusa.com
+              <strong>Last updated:</strong> November 3, 2025 | <strong>Store:</strong> Eluro | <strong>Contact Email:</strong> support@eiuro.com
             </p>
             <p className="text-sm text-muted-foreground mt-1">
               <strong>Business Address:</strong> ul. Mlynarska 30a, Warszawa 01-171, Poland
@@ -34,7 +40,7 @@ const Terms = () => {
                 1. Overview
               </h2>
               <p>
-                This website is operated by <strong>Doggo Spot</strong>. Throughout the site, the terms "we", "us" and "our" refer to Doggo Spot. By visiting our site{" "}
+                This website is operated by <strong>Eluro</strong>. Throughout the site, the terms "we", "us" and "our" refer to Eluro. By visiting our site{" "}
                 <a href="https://eluro.lovable.app" className="text-foreground underline underline-offset-4">
                   https://eluro.lovable.app
                 </a>{" "}
@@ -131,7 +137,7 @@ const Terms = () => {
                 11. Disclaimer of Warranties and Limitation of Liability
               </h2>
               <p>
-                We do not guarantee that your use of our service will be uninterrupted, timely, or error-free. You agree that your use of our service is at your sole risk. All products and services are provided "as is" and "as available" without any warranties. In no case shall <strong>Doggo Spot</strong> or its affiliates be liable for any injury, loss, or damages of any kind arising from the use of our site or products.
+                We do not guarantee that your use of our service will be uninterrupted, timely, or error-free. You agree that your use of our service is at your sole risk. All products and services are provided "as is" and "as available" without any warranties. In no case shall <strong>Eluro</strong> or its affiliates be liable for any injury, loss, or damages of any kind arising from the use of our site or products.
               </p>
             </section>
 
@@ -140,7 +146,7 @@ const Terms = () => {
                 12. Indemnification
               </h2>
               <p>
-                You agree to indemnify and hold harmless <strong>Doggo Spot</strong> and its affiliates from any claim or demand arising out of your breach of these Terms or violation of any law.
+                You agree to indemnify and hold harmless <strong>Eluro</strong> and its affiliates from any claim or demand arising out of your breach of these Terms or violation of any law.
               </p>
             </section>
 
@@ -160,8 +166,8 @@ const Terms = () => {
               <p>Questions about the Terms of Service should be sent to us at:</p>
               <p className="mt-2">
                 📧 <strong>Email:</strong>{" "}
-                <a href="mailto:support@doggospotusa.com" className="text-foreground underline underline-offset-4">
-                  support@doggospotusa.com
+                <a href="mailto:support@eiuro.com" className="text-foreground underline underline-offset-4">
+                  support@eiuro.com
                 </a>
               </p>
               <p className="mt-1">

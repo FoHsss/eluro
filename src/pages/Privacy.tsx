@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 
 const Privacy = () => {
   return (
     <Layout>
+      <SEO
+        title="Privacy Policy — Eluro"
+        description="How Eluro collects, uses, and protects your personal information when you shop our handcrafted leather goods."
+        path="/privacy"
+      />
       <div className="py-20 md:py-32">
         <div className="container max-w-3xl mx-auto px-6">
           <motion.div
@@ -16,7 +22,7 @@ const Privacy = () => {
               Privacy Policy
             </h1>
             <p className="text-sm text-muted-foreground">
-              <strong>Last updated:</strong> November 3, 2025 | <strong>Store:</strong> Doggo Spot | <strong>Contact Email:</strong> support@doggospotusa.com
+              <strong>Last updated:</strong> November 3, 2025 | <strong>Store:</strong> Eluro | <strong>Contact Email:</strong> support@eiuro.com
             </p>
           </motion.div>
 
@@ -31,7 +37,7 @@ const Privacy = () => {
                 1. Introduction
               </h2>
               <p>
-                Welcome to <strong>Doggo Spot</strong> ("we", "our", or "us"). This Privacy Policy describes how we collect, use, and protect your personal information when you visit our website{" "}
+                Welcome to <strong>Eluro</strong> ("we", "our", or "us"). This Privacy Policy describes how we collect, use, and protect your personal information when you visit our website{" "}
                 <a href="https://eluro.lovable.app" className="text-foreground underline underline-offset-4">
                   https://eluro.lovable.app
                 </a>{" "}
@@ -104,8 +110,8 @@ const Privacy = () => {
               </ul>
               <p className="mt-3">
                 To exercise these rights, please contact us at{" "}
-                <a href="mailto:support@doggospotusa.com" className="text-foreground underline underline-offset-4">
-                  support@doggospotusa.com
+                <a href="mailto:support@eiuro.com" className="text-foreground underline underline-offset-4">
+                  support@eiuro.com
                 </a>.
               </p>
             </section>
@@ -144,8 +150,8 @@ const Privacy = () => {
               <p>If you have any questions about this Privacy Policy, please contact our support team:</p>
               <p className="mt-2">
                 📧 <strong>Email:</strong>{" "}
-                <a href="mailto:support@doggospotusa.com" className="text-foreground underline underline-offset-4">
-                  support@doggospotusa.com
+                <a href="mailto:support@eiuro.com" className="text-foreground underline underline-offset-4">
+                  support@eiuro.com
                 </a>
               </p>
               <p className="mt-1">

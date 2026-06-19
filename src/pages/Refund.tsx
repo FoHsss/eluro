@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 
 const Refund = () => {
   return (
     <Layout>
+      <SEO
+        title="Refund Policy — Eluro"
+        description="Eluro's refund and return policy: how to return items, eligibility, and how refunds are processed."
+        path="/refund"
+      />
       <div className="py-20 md:py-32">
         <div className="container max-w-3xl mx-auto px-6">
           <motion.div
@@ -16,7 +22,7 @@ const Refund = () => {
               Refund Policy
             </h1>
             <p className="text-sm text-muted-foreground">
-              <strong>Last updated:</strong> November 3, 2025 | <strong>Store:</strong> Doggo Spot | <strong>Contact Email:</strong> support@doggospotusa.com
+              <strong>Last updated:</strong> November 3, 2025 | <strong>Store:</strong> Eluro | <strong>Contact Email:</strong> support@eiuro.com
             </p>
           </motion.div>
 
@@ -44,8 +50,8 @@ const Refund = () => {
               </h2>
               <p>
                 To start a return, you can contact us at{" "}
-                <a href="mailto:support@doggospotusa.com" className="text-foreground underline underline-offset-4">
-                  support@doggospotusa.com
+                <a href="mailto:support@eiuro.com" className="text-foreground underline underline-offset-4">
+                  support@eiuro.com
                 </a>.
               </p>
               <p className="mt-3">Please note:</p>
@@ -116,8 +122,8 @@ const Refund = () => {
               <p>If you have any questions about our Refund Policy, please contact us:</p>
               <p className="mt-2">
                 📧 <strong>Email:</strong>{" "}
-                <a href="mailto:support@doggospotusa.com" className="text-foreground underline underline-offset-4">
-                  support@doggospotusa.com
+                <a href="mailto:support@eiuro.com" className="text-foreground underline underline-offset-4">
+                  support@eiuro.com
                 </a>
               </p>
               <p className="mt-1">

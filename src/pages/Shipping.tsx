@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 
 const Shipping = () => {
   return (
     <Layout>
+      <SEO
+        title="Shipping Policy — Eluro"
+        description="Shipping times, costs, and delivery details for Eluro's handcrafted leather goods orders worldwide."
+        path="/shipping"
+      />
       <div className="py-20 md:py-32">
         <div className="container max-w-3xl mx-auto px-6">
           <motion.div
@@ -16,7 +22,7 @@ const Shipping = () => {
               Shipping Policy
             </h1>
             <p className="text-sm text-muted-foreground">
-              <strong>Last updated:</strong> November 3, 2025 | <strong>Store:</strong> Doggo Spot | <strong>Contact Email:</strong> support@doggospotusa.com
+              <strong>Last updated:</strong> November 3, 2025 | <strong>Store:</strong> Eluro | <strong>Contact Email:</strong> support@eiuro.com
             </p>
           </motion.div>
 
@@ -31,7 +37,7 @@ const Shipping = () => {
                 1. Overview
               </h2>
               <p>
-                Thank you for shopping at <strong>Doggo Spot</strong>. We strive to deliver your order as quickly and efficiently as possible. Below you will find details about our shipping times, costs, and procedures.
+                Thank you for shopping at <strong>Eluro</strong>. We strive to deliver your order as quickly and efficiently as possible. Below you will find details about our shipping times, costs, and procedures.
               </p>
             </section>
 
@@ -89,8 +95,8 @@ const Shipping = () => {
               </h2>
               <p>
                 If your package arrives damaged or is lost in transit, please <strong>contact us immediately</strong> at{" "}
-                <a href="mailto:support@doggospotusa.com" className="text-foreground underline underline-offset-4">
-                  support@doggospotusa.com
+                <a href="mailto:support@eiuro.com" className="text-foreground underline underline-offset-4">
+                  support@eiuro.com
                 </a>. We will work with the shipping carrier to locate your package or issue a replacement. Please save all packaging materials if your item arrived damaged.
               </p>
             </section>
@@ -111,8 +117,8 @@ const Shipping = () => {
               <p>If you have any questions about shipping or delivery, please contact our support team:</p>
               <p className="mt-2">
                 📧 <strong>Email:</strong>{" "}
-                <a href="mailto:support@doggospotusa.com" className="text-foreground underline underline-offset-4">
-                  support@doggospotusa.com
+                <a href="mailto:support@eiuro.com" className="text-foreground underline underline-offset-4">
+                  support@eiuro.com
                 </a>
               </p>
             </section>

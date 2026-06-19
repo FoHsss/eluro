@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import { toast } from "sonner";
 
 const Contact = () => {
@@ -33,6 +34,28 @@ const Contact = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Contact Eluro — Customer Support & Inquiries"
+        description="Get in touch with the Eluro team. We're here to help with orders, product questions, and partnership inquiries."
+        path="/contact"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Contact Eluro",
+          url: "https://eiuro.com/contact",
+          mainEntity: {
+            "@type": "Organization",
+            name: "Eluro",
+            url: "https://eiuro.com/",
+            contactPoint: {
+              "@type": "ContactPoint",
+              contactType: "customer support",
+              email: "support@eiuro.com",
+              availableLanguage: ["en"],
+            },
+          },
+        }}
+      />
       <div className="py-20 md:py-32">
         <div className="container max-w-md mx-auto px-6">
           <motion.div

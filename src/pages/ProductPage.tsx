@@ -523,9 +523,9 @@ const ProductPage = () => {
           {/* Thumbnail Gallery - Horizontal Carousel with Glassmorphism */}
           {galleryImages.length > 0 && (
             <div className="mb-10 py-8 px-4 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 rounded-3xl">
-              <h3 className="text-sm uppercase tracking-widest text-muted-foreground mb-6 text-center">
+              <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-6 text-center">
                 {t('product.gallery')}
-              </h3>
+              </h2>
               <div 
                 className="flex gap-6 overflow-x-auto snap-x snap-mandatory py-6 px-4 scrollbar-hide"
                 style={{ perspective: '1000px' }}
