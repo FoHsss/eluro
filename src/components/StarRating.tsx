@@ -51,7 +51,7 @@ export const StarRating = ({
                 sizeClasses[size],
                 filled
                   ? "fill-amber-400 text-amber-400"
-                  : "fill-transparent text-muted-foreground/40"
+                  : "fill-transparent text-muted-foreground"
               )}
             />
           </button>
