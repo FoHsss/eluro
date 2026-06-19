@@ -91,6 +91,7 @@ export const CartDrawer = () => {
                           className="h-6 w-6 text-muted-foreground hover:text-destructive" 
                           onClick={() => removeItem(item.variantId)}
                           disabled={isLoading}
+                          aria-label="Remove item"
                         >
                           <Trash2 className="h-3 w-3" />
                         </Button>
@@ -101,6 +102,7 @@ export const CartDrawer = () => {
                             className="h-7 w-7" 
                             onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
                             disabled={isLoading}
+                            aria-label="Decrease quantity"
                           >
                             <Minus className="h-3 w-3" />
                           </Button>
@@ -111,6 +113,7 @@ export const CartDrawer = () => {
                             className="h-7 w-7" 
                             onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
                             disabled={isLoading}
+                            aria-label="Increase quantity"
                           >
                             <Plus className="h-3 w-3" />
                           </Button>
