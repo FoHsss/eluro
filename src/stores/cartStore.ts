@@ -59,7 +59,9 @@ export const useCartStore = create<CartStore>()(
           } else if (existingItem) {
             const newQuantity = existingItem.quantity + item.quantity;
             if (!existingItem.lineId) {
-              console.error('Cannot update quantity for item without lineId:', existingItem);
+              if (import.meta.env.DEV) {
+                console.error('Cannot update quantity for item without lineId:', existingItem);
+              }
               return;
             }
             const result = await updateShopifyCartLine(cartId, existingItem.lineId, newQuantity);
@@ -79,7 +81,7 @@ export const useCartStore = create<CartStore>()(
             }
           }
         } catch (error) {
-          console.error('Failed to add item:', error);
+          logError('cartStore.addItem', error);
         } finally {
           set({ isLoading: false });
         }
@@ -105,7 +107,7 @@ export const useCartStore = create<CartStore>()(
             clearCart();
           }
         } catch (error) {
-          console.error('Failed to update quantity:', error);
+          logError('cartStore.updateQuantity', error);
         } finally {
           set({ isLoading: false });
         }
@@ -127,7 +129,7 @@ export const useCartStore = create<CartStore>()(
             clearCart();
           }
         } catch (error) {
-          console.error('Failed to remove item:', error);
+          logError('cartStore.removeItem', error);
         } finally {
           set({ isLoading: false });
         }
@@ -156,7 +158,7 @@ export const useCartStore = create<CartStore>()(
           const cart = data?.data?.cart;
           if (!cart || cart.totalQuantity === 0) clearCart();
         } catch (error) {
-          console.error('Failed to sync cart with Shopify:', error);
+          logError('cartStore.syncCart', error);
         } finally {
           set({ isSyncing: false });
         }

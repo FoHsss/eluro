@@ -13,14 +13,27 @@ serve(async (req) => {
   }
 
   try {
-    const { text, targetLang, sourceHash } = await req.json();
+    const { text, targetLang } = await req.json();
 
-    if (!text || !targetLang) {
+    if (!text || !targetLang || typeof text !== "string" || typeof targetLang !== "string") {
       return new Response(
         JSON.stringify({ error: "Missing text or targetLang" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Compute hash server-side from the actual text to prevent cache poisoning.
+    // Must match the frontend hashString algorithm in src/hooks/useTranslatedDescription.ts
+    const hashString = (str: string): string => {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      return Math.abs(hash).toString(16);
+    };
+    const sourceHash = hashString(text);
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
@@ -105,23 +118,21 @@ IMPORTANT RULES:
       );
     }
 
-    // Save to cache
-    if (sourceHash) {
-      const supabaseUrl = Deno.env.get("SUPABASE_URL");
-      const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-      
-      if (supabaseUrl && supabaseKey) {
-        const supabase = createClient(supabaseUrl, supabaseKey);
-        
-        await supabase.from("translations_cache").upsert({
-          source_hash: sourceHash,
-          source_lang: "en",
-          target_lang: targetLang,
-          translated_text: translated,
-        }, {
-          onConflict: "source_hash,target_lang",
-        });
-      }
+    // Save to cache using server-computed hash
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (supabaseUrl && supabaseKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      await supabase.from("translations_cache").upsert({
+        source_hash: sourceHash,
+        source_lang: "en",
+        target_lang: targetLang,
+        translated_text: translated,
+      }, {
+        onConflict: "source_hash,target_lang",
+      });
     }
 
     return new Response(
