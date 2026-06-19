@@ -1,0 +1,17 @@
+# Eluro
+
+> Eluro — thoughtfully chosen premium leather goods and accessories, crafted to endure.
+
+## Pages
+
+- [Home](/): Featured collections and brand story.
+- [Shop](/shop): Browse all Eluro leather goods and accessories.
+- [About](/about): Our craft, materials, and philosophy.
+- [Contact](/contact): Get in touch with the Eluro team.
+- [Shipping](/shipping): Delivery times and shipping policy.
+- [Refund Policy](/refund): Returns and refund terms.
+
+## Optional
+
+- [Privacy Policy](/privacy)
+- [Terms of Service](/terms)
