@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { useCartStore } from "@/stores/cartStore";
