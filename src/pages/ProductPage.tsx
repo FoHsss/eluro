@@ -385,7 +385,7 @@ const ProductPage = () => {
               </h1>
               <div className="flex items-center gap-2 flex-wrap">
                 <p className="text-base text-muted-foreground flex items-center gap-2">
-                  <span className="line-through text-muted-foreground/60">
+                  <span className="line-through text-muted-foreground">
                     {price.currencyCode} {(parseFloat(price.amount) * 1.3).toFixed(2)}
                   </span>
                   <span className="text-foreground font-medium">
